@@ -1,0 +1,1 @@
+require 'freshly_events/exceptions/message_not_published'
