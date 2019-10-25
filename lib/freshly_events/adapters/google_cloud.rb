@@ -2,17 +2,22 @@ require "google/cloud/pubsub"
 
 module FreshlyEvents
   module Adapters
-    class GoogleCloud < BaseAdapter
+    class GoogleCloud < Base
       def publish(*event_data)
-        if config.gc_mode == :async
+        case config.gc_mode
+        when :async
           topic.publish_async(*event_data) do |result|
             raise FreshlyEvents::Exceptions::MessageNotPublished unless result.succeeded?
           end
-        else
+        when :sync
           topic.publish(*event_data)
+        else
+          raise GoogleCloudUnsupportedMode
         end
       end
 
+      # But that would stop the publisher, wouldn't than?
+      #
       def flush_async_queue!
         topic.acync_publisher.stop.wait!
       end

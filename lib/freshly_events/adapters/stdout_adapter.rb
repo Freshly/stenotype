@@ -1,6 +1,6 @@
 module FreshlyEvents
   module Adapters
-    class StdoutAdapter < BaseAdapter
+    class StdoutAdapter < Base
       def publish(*event_data)
         client.info(event_data)
       end

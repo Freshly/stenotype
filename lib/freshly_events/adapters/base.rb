@@ -1,6 +1,6 @@
 module FreshlyEvents
   module Adapters
-    class BaseAdapter
+    class Base
       def publish(*event_data)
         raise NotImplementedError
       end

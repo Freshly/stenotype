@@ -1,7 +1,9 @@
 module FreshlyEvents
   module ContextHandlers
     class Base
-      def intitialize(context, options = {})
+      attr_reader :context, :options
+
+      def initialize(context, options = {})
         @context = context
         @options = options
       end
@@ -10,11 +12,12 @@ module FreshlyEvents
         raise NotImplementedError
       end
 
-      # TODO: r.kapitonov do we need this to dynamically collect available handlers?
-      # or should we consider explicit specification of the handlers?
-      #
       class << self
-        attr_accessor :handler_name
+        attr_writer :handler_name
+        def handler_name
+          @handler_name or raise NotImplementedError,
+            "Please, specify the handler_name of #{self}"
+        end
       end
     end
   end

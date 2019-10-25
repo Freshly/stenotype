@@ -1,4 +1,4 @@
-require "freshly_events/version"
+require 'pry'
 
 module FreshlyEvents
   class << self
@@ -19,28 +19,35 @@ require 'freshly_events/dispatcher'
 require 'freshly_events/event'
 require 'freshly_events/version'
 
+FreshlyEvents.configure do |config|
+  config.targets = [
+    FreshlyEvents::Adapters::StdoutAdapter.new,
+    FreshlyEvents::Adapters::GoogleCloud.new
+  ]
+
+  config.dispatcher     = FreshlyEvents::Dispatcher.new
+  config.gc_project_id  = "freshly-events"
+  config.gc_credentials = "/Users/rkapitonov/.auth/key.json"
+
+  # do we need to consider enabling an option to publish to multiple topics?
+  #
+  config.gc_topic       = 'projects/freshly-events/topics/sandbox'
+
+  # available modes: :sync, :async
+  #
+  config.gc_mode        = :async
+end
+
 if defined?(Rails)
+  require 'freshly_events/frameworks/rails/action_controller'
+
   module FreshlyEvents
     class Railtie < Rails::Railtie
-      config.freshly_events = FreshlyEvents.configure do |config|
-        config.targets = [
-          FreshlyEvents::Adapters::StdoutAdapter.new
-        ]
-        config
+      config.freshly_events = FreshlyEvents.config
+
+      ActiveSupport.on_load(:action_controller) do
+        include FreshlyEvents::Frameworks::Rails::ActionControllerExtension
       end
     end
-  end
-else
-  FreshlyEvents.configure do |config|
-    config.targets = [
-      FreshlyEvents::Adapters::StdoutAdapter.new,
-      FreshlyEvents::Adapters::GoogleCloud.new
-    ]
-
-    config.dispatcher     = FreshlyEvents::Dispatcher.new
-    config.gc_project_id  = "freshly-events"
-    config.gc_credentials = "/Users/rkapitonov/.auth/key.json"
-    config.gc_topic       = 'projects/freshly-events/topics/sandbox'
-    config.gc_mode        = :async
   end
 end

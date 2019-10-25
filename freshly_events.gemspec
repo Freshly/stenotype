@@ -30,6 +30,7 @@ Gem::Specification.new do |spec|
 
   spec.add_dependency "activesupport", ">= 5.0.0"
   spec.add_dependency "google-cloud-pubsub"
+  spec.add_dependency "pry"
 
   spec.add_development_dependency "bundler", "~> 2.0"
   spec.add_development_dependency "rake", "~> 10.0"

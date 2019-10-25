@@ -5,13 +5,16 @@ module FreshlyEvents
         self.handler_name = :controller
 
         def as_json(*args)
-          # TODO
+          {
+            hey: "I'm fetching data from controller!",
+            url: request.url
+          }
         end
 
         private
 
-        def fetch_requets
-          # do something
+        def request
+          context.request
         end
       end
     end
