@@ -2,14 +2,14 @@
 # Event.new(:context [User, Admin], :class_context (Controller)).emit(:thing)
 module FreshlyEvents
   class Event
-    def self.emit!(name, options: {}, eval_context: {})
-      self.new(name, options: options, eval_context: eval_context).emit!
+    def self.emit!(data, options: {}, eval_context: {})
+      new(data, options: options, eval_context: eval_context).emit!
     end
 
-    attr_reader :name, :options, :eval_context
+    attr_reader :data, :options, :eval_context
 
-    def initialize(name, options: {}, eval_context: {})
-      @name = name
+    def initialize(data, options: {}, eval_context: {})
+      @data = data
       @options = options
       @eval_context = eval_context
     end

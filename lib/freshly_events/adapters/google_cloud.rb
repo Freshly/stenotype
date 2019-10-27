@@ -4,13 +4,15 @@ module FreshlyEvents
   module Adapters
     class GoogleCloud < Base
       def publish(*event_data)
+        final_data = event_data.reduce({}, :merge)
+
         case config.gc_mode
         when :async
-          topic.publish_async(*event_data) do |result|
+          topic.publish_async(final_data.as_json) do |result|
             raise FreshlyEvents::Exceptions::MessageNotPublished unless result.succeeded?
           end
         when :sync
-          topic.publish(*event_data)
+          topic.publish(final_data.as_json)
         else
           raise GoogleCloudUnsupportedMode
         end

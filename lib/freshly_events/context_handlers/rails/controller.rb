@@ -6,8 +6,12 @@ module FreshlyEvents
 
         def as_json(*args)
           {
-            hey: "I'm fetching data from controller!",
-            url: request.url
+            class: request.controller_class.name,
+            method: request.method,
+            url: request.url,
+            referer: request.referer,
+            params: request.params.except("controller", "action"),
+            ip: request.remote_ip,
           }
         end
 
