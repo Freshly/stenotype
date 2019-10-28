@@ -6,14 +6,14 @@ module FreshlyEvents
       module ActionControllerExtension
         extend ActiveSupport::Concern
 
-        def record_freshly_event(name)
-          FreshlyEvents::Event.emit!("#{name}", options: {}, eval_context: { controller: self })
+        def record_freshly_event(data)
+          FreshlyEvents::Event.emit!(data, options: {}, eval_context: { controller: self })
         end
 
         module ClassMethods
-          def track_event(name, actions: [])
+          def track_view(actions: [])
             self.before_action only: actions do
-              record_freshly_event name
+              record_freshly_event({ type: "view" })
             end
           end
         end

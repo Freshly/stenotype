@@ -8,7 +8,7 @@ module FreshlyEvents
       }
 
       targets.each do |t|
-        t.publish(event.name, event_data)
+        t.publish(event.data, event_data)
       end
     end
 
