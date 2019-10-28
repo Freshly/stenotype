@@ -12,6 +12,9 @@ module FreshlyEvents
             raise FreshlyEvents::Exceptions::MessageNotPublished unless result.succeeded?
           end
         when :sync
+          # TODO: r.kapitonov this will only work in Rails environment
+          # since as_json is not defined in plain ruby unless a third party
+          # core ext is used.
           topic.publish(final_data.as_json)
         else
           raise GoogleCloudUnsupportedMode
@@ -21,13 +24,16 @@ module FreshlyEvents
       # But that would stop the publisher, wouldn't than?
       #
       def flush_async_queue!
-        topic.acync_publisher.stop.wait!
+        topic.async_publisher.stop.wait!
       end
 
       private
 
+      # TODO: r.kapitonov consider initializing the client once,
+      # based on the adapter used in configuration (stdout, google cloud or other)
+      #
       def client
-        Google::Cloud::PubSub.new(
+        @client ||= Google::Cloud::PubSub.new(
           project_id: project_id,
           credentials: credentials
         )
@@ -41,8 +47,14 @@ module FreshlyEvents
         config.gc_credentials
       end
 
+      # Use memoization, otherwise a new topic will be created
+      # every time. And a new async_publisher will be created.
+      #
+      # TODO: r.kapitonov consider initializing a topic during gem load
+      # similar to how dispatcher is instantiated.
+      #
       def topic
-        client.topic config.gc_topic
+        @topic ||= client.topic config.gc_topic
       end
 
       def config

@@ -5,13 +5,24 @@ module FreshlyEvents
         self.handler_name = :active_job
 
         def as_json(*args)
-          # TODO
+          {
+            # TODO: r.kapitonov do we need other data?
+            # params?
+            # enqueued_at?
+            job_id: job_id,
+            queue_name: queue_name,
+            class: context.class.name,
+          }
         end
 
         private
 
-        def fetch_job_id
-          # do something
+        def job_id
+          context.job_id
+        end
+
+        def queue_name
+          context.queue_name
         end
       end
     end

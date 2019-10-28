@@ -30,16 +30,15 @@ FreshlyEvents.configure do |config|
   config.gc_credentials = "/Users/matthewhensrud/Freshly/gcp.json"
 
   # do we need to consider enabling an option to publish to multiple topics?
-  #
   config.gc_topic       = 'projects/freshly-events/topics/sandbox'
 
   # available modes: :sync, :async
-  #
   config.gc_mode        = :async
 end
 
 if defined?(Rails)
   require 'freshly_events/frameworks/rails/action_controller'
+  require 'freshly_events/frameworks/rails/active_job'
 
   module FreshlyEvents
     class Railtie < Rails::Railtie
@@ -47,6 +46,10 @@ if defined?(Rails)
 
       ActiveSupport.on_load(:action_controller) do
         include FreshlyEvents::Frameworks::Rails::ActionControllerExtension
+      end
+
+      ActiveSupport.on_load(:active_job) do
+        extend FreshlyEvents::Frameworks::Rails::ActiveJobExtension
       end
     end
   end

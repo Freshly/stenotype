@@ -19,7 +19,7 @@ module FreshlyEvents
           raise NotImplementedError, "Hander must inherit from #{FreshlyEvents::ContextHandlers::Base}"
         end
 
-        push(handler) unless registered?(handler)
+        delete(handler) if registered?(handler)
       end
 
       def registered?(handler)
