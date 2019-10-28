@@ -2,7 +2,12 @@ require "google/cloud/pubsub"
 
 module FreshlyEvents
   module Adapters
+    # An adapter implementing method [#publish] to send data to Google Cloud PubSub
+    #
     class GoogleCloud < Base
+      # @param event_data [Hash] The data to be published to Google Cloud
+      # @raise [FreshlyEvents::Exceptions::GoogleCloudUnsupportedMode] unless the mode in configured to be :sync or :async
+      # @raise [FreshlyEvents::Exceptions::MessageNotPublished] unless message is published
       def publish(*event_data)
         final_data = event_data.reduce({}, :merge)
 
@@ -12,24 +17,18 @@ module FreshlyEvents
             raise FreshlyEvents::Exceptions::MessageNotPublished unless result.succeeded?
           end
         when :sync
-          # TODO: r.kapitonov this will only work in Rails environment
+          # @todo: r.kapitonov this will only work in Rails environment
           # since as_json is not defined in plain ruby unless a third party
           # core ext is used.
           topic.publish(final_data.as_json)
         else
-          raise GoogleCloudUnsupportedMode
+          raise FreshlyEvents::Exceptions::GoogleCloudUnsupportedMode
         end
-      end
-
-      # But that would stop the publisher, wouldn't than?
-      #
-      def flush_async_queue!
-        topic.async_publisher.stop.wait!
       end
 
       private
 
-      # TODO: r.kapitonov consider initializing the client once,
+      # @todo: r.kapitonov consider initializing the client once,
       # based on the adapter used in configuration (stdout, google cloud or other)
       #
       def client
@@ -50,7 +49,7 @@ module FreshlyEvents
       # Use memoization, otherwise a new topic will be created
       # every time. And a new async_publisher will be created.
       #
-      # TODO: r.kapitonov consider initializing a topic during gem load
+      # @todo: r.kapitonov consider initializing a topic during gem load
       # similar to how dispatcher is instantiated.
       #
       def topic

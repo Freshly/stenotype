@@ -7,6 +7,9 @@ module FreshlyEvents
   module ContextHandlers
     class << self
       attr_writer :known
+      ##
+      # @return [#publish] A list of handlers with method #publish
+      #
       def known
         @known ||= FreshlyEvents::ContextHandlers::Collection.new
       end

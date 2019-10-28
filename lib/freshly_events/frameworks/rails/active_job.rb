@@ -3,8 +3,12 @@ require 'active_support/concern'
 module FreshlyEvents
   module Frameworks
     module Rails
+      #
+      # An extension for ActiveJob to enable adding a hook
+      # before performing an instance of ActiveJob
+      #
       module ActiveJobExtension
-        def self.extended(base)
+        def self.extended(base) # @!visibility private
           mod = base.const_set(:JobExt, Module.new)
           super
         end
@@ -19,7 +23,7 @@ module FreshlyEvents
         #     end
         #   end
         #
-        # TODO: r.kapitonov perhaps consider using an alias method instead?
+        # @todo: r.kapitonov perhaps consider using an alias method instead?
         #
         def trackable_job!
           mod = const_get(:JobExt)

@@ -2,10 +2,32 @@ require 'pry'
 
 module FreshlyEvents
   class << self
+    ##
+    # Configures the library.
+    # :yields: [FreshlyEvents::Configuration]
+    #
+    # @example
+    #
+    #   FreshlyEvents.configure do |config|
+    #     config.targets = [
+    #       FreshlyEvents::Adapters::StdoutAdapter.new,
+    #       FreshlyEvents::Adapters::GoogleCloud.new
+    #     ]
+    #
+    #      config.dispatcher     = FreshlyEvents::Dispatcher.new
+    #      config.gc_project_id  = "freshly-events"
+    #      config.gc_credentials = "/Users/matthewhensrud/Freshly/gcp.json"
+    #      config.gc_topic       = 'projects/freshly-events/topics/sandbox'
+    #      config.gc_mode        = :async
+    #   end
+    #
     def configure(&block)
       FreshlyEvents::Configuration.configure(&block)
     end
 
+    ##
+    # @return [FreshlyEvents::Configuration]
+    #
     def config
       FreshlyEvents::Configuration
     end
@@ -28,12 +50,8 @@ FreshlyEvents.configure do |config|
   config.dispatcher     = FreshlyEvents::Dispatcher.new
   config.gc_project_id  = "freshly-events"
   config.gc_credentials = "/Users/matthewhensrud/Freshly/gcp.json"
-
-  # do we need to consider enabling an option to publish to multiple topics?
   config.gc_topic       = 'projects/freshly-events/topics/sandbox'
-
-  # available modes: :sync, :async
-  config.gc_mode        = :async
+  config.gc_mode        = :async # [:sync, :async]
 end
 
 if defined?(Rails)
@@ -41,7 +59,7 @@ if defined?(Rails)
   require 'freshly_events/frameworks/rails/active_job'
 
   module FreshlyEvents
-    class Railtie < Rails::Railtie
+    class Railtie < Rails::Railtie # :nodoc:
       config.freshly_events = FreshlyEvents.config
 
       ActiveSupport.on_load(:action_controller) do
