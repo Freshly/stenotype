@@ -1,5 +1,6 @@
 module FreshlyEvents
   module ContextHandlers
+    #
     # An abstract base class for implementing contexts handlers
     #
     # @abstract
@@ -19,10 +20,11 @@ module FreshlyEvents
       end
 
       #
+      # @abstract
       # @raise [NotImplementedError] subclasses must implement this method
       #
       def as_json(*args)
-        raise NotImplementedError
+        raise NotImplementedError, "#{self} must implement method ##{__method__}"
       end
 
       #

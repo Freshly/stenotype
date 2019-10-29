@@ -1,5 +1,8 @@
 require "bundler/setup"
 require "freshly_events"
+require "timecop"
+
+Dir[File.join(File.expand_path(__dir__), 'support/**/*.rb')].each { |f| require f }
 
 RSpec.configure do |config|
   # Enable flags like --only-failures and --next-failure
@@ -11,4 +14,12 @@ RSpec.configure do |config|
   config.expect_with :rspec do |c|
     c.syntax = :expect
   end
+end
+
+# Configure a dummy target
+#
+FreshlyEvents.configure do |config|
+  config.targets = [
+    FreshlyEvents::TestAdapter.new
+  ]
 end

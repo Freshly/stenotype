@@ -7,9 +7,11 @@ module FreshlyEvents
     class Base
       #
       # This method is expected to be implemented by subclasses
+      # @abstract
+      # @raise [NotImplementedError] unless implemented in a subclass
       #
-      def publish(*event_data)
-        raise NotImplementedError
+      def publish(event_data, **additional_arguments)
+        raise NotImplementedError, "#{self.class.name} must implement method #publish"
       end
     end
   end

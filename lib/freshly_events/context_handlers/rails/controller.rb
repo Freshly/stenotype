@@ -1,11 +1,13 @@
 module FreshlyEvents
   module ContextHandlers
     module Rails
+      #
       # ActionController handler to support fetching data out of a rails controller instance
       #
       class Controller < FreshlyEvents::ContextHandlers::Base
         self.handler_name = :controller
 
+        #
         # @return [Hash] a JSON representation of controller's data
         #
         def as_json(*args)

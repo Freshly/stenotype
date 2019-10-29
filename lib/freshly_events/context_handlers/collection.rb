@@ -11,7 +11,10 @@ module FreshlyEvents
       #
       def choose(handler_name:)
         handler = detect { |p| p.handler_name == handler_name }
-        handler or raise FreshlyEvents::Exceptions::UnkownHandler
+        handler or raise ::FreshlyEvents::Exceptions::UnkownHandler,
+          "Please make sure the handler you've specified is " +
+          "registered in the list of known handlers. " +
+          "See #{FreshlyEvents::ContextHandlers} for more information."
       end
 
       #
@@ -20,7 +23,8 @@ module FreshlyEvents
       #
       def register(handler)
         unless handler < FreshlyEvents::ContextHandlers::Base
-          raise NotImplementedError, "Hander must inherit from #{FreshlyEvents::ContextHandlers::Base}"
+          raise NotImplementedError,
+            "Hander must inherit from #{FreshlyEvents::ContextHandlers::Base}"
         end
 
         push(handler) unless registered?(handler)
@@ -32,7 +36,8 @@ module FreshlyEvents
       #
       def unregister(handler)
         unless handler < FreshlyEvents::ContextHandlers::Base
-          raise NotImplementedError, "Hander must inherit from #{FreshlyEvents::ContextHandlers::Base}"
+          raise NotImplementedError,
+            "Hander must inherit from #{FreshlyEvents::ContextHandlers::Base}"
         end
 
         delete(handler) if registered?(handler)

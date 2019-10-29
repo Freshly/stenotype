@@ -1,81 +1,41 @@
 require 'spec_helper'
 
 RSpec.describe FreshlyEvents::Configuration do
+  subject(:configuration) { described_class }
+
   describe ".targets" do
-    it "fetches targets" do
-      pending 'TODO'
+    context "when a target(s) have been specified" do
+      let(:test_target) { FreshlyEvents::TestAdapter.new }
+      before { FreshlyEvents.config.targets = [test_target] }
+
+      it "returns it" do
+        expect(configuration.targets).to match_array([test_target])
+      end
+    end
+
+    context "when no targets have been specified" do
+      before { FreshlyEvents.config.targets = [] }
+
+      it "raises" do
+        expect {
+          configuration.targets
+        }.to raise_error(
+          FreshlyEvents::Exceptions::NoTargetsSpecified,
+            /Please configure a target\(s\)/
+        )
+      end
     end
   end
 
-  describe ".targets=" do
-    it "sets fetches targets" do
-      pending 'TODO'
-    end
-  end
-
-  describe ".gc_credentials" do
-    it "fetches gc_credentials" do
-      pending 'TODO'
-    end
-  end
-
-  describe ".gc_credentials=" do
-    it "sets fetches gc_credentials" do
-      pending 'TODO'
-    end
-  end
-
-  describe ".gc_project_id" do
-    it "fetches gc_project_id" do
-      pending 'TODO'
-    end
-  end
-
-  describe ".gc_project_id=" do
-    it "sets fetches gc_project_id" do
-      pending 'TODO'
-    end
-  end
-
-  describe ".gc_topic" do
-    it "fetches gc_topic" do
-      pending 'TODO'
-    end
-  end
-
-  describe ".gc_topic=" do
-    it "sets fetches gc_topic" do
-      pending 'TODO'
-    end
-  end
-
-  describe ".gc_mode" do
-    it "fetches gc_mode" do
-      pending 'TODO'
-    end
-  end
-
-  describe ".gc_mode=" do
-    it "sets fetches gc_mode" do
-      pending 'TODO'
-    end
-  end
-
-  describe ".dispatcher" do
-    it "fetches dispatcher" do
-      pending 'TODO'
-    end
-  end
-
-  describe ".dispatcher=" do
-    it "sets fetches dispatcher" do
-      pending 'TODO'
-    end
-  end
+  it { should have_attr_accessor(:gc_credentials) }
+  it { should have_attr_accessor(:gc_project_id) }
+  it { should have_attr_accessor(:gc_topic) }
+  it { should have_attr_accessor(:gc_mode) }
+  it { should have_attr_accessor(:dispatcher) }
 
   describe ".configure" do
     it "yields self" do
-      pending 'TODO'
+      expect { |b| configuration.configure(&b) }.to yield_control
     end
   end
 end

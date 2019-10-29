@@ -1,9 +1,9 @@
 module FreshlyEvents
-  ##
+  #
   # [FreshlyEvents::Event] represents a triggered event
   #
   class Event
-    ##
+    #
     # Delegates event to instance of [FreshlyEvents::Event].
     #
     # @example

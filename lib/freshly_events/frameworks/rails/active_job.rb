@@ -9,7 +9,7 @@ module FreshlyEvents
       #
       module ActiveJobExtension
         def self.extended(base) # @!visibility private
-          mod = base.const_set(:JobExt, Module.new)
+          base.const_set(:JobExt, Module.new)
           super
         end
 
@@ -26,14 +26,12 @@ module FreshlyEvents
         # @todo: r.kapitonov perhaps consider using an alias method instead?
         #
         def trackable_job!
-          mod = const_get(:JobExt)
-          mod.module_eval do
+          proxy = const_get(:JobExt)
+          proxy.module_eval do
             define_method(:perform) do |*args, **rest_args, &block|
               FreshlyEvents::Event.emit!(
                 { type: "active_job" },
-                options: {
-                  enqueued_at: Time.now.utc,
-                },
+                options: { },
                 eval_context: { active_job: self }
               )
               super(*args, **rest_args, &block)
