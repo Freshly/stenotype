@@ -2,32 +2,36 @@ require "google/cloud/pubsub"
 
 module FreshlyEvents
   module Adapters
+    #
+    # An adapter implementing method [#publish] to send data to Google Cloud PubSub
+    #
     class GoogleCloud < Base
-      def publish(*event_data)
-        final_data = event_data.reduce({}, :merge)
-
+      #
+      # @param event_data [Hash] The data to be published to Google Cloud
+      # @raise [FreshlyEvents::Exceptions::GoogleCloudUnsupportedMode] unless the mode in configured to be :sync or :async
+      # @raise [FreshlyEvents::Exceptions::MessageNotPublished] unless message is published
+      #
+      def publish(event_data, **additional_arguments)
         case config.gc_mode
         when :async
           topic.publish_async(final_data.as_json) do |result|
             raise FreshlyEvents::Exceptions::MessageNotPublished unless result.succeeded?
           end
         when :sync
-          topic.publish(final_data.as_json)
+          topic.publish(event_data, additional_arguments)
         else
-          raise GoogleCloudUnsupportedMode
+          raise FreshlyEvents::Exceptions::GoogleCloudUnsupportedMode
         end
-      end
-
-      # But that would stop the publisher, wouldn't than?
-      #
-      def flush_async_queue!
-        topic.acync_publisher.stop.wait!
       end
 
       private
 
+      #
+      # @todo: r.kapitonov consider initializing the client once,
+      # based on the adapter used in configuration (stdout, google cloud or other)
+      #
       def client
-        Google::Cloud::PubSub.new(
+        @client ||= Google::Cloud::PubSub.new(
           project_id: project_id,
           credentials: credentials
         )
@@ -41,8 +45,14 @@ module FreshlyEvents
         config.gc_credentials
       end
 
+      # Use memoization, otherwise a new topic will be created
+      # every time. And a new async_publisher will be created.
+      #
+      # @todo: r.kapitonov consider initializing a topic during gem load
+      # similar to how dispatcher is instantiated.
+      #
       def topic
-        client.topic config.gc_topic
+        @topic ||= client.topic config.gc_topic
       end
 
       def config

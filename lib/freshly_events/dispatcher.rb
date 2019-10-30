@@ -1,15 +1,33 @@
 module FreshlyEvents
+  #
+  # [FreshlyEvents::Dispatcher] is responsible for gluing together
+  # publishing targets and data gathering.
+  #
   class Dispatcher
-    def publish(event)
+    #
+    # Publishes an event to the list of configured targets.
+    #
+    # @example
+    #
+    #   event = FreshlyEvents::Event.new(data, options, eval_context)
+    #   FreshlyEvents::Dispatcher.new.publish(event)
+    #
+    # @param event [FreshlyEvents::Event] An instance of event to be published.
+    # @return [FreshlyEvent::Dispatcher] for the sake of chaining
+    #
+    def publish(event, **additional_arguments)
       event_data = {
+        **event.data,
         **event.options,
         **default_options,
         **eval_context_options(event.eval_context),
       }
 
       targets.each do |t|
-        t.publish(event.data, event_data)
+        t.publish(event_data, **additional_arguments)
       end
+
+      self
     end
 
     private

@@ -11,3 +11,4 @@
  - [ ] Cover the existing code with specs
  - [ ] Consider enabling an option to publish to multiple topics
  - [ ] Consider adding state to message dispatcher and instantiate it on every event
+ - [ ] Do we need to consider enabling an option to publish to multiple topics?

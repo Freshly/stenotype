@@ -9,8 +9,28 @@ module FreshlyEvents
 
       attr_accessor :dispatcher
 
+      #
+      # Yields control to the caller
+      #
+      # @return [FreshlyEvents::Configuration]
+      #
       def configure
         yield self
+        self
+      end
+
+      #
+      # @raise [FreshlyEvents::Exceptions::NoTargetsSpecified] in case no targets are configured
+      # @return [Array<#publish>] An array of targets implementing method [#publish]
+      #
+      def targets
+        if @targets.nil? or @targets.empty?
+          raise FreshlyEvents::Exceptions::NoTargetsSpecified,
+            "Please configure a target(s) for events to be sent to. " +
+            "See FreshlyEvents::Configuration for reference."
+        else
+          @targets
+        end
       end
     end
   end
