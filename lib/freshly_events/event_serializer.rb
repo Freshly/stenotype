@@ -9,7 +9,7 @@ module FreshlyEvents
     attr_reader :event
 
     #
-    # @param [Event]
+    # @param event [FreshlyEvents::Event]
     #
     def initialize(event)
       @event = event
