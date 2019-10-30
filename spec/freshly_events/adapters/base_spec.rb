@@ -1,4 +1,6 @@
-require 'spec_helper'
+# frozen_string_literal: true
+
+require "spec_helper"
 
 RSpec.describe FreshlyEvents::Adapters::Base do
   describe "#publish" do

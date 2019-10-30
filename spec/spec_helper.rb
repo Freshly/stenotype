@@ -1,8 +1,20 @@
+# frozen_string_literal: true
+
 require "bundler/setup"
-require "freshly_events"
+require "simplecov"
 require "timecop"
 
-Dir[File.join(File.expand_path(__dir__), 'support/**/*.rb')].each { |f| require f }
+SimpleCov.profiles.define "gem" do
+  track_files "{lib}/**/*.rb"
+
+  add_filter "/spec"
+  add_filter "lib/freshly_events/version.rb"
+end
+
+SimpleCov.start "gem"
+
+require "freshly_events"
+Dir[File.join(File.expand_path(__dir__), "support/**/*.rb")].each { |f| require f }
 
 RSpec.configure do |config|
   # Enable flags like --only-failures and --next-failure
@@ -13,6 +25,12 @@ RSpec.configure do |config|
 
   config.expect_with :rspec do |c|
     c.syntax = :expect
+  end
+
+  config.around(:each) do |example|
+    Timecop.freeze(Time.local(2019))
+    example.run
+    Timecop.return
   end
 end
 

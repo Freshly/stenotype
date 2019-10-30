@@ -1,9 +1,10 @@
-require 'spec_helper'
+# frozen_string_literal: true
+
+require "spec_helper"
 
 RSpec.describe FreshlyEvents::ContextHandlers::Rails::ActiveJob do
-  describe "#as_json" do
+  xdescribe "#as_json" do
     it "casts active job data to JSON" do
-      pending 'TODO'
     end
   end
 end

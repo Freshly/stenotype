@@ -1,3 +1,5 @@
+# frozen_string_literal: true
+
 module FreshlyEvents
   #
   # [FreshlyEvents::Event] represents a triggered event

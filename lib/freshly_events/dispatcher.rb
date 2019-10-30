@@ -1,3 +1,5 @@
+# frozen_string_literal: true
+
 module FreshlyEvents
   #
   # [FreshlyEvents::Dispatcher] is responsible for gluing together
@@ -13,18 +15,14 @@ module FreshlyEvents
     #   FreshlyEvents::Dispatcher.new.publish(event)
     #
     # @param event [FreshlyEvents::Event] An instance of event to be published.
+    # @param serializer [#serialize] A class responsible for serializing the event
     # @return [FreshlyEvent::Dispatcher] for the sake of chaining
     #
-    def publish(event, **additional_arguments)
-      event_data = {
-        **event.data,
-        **event.options,
-        **default_options,
-        **eval_context_options(event.eval_context),
-      }
+    def publish(event, serializer: FreshlyEvents::EventSerializer)
+      event_data = serializer.new(event).serialize
 
       targets.each do |t|
-        t.publish(event_data, **additional_arguments)
+        t.publish(event_data)
       end
 
       self
@@ -34,19 +32,6 @@ module FreshlyEvents
 
     def targets
       @targets ||= FreshlyEvents.config.targets
-    end
-
-    def eval_context_options(eval_context)
-      result = eval_context.map do |context_name, context|
-        handler = FreshlyEvents::ContextHandlers.known.choose(handler_name: context_name)
-        handler.new(context).as_json
-      end.reduce(:merge!) || {}
-
-      result
-    end
-
-    def default_options
-      { timestamp: Time.now.utc }
     end
   end
 end

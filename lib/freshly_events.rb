@@ -1,4 +1,6 @@
-require 'pry'
+# frozen_string_literal: true
+
+require "pry"
 
 module FreshlyEvents
   class << self
@@ -17,7 +19,7 @@ module FreshlyEvents
     #      config.dispatcher     = FreshlyEvents::Dispatcher.new
     #      config.gc_project_id  = "freshly-events"
     #      config.gc_credentials = "/Users/matthewhensrud/Freshly/gcp.json"
-    #      config.gc_topic       = 'projects/freshly-events/topics/sandbox'
+    #      config.gc_topic       = "projects/freshly-events/topics/sandbox"
     #      config.gc_mode        = :async
     #   end
     #
@@ -34,14 +36,15 @@ module FreshlyEvents
   end
 end
 
-require 'freshly_events/adapters'
-require 'freshly_events/configuration'
-require 'freshly_events/context_handlers'
-require 'freshly_events/dispatcher'
-require 'freshly_events/event'
-require 'freshly_events/exceptions'
-require 'freshly_events/version'
-require 'freshly_events/frameworks/object_ext'
+require "freshly_events/adapters"
+require "freshly_events/configuration"
+require "freshly_events/context_handlers"
+require "freshly_events/dispatcher"
+require "freshly_events/event"
+require "freshly_events/event_serializer"
+require "freshly_events/exceptions"
+require "freshly_events/version"
+require "freshly_events/frameworks/object_ext"
 
 FreshlyEvents.configure do |config|
   config.targets = [
@@ -52,7 +55,7 @@ FreshlyEvents.configure do |config|
   config.dispatcher     = FreshlyEvents::Dispatcher.new
   config.gc_project_id  = "freshly-events"
   config.gc_credentials = "/Users/matthewhensrud/Freshly/gcp.json"
-  config.gc_topic       = 'projects/freshly-events/topics/sandbox'
+  config.gc_topic       = "projects/freshly-events/topics/sandbox"
   config.gc_mode        = :async # either of [:sync, :async]
 
   FreshlyEvents::ContextHandlers.module_eval do
@@ -61,8 +64,8 @@ FreshlyEvents.configure do |config|
 end
 
 if defined?(Rails)
-  require 'freshly_events/frameworks/rails/action_controller'
-  require 'freshly_events/frameworks/rails/active_job'
+  require "freshly_events/frameworks/rails/action_controller"
+  require "freshly_events/frameworks/rails/active_job"
 
   module FreshlyEvents
     class Railtie < Rails::Railtie # :nodoc:

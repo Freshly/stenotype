@@ -1,3 +1,5 @@
+# frozen_string_literal: true
+
 module FreshlyEvents
   module ContextHandlers
     module Rails

@@ -1,9 +1,10 @@
-require 'spec_helper'
+# frozen_string_literal: true
+
+require "spec_helper"
 
 RSpec.describe FreshlyEvents::Adapters::StdoutAdapter do
-  describe "#publish" do
+  xdescribe "#publish" do
     it "publishes the message to STDOUT" do
-      pending 'TODO'
     end
   end
 end

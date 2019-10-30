@@ -1,3 +1,5 @@
+# frozen_string_literal: true
+
 require "google/cloud/pubsub"
 
 module FreshlyEvents
@@ -14,13 +16,14 @@ module FreshlyEvents
       def publish(event_data, **additional_arguments)
         case config.gc_mode
         when :async
-          topic.publish_async(final_data.as_json) do |result|
+          topic.publish_async(event_data) do |result|
             raise FreshlyEvents::Exceptions::MessageNotPublished unless result.succeeded?
           end
         when :sync
           topic.publish(event_data, additional_arguments)
         else
-          raise FreshlyEvents::Exceptions::GoogleCloudUnsupportedMode
+          raise FreshlyEvents::Exceptions::GoogleCloudUnsupportedMode,
+            "Please use either :sync or :async modes for publishing the events."
         end
       end
 

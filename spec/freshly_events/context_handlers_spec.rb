@@ -1,10 +1,12 @@
-require 'spec_helper'
+# frozen_string_literal: true
+
+require "spec_helper"
 
 RSpec.describe FreshlyEvents::ContextHandlers do
   subject(:context_handlers) { described_class }
 
   describe ".known" do
-    context 'when no handler(s) specified' do
+    context "when no handler(s) specified" do
       before { context_handlers.known = nil }
 
       it "returns an empty handlers collection" do

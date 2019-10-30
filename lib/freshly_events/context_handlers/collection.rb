@@ -1,3 +1,5 @@
+# frozen_string_literal: true
+
 module FreshlyEvents
   module ContextHandlers
     #
@@ -10,8 +12,8 @@ module FreshlyEvents
       # @return [#as_json] A handler which respond to #as_json
       #
       def choose(handler_name:)
-        handler = detect { |p| p.handler_name == handler_name }
-        handler or raise ::FreshlyEvents::Exceptions::UnkownHandler,
+        handler = detect { |e| e.handler_name == handler_name }
+        handler or raise FreshlyEvents::Exceptions::UnkownHandler,
           "Please make sure the handler you've specified is " +
           "registered in the list of known handlers. " +
           "See #{FreshlyEvents::ContextHandlers} for more information."

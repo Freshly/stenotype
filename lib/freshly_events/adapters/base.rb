@@ -1,3 +1,5 @@
+# frozen_string_literal: true
+
 module FreshlyEvents
   module Adapters
     # An abstract base class for implementing adapters
@@ -11,7 +13,8 @@ module FreshlyEvents
       # @raise [NotImplementedError] unless implemented in a subclass
       #
       def publish(event_data, **additional_arguments)
-        raise NotImplementedError, "#{self.class.name} must implement method #publish"
+        raise NotImplementedError,
+          "#{self.class.name} must implement method #publish"
       end
     end
   end

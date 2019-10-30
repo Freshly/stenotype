@@ -1,4 +1,6 @@
-require 'spec_helper'
+# frozen_string_literal: true
+
+require "spec_helper"
 
 RSpec.describe FreshlyEvents::Frameworks::ObjectExt do
   subject(:dummy_klass) do
@@ -30,14 +32,10 @@ RSpec.describe FreshlyEvents::Frameworks::ObjectExt do
     test_target = FreshlyEvents::TestAdapter.new
     FreshlyEvents.config.targets = [test_target]
     test_target.buffer = test_buffer
-
-    Timecop.freeze(Time.local(2019))
   end
 
-  after { Timecop.return }
-
-  describe '.emit_event_before' do
-    it 'wrap a method call with event trigger' do
+  describe ".emit_event_before" do
+    it "wrap a method call with event trigger" do
       expect {
         dummy_klass.new.some_method
       }.to change {
