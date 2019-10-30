@@ -14,10 +14,11 @@ RSpec::Matchers.define :have_attr_accessor do |field|
   end
 
   failure_message_when_negated do |object_instance|
-    "expected attr_accessor for #{field} not to be defined on #{object_instance}"
+    "expected attr_accessor for #{field} not " \
+      "to be defined on #{object_instance}"
   end
 
-  description do |object_instance|
+  description do |_object_instance|
     "have attr_accessor for #{field}"
   end
 end

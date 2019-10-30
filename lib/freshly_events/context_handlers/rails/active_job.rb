@@ -13,11 +13,11 @@ module FreshlyEvents
         # @todo: r.kapitonov do we need other data? params? enqueued_at?
         # @return [Hash] a JSON representation of job's data
         #
-        def as_json(*args)
+        def as_json(*_args)
           {
             job_id: job_id,
             queue_name: queue_name,
-            class: context.class.name,
+            class: context.class.name
           }
         end
 

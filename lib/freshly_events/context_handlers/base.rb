@@ -25,7 +25,7 @@ module FreshlyEvents
       # @abstract
       # @raise [NotImplementedError] subclasses must implement this method
       #
-      def as_json(*args)
+      def as_json(*_args)
         raise NotImplementedError, "#{self} must implement method ##{__method__}"
       end
 
@@ -39,8 +39,8 @@ module FreshlyEvents
         # @raise [NotImplementedError] in case handler name is not specified.
         #
         def handler_name
-          @handler_name or raise NotImplementedError,
-            "Please, specify the handler_name of #{self}"
+          @handler_name || raise(NotImplementedError,
+                                 "Please, specify the handler_name of #{self}")
         end
       end
     end

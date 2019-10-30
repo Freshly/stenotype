@@ -10,7 +10,8 @@ module FreshlyEvents
       # before performing an instance of ActiveJob
       #
       module ActiveJobExtension
-        def self.extended(base) # @!visibility private
+        # @!visibility private
+        def self.extended(base)
           base.const_set(:JobExt, Module.new)
           super
         end
@@ -27,13 +28,15 @@ module FreshlyEvents
         #
         # @todo: r.kapitonov perhaps consider using an alias method instead?
         #
+        # rubocop:disable Metrics/MethodLength
+        #
         def trackable_job!
           proxy = const_get(:JobExt)
           proxy.module_eval do
             define_method(:perform) do |*args, **rest_args, &block|
               FreshlyEvents::Event.emit!(
-                { type: "active_job" },
-                options: { },
+                { type: 'active_job' },
+                options: {},
                 eval_context: { active_job: self }
               )
               super(*args, **rest_args, &block)
@@ -44,8 +47,9 @@ module FreshlyEvents
           # super() can be chained down the ancestors
           # without changing existing ActiveJob interface
           #
-          self.send(:prepend, mod)
+          send(:prepend, mod)
         end
+        # rubocop:enable Metrics/MethodLength
       end
     end
   end

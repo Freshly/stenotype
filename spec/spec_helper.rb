@@ -1,24 +1,24 @@
 # frozen_string_literal: true
 
-require "bundler/setup"
-require "simplecov"
-require "timecop"
+require 'bundler/setup'
+require 'simplecov'
+require 'timecop'
 
-SimpleCov.profiles.define "gem" do
-  track_files "{lib}/**/*.rb"
+SimpleCov.profiles.define 'gem' do
+  track_files '{lib}/**/*.rb'
 
-  add_filter "/spec"
-  add_filter "lib/freshly_events/version.rb"
+  add_filter '/spec'
+  add_filter 'lib/freshly_events/version.rb'
 end
 
-SimpleCov.start "gem"
+SimpleCov.start 'gem'
 
-require "freshly_events"
-Dir[File.join(File.expand_path(__dir__), "support/**/*.rb")].each { |f| require f }
+require 'freshly_events'
+Dir[File.join(File.expand_path(__dir__), 'support/**/*.rb')].each { |f| require f }
 
 RSpec.configure do |config|
   # Enable flags like --only-failures and --next-failure
-  config.example_status_persistence_file_path = ".rspec_status"
+  config.example_status_persistence_file_path = '.rspec_status'
 
   # Disable RSpec exposing methods globally on `Module` and `main`
   config.disable_monkey_patching!

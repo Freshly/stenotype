@@ -1,6 +1,6 @@
 # frozen_string_literal: true
 
-require "google/cloud/pubsub"
+require 'google/cloud/pubsub'
 
 module FreshlyEvents
   module Adapters
@@ -10,8 +10,11 @@ module FreshlyEvents
     class GoogleCloud < Base
       #
       # @param event_data [Hash] The data to be published to Google Cloud
-      # @raise [FreshlyEvents::Exceptions::GoogleCloudUnsupportedMode] unless the mode in configured to be :sync or :async
+      # @raise [FreshlyEvents::Exceptions::GoogleCloudUnsupportedMode] unless the mode
+      #   in configured to be :sync or :async
       # @raise [FreshlyEvents::Exceptions::MessageNotPublished] unless message is published
+      #
+      # rubocop:disable Metrics/MethodLength
       #
       def publish(event_data, **additional_arguments)
         case config.gc_mode
@@ -23,9 +26,10 @@ module FreshlyEvents
           topic.publish(event_data, additional_arguments)
         else
           raise FreshlyEvents::Exceptions::GoogleCloudUnsupportedMode,
-            "Please use either :sync or :async modes for publishing the events."
+                'Please use either :sync or :async modes for publishing the events.'
         end
       end
+      # rubocop:enable Metrics/MethodLength
 
       private
 

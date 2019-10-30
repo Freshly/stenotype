@@ -1,12 +1,16 @@
 # frozen_string_literal: true
 
-require "freshly_events/context_handlers/base"
-require "freshly_events/context_handlers/rails/controller"
-require "freshly_events/context_handlers/rails/active_job"
-require "freshly_events/context_handlers/klass"
-require "freshly_events/context_handlers/collection"
+require 'freshly_events/context_handlers/base'
+require 'freshly_events/context_handlers/rails/controller'
+require 'freshly_events/context_handlers/rails/active_job'
+require 'freshly_events/context_handlers/klass'
+require 'freshly_events/context_handlers/collection'
 
 module FreshlyEvents
+  #
+  # A namespace to contain various context
+  # handlers implementations
+  #
   module ContextHandlers
     class << self
       attr_writer :known

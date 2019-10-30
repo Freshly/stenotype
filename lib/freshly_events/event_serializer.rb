@@ -1,6 +1,10 @@
 # frozen_string_literal: true
 
 module FreshlyEvents
+  #
+  # A class used to serialize a FreshlyEvents::Event
+  # upon publishing it to targets
+  #
   class EventSerializer
     attr_reader :event
 
@@ -19,7 +23,7 @@ module FreshlyEvents
         **event_data,
         **event_options,
         **default_options,
-        **eval_context_options,
+        **eval_context_options
       }
     end
 

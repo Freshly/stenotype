@@ -1,9 +1,12 @@
 # frozen_string_literal: true
 
 module FreshlyEvents
+  #
+  # A module containing freshly-event gem configuration
+  #
   module Configuration
     class << self
-      attr_accessor :targets
+      attr_writer :targets
       attr_accessor :gc_credentials
       attr_accessor :gc_project_id
       attr_accessor :gc_topic
@@ -26,10 +29,10 @@ module FreshlyEvents
       # @return [Array<#publish>] An array of targets implementing method [#publish]
       #
       def targets
-        if @targets.nil? or @targets.empty?
+        if @targets.nil? || @targets.empty?
           raise FreshlyEvents::Exceptions::NoTargetsSpecified,
-            "Please configure a target(s) for events to be sent to. " +
-            "See FreshlyEvents::Configuration for reference."
+                'Please configure a target(s) for events to be sent to. ' \
+                'See FreshlyEvents::Configuration for reference.'
         else
           @targets
         end

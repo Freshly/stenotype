@@ -5,6 +5,10 @@ require 'active_support/concern'
 module FreshlyEvents
   module Frameworks
     module Rails
+      #
+      # An ActionController extension to be injected into classes
+      # inheriting from ActionController::Base
+      #
       module ActionControllerExtension
         extend ActiveSupport::Concern
 
@@ -16,6 +20,10 @@ module FreshlyEvents
           FreshlyEvents::Event.emit!(data, options: {}, eval_context: { controller: self })
         end
 
+        #
+        # Class methods to be injected into classes
+        # inherited from ActionController::Base
+        #
         module ClassMethods
           # Adds a before_action to each action from the passed list. A before action
           # is emitting a FreshlyEvents::Event.
@@ -23,8 +31,8 @@ module FreshlyEvents
           # @param actions [Array<Symbol>] a list of tracked controller actions
           #
           def track_view(actions: [])
-            self.before_action only: actions do
-              record_freshly_event({ type: "view" })
+            before_action only: actions do
+              record_freshly_event(type: 'view')
             end
           end
         end

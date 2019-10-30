@@ -12,14 +12,14 @@ module FreshlyEvents
         #
         # @return [Hash] a JSON representation of controller's data
         #
-        def as_json(*args)
+        def as_json(*_args)
           {
             class: request.controller_class.name,
             method: request.method,
             url: request.url,
             referer: request.referer,
-            params: request.params.except("controller", "action"),
-            ip: request.remote_ip,
+            params: request.params.except('controller', 'action'),
+            ip: request.remote_ip
           }
         end
 

@@ -1,11 +1,11 @@
 # frozen_string_literal: true
 
 RSpec.describe FreshlyEvents do
-  it "has a version number" do
+  it 'has a version number' do
     expect(FreshlyEvents::VERSION).not_to be nil
   end
 
-  xit "does something useful" do
+  xit 'does something useful' do
   end
 
   # TODO: r.kapitonov Define a strategy for top level specs:

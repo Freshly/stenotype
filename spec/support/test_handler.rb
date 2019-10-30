@@ -4,8 +4,8 @@ module FreshlyEvents
   class TestHandler < FreshlyEvents::ContextHandlers::Base
     self.handler_name = :klass
 
-    def as_json(*args)
-      { }
+    def as_json(*_args)
+      {}
     end
   end
 end

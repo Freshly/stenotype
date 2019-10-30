@@ -12,9 +12,9 @@ module FreshlyEvents
       # @abstract
       # @raise [NotImplementedError] unless implemented in a subclass
       #
-      def publish(event_data, **additional_arguments)
+      def publish(_event_data, **_additional_arguments)
         raise NotImplementedError,
-          "#{self.class.name} must implement method #publish"
+              "#{self.class.name} must implement method #publish"
       end
     end
   end

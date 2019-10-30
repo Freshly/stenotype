@@ -10,7 +10,8 @@ module FreshlyEvents
     # instance methods.
     #
     module ObjectExt
-      def self.extended(base) # @!visibility private
+      # @!visibility private
+      def self.extended(base)
         base.const_set(:ObjectProxy, Module.new)
         super
       end
@@ -30,6 +31,8 @@ module FreshlyEvents
       #     end
       #   end
       #
+      # rubocop:disable Metrics/MethodLength
+      #
       def emit_event_before(*methods)
         proxy = const_get(:ObjectProxy)
 
@@ -37,10 +40,10 @@ module FreshlyEvents
           proxy.module_eval do
             define_method(method) do |*args, **rest_args, &block|
               FreshlyEvents::Event.emit!(
-                { type: "class" },
+                { type: 'class' },
                 options: {
                   class: self.class.name,
-                  method: __method__,
+                  method: __method__
                 },
                 eval_context: { klass: self }
               )
@@ -48,9 +51,10 @@ module FreshlyEvents
             end
           end
 
-          self.send(:prepend, proxy)
+          send(:prepend, proxy)
         end
       end
+      # rubocop:enable Metrics/MethodLength
     end
   end
 end
