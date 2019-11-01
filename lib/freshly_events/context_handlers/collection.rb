@@ -14,6 +14,7 @@ module FreshlyEvents
       def choose(handler_name:)
         handler = detect { |e| e.handler_name == handler_name }
         handler || raise(FreshlyEvents::Exceptions::UnkownHandler,
+                         "Handler '#{handler_name}' is not found. " \
                          "Please make sure the handler you've specified is " \
                          'registered in the list of known handlers. ' \
                          "See #{FreshlyEvents::ContextHandlers} for more information.")

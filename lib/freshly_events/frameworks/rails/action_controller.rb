@@ -30,7 +30,7 @@ module FreshlyEvents
           #
           # @param actions [Array<Symbol>] a list of tracked controller actions
           #
-          def track_view(actions: [])
+          def track_view(*actions)
             before_action only: actions do
               record_freshly_event(type: 'view')
             end

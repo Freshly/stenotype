@@ -13,16 +13,23 @@ RSpec.describe FreshlyEvents::ContextHandlers do
         expect(context_handlers.known).to be_empty
         expect(context_handlers.known).to be_a(Array)
       end
+
+      after { FreshlyEvents::ContextHandlers.reset_defaults! }
     end
 
     context 'when there are registered handlers' do
       let(:test_handler) { FreshlyEvents::TestHandler }
 
-      before { context_handlers.register test_handler }
+      before do
+        context_handlers.known = nil
+        context_handlers.register test_handler
+      end
 
       it 'returns the collection of handlers' do
         expect(context_handlers.known).to match_array([test_handler])
       end
+
+      after { FreshlyEvents::ContextHandlers.reset_defaults! }
     end
   end
 
@@ -36,5 +43,7 @@ RSpec.describe FreshlyEvents::ContextHandlers do
       context_handlers.register test_handler
       expect(context_handlers.known).to match_array([test_handler])
     end
+
+    after { FreshlyEvents::ContextHandlers.reset_defaults! }
   end
 end

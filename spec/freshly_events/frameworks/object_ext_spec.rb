@@ -4,7 +4,7 @@ require 'spec_helper'
 
 RSpec.describe FreshlyEvents::Frameworks::ObjectExt do
   subject(:dummy_klass) do
-    klass = Class.new do
+    Class.new do
       extend FreshlyEvents::Frameworks::ObjectExt
 
       emit_event_before :some_method
@@ -12,12 +12,14 @@ RSpec.describe FreshlyEvents::Frameworks::ObjectExt do
       def some_method
         :result_of_some_method
       end
+
+      class << self
+        def name
+          'DummyKlass'
+        end
+      end
     end
-
-    Object.const_set(:DummyKlass, klass)
   end
-
-  let(:test_buffer) { [] }
 
   let(:expected_event_data) do
     {
@@ -28,13 +30,12 @@ RSpec.describe FreshlyEvents::Frameworks::ObjectExt do
     }
   end
 
-  before do
-    test_target = FreshlyEvents::TestAdapter.new
-    FreshlyEvents.config.targets = [test_target]
-    test_target.buffer = test_buffer
-  end
-
   describe '.emit_event_before' do
+    let(:test_buffer) { [] }
+    let(:test_target) { FreshlyEvents::TestAdapter.new(test_buffer) }
+
+    before { FreshlyEvents.config.targets = [test_target] }
+
     it 'wrap a method call with event trigger' do
       expect do
         dummy_klass.new.some_method

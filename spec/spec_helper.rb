@@ -3,6 +3,11 @@
 require 'bundler/setup'
 require 'simplecov'
 require 'timecop'
+require 'pry'
+
+require 'rails'
+require 'action_controller'
+require 'active_job'
 
 SimpleCov.profiles.define 'gem' do
   track_files '{lib}/**/*.rb'
@@ -32,12 +37,22 @@ RSpec.configure do |config|
     example.run
     Timecop.return
   end
-end
 
-# Configure a dummy target
-#
-FreshlyEvents.configure do |config|
-  config.targets = [
-    FreshlyEvents::TestAdapter.new
-  ]
+  config.before(:suite) do |_example|
+    # Configure a dummy target
+    FreshlyEvents.configure do |c|
+      c.targets = [FreshlyEvents::TestAdapter.new([])]
+    end
+  end
+
+  module FreshlyEvents
+    module ContextHandlers
+      def self.reset_defaults!
+        self.known = FreshlyEvents::ContextHandlers::Collection.new
+        register FreshlyEvents::ContextHandlers::Klass
+        register FreshlyEvents::ContextHandlers::Rails::ActiveJob
+        register FreshlyEvents::ContextHandlers::Rails::Controller
+      end
+    end
+  end
 end

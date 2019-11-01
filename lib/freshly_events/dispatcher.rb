@@ -31,7 +31,7 @@ module FreshlyEvents
     private
 
     def targets
-      @targets ||= FreshlyEvents.config.targets
+      FreshlyEvents.config.targets
     end
   end
 end
