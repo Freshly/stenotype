@@ -43,7 +43,6 @@ RSpec.describe FreshlyEvents::Frameworks::Rails::ActionControllerExtension do
     let(:test_target) { FreshlyEvents::TestAdapter.new(test_buffer) }
 
     before do
-      # FreshlyEvents::ContextHandlers.reset_defaults!
       FreshlyEvents.config.targets = [test_target]
 
       dummy_controller.class_eval { track_view :index }

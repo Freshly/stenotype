@@ -47,7 +47,7 @@ module FreshlyEvents
           # super() can be chained down the ancestors
           # without changing existing ActiveJob interface
           #
-          send(:prepend, mod)
+          send(:prepend, proxy)
         end
         # rubocop:enable Metrics/MethodLength
       end

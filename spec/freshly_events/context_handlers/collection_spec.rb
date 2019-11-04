@@ -6,11 +6,15 @@ RSpec.describe FreshlyEvents::ContextHandlers::Collection do
   subject(:collection) { described_class.new }
 
   let(:dummy_handler) do
-    class DummyHandler < FreshlyEvents::ContextHandlers::Base
+    Class.new(FreshlyEvents::ContextHandlers::Base) do
       self.handler_name = :dummy_handler
-    end
 
-    DummyHandler
+      class << self
+        def name
+          'DummyHandler'
+        end
+      end
+    end
   end
 
   describe '#choose' do
@@ -18,7 +22,7 @@ RSpec.describe FreshlyEvents::ContextHandlers::Collection do
       before { collection.register(dummy_handler) }
 
       it 'returns it' do
-        expect(collection.choose(handler_name: :dummy_handler)).to eq(DummyHandler)
+        expect(collection.choose(handler_name: :dummy_handler).name).to eq('DummyHandler')
       end
     end
 

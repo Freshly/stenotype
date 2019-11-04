@@ -27,7 +27,7 @@ RSpec.describe FreshlyEvents::Adapters::Base do
       end
 
       it 'does not raise' do
-        expect(dummy_klass_instance.publish).to be_truthy
+        expect(dummy_klass_instance.publish).to eq(true)
       end
     end
   end
