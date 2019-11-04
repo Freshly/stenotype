@@ -7,14 +7,14 @@ module FreshlyEvents
     module Rails
       #
       # An ActionController extension to be injected into classes
-      # inheriting from ActionController::Base
+      # inheriting from [ActionController::Base]
       #
       module ActionControllerExtension
         extend ActiveSupport::Concern
 
         #
         # Emits and event with given data
-        # @param data [Hash] Data to be sent to targets
+        # @param data {Hash} Data to be sent to targets
         #
         def record_freshly_event(data)
           FreshlyEvents::Event.emit!(data, options: {}, eval_context: { controller: self })
@@ -26,7 +26,7 @@ module FreshlyEvents
         #
         module ClassMethods
           # Adds a before_action to each action from the passed list. A before action
-          # is emitting a [FreshlyEvents::Event].
+          # is emitting a {FreshlyEvents::Event}.
           #
           # @example:
           #   class MyController < ActionController::Base
@@ -41,7 +41,7 @@ module FreshlyEvents
           #     end
           #   end
           #
-          # @param actions [Array<Symbol>] a list of tracked controller actions
+          # @param actions {Array<Symbol>} a list of tracked controller actions
           #
           def track_view(*actions)
             before_action only: actions do

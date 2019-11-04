@@ -14,9 +14,9 @@ module FreshlyEvents
     #   event = FreshlyEvents::Event.new(data, options, eval_context)
     #   FreshlyEvents::Dispatcher.new.publish(event)
     #
-    # @param event [FreshlyEvents::Event] An instance of event to be published.
-    # @param serializer [#serialize] A class responsible for serializing the event
-    # @return [FreshlyEvent::Dispatcher] for the sake of chaining
+    # @param event {FreshlyEvents::Event} An instance of event to be published.
+    # @param serializer {#serialize} A class responsible for serializing the event
+    # @return {FreshlyEvent::Dispatcher} for the sake of chaining
     #
     def publish(event, serializer: FreshlyEvents::EventSerializer)
       event_data = serializer.new(event).serialize

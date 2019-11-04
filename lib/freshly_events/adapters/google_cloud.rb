@@ -5,14 +5,14 @@ require 'google/cloud/pubsub'
 module FreshlyEvents
   module Adapters
     #
-    # An adapter implementing method [#publish] to send data to Google Cloud PubSub
+    # An adapter implementing method {#publish} to send data to Google Cloud PubSub
     #
     class GoogleCloud < Base
       #
-      # @param event_data [Hash] The data to be published to Google Cloud
-      # @raise [FreshlyEvents::Exceptions::GoogleCloudUnsupportedMode] unless the mode
+      # @param event_data {Hash} The data to be published to Google Cloud
+      # @raise {FreshlyEvents::Exceptions::GoogleCloudUnsupportedMode} unless the mode
       #   in configured to be :sync or :async
-      # @raise [FreshlyEvents::Exceptions::MessageNotPublished] unless message is published
+      # @raise {FreshlyEvents::Exceptions::MessageNotPublished} unless message is published
       #
       # rubocop:disable Metrics/MethodLength
       #

@@ -10,7 +10,7 @@ module FreshlyEvents
 
       #
       # @todo r.kapitonov Figure out the params
-      # @return [Hash] a JSON representation of a Ruby class
+      # @return {Hash} a JSON representation of a Ruby class
       #
       def as_json(*_args)
         {}

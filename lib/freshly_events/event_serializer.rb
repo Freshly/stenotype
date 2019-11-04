@@ -2,21 +2,21 @@
 
 module FreshlyEvents
   #
-  # A class used to serialize a FreshlyEvents::Event
+  # A class used to serialize a {FreshlyEvents::Event}
   # upon publishing it to targets
   #
   class EventSerializer
     attr_reader :event
 
     #
-    # @param event [FreshlyEvents::Event]
+    # @param event {FreshlyEvents::Event}
     #
     def initialize(event)
       @event = event
     end
 
     #
-    # @return [Hash] A hash representation of the event and its context
+    # @return {Hash} A hash representation of the event and its context
     #
     def serialize
       {

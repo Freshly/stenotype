@@ -10,7 +10,7 @@ module FreshlyEvents
         self.handler_name = :controller
 
         #
-        # @return [Hash] a JSON representation of controller's data
+        # @return {Hash} a JSON representation of controller's data
         #
         def as_json(*_args)
           {

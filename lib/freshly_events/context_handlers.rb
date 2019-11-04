@@ -15,14 +15,14 @@ module FreshlyEvents
     class << self
       attr_writer :known
       #
-      # @return [Array<#publish>] A list of handlers implementing [#publish]
+      # @return {Array<#publish>} A list of handlers implementing [#publish]
       #
       def known
         @known ||= FreshlyEvents::ContextHandlers::Collection.new
       end
 
       #
-      # @param handler [#publish] A handler with implemented method [#publish]
+      # @param handler {#publish} A handler with implemented method [#publish]
       #
       def register(handler)
         known.register(handler)

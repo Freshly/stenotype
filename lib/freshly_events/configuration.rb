@@ -17,7 +17,7 @@ module FreshlyEvents
       #
       # Yields control to the caller
       #
-      # @return [FreshlyEvents::Configuration]
+      # @return {FreshlyEvents::Configuration}
       #
       def configure
         yield self
@@ -25,8 +25,8 @@ module FreshlyEvents
       end
 
       #
-      # @raise [FreshlyEvents::Exceptions::NoTargetsSpecified] in case no targets are configured
-      # @return [Array<#publish>] An array of targets implementing method [#publish]
+      # @raise {FreshlyEvents::Exceptions::NoTargetsSpecified} in case no targets are configured
+      # @return {Array<#publish>} An array of targets implementing method [#publish]
       #
       def targets
         if @targets.nil? || @targets.empty?

@@ -7,9 +7,9 @@ module FreshlyEvents
     #
     class Collection < Array
       #
-      # @param handler_name [Symbol] a handler to be found in the collection
-      # @raise [FreshlyEvents::Exceptions::UnknownHandler] in case a handler is not registered
-      # @return [#as_json] A handler which respond to #as_json
+      # @param handler_name {Symbol} a handler to be found in the collection
+      # @raise {FreshlyEvents::Exceptions::UnknownHandler} in case a handler is not registered
+      # @return {#as_json} A handler which respond to #as_json
       #
       def choose(handler_name:)
         handler = detect { |e| e.handler_name == handler_name }
@@ -21,8 +21,8 @@ module FreshlyEvents
       end
 
       #
-      # @param handler [#as_json] a new handler to be added to collection
-      # @raise [NotImplementedError] in case handler does not inherit from [FreshlyEvents::ContextHandlers::Base]
+      # @param handler {#as_json} a new handler to be added to collection
+      # @raise {NotImplementedError} in case handler does not inherit from {FreshlyEvents::ContextHandlers::Base}
       #
       def register(handler)
         unless handler < FreshlyEvents::ContextHandlers::Base
@@ -34,8 +34,8 @@ module FreshlyEvents
       end
 
       #
-      # @param handler [#as_json] a handler to be removed from the collection of known handlers
-      # @raise [NotIMplementedError] in case handler does not inherit from [FreshlyEvents::ContextHandlers::Base]
+      # @param handler {#as_json} a handler to be removed from the collection of known handlers
+      # @raise {NotIMplementedError} in case handler does not inherit from {FreshlyEvents::ContextHandlers::Base}
       #
       def unregister(handler)
         unless handler < FreshlyEvents::ContextHandlers::Base
@@ -47,7 +47,7 @@ module FreshlyEvents
       end
 
       #
-      # @param handler [#as_json] a handler to be checked for presence in a collection
+      # @param handler {#as_json} a handler to be checked for presence in a collection
       # @return [true, false]
       #
       def registered?(handler)

@@ -7,7 +7,7 @@ module FreshlyEvents
   class << self
     ##
     # Configures the library.
-    # :yields: [FreshlyEvents::Configuration]
+    # :yields: {FreshlyEvents::Configuration}
     #
     # @example
     #
@@ -29,7 +29,7 @@ module FreshlyEvents
     end
 
     ##
-    # @return [FreshlyEvents::Configuration]
+    # @return {FreshlyEvents::Configuration}
     #
     def config
       FreshlyEvents::Configuration

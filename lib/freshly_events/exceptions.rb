@@ -18,7 +18,7 @@ module FreshlyEvents
 
     #
     # This exception is being raised in case no targets are
-    # specified [FreshlyEvents::Configuration].
+    # specified {FreshlyEvents::Configuration}.
     #
     class NoTargetsSpecified < StandardError; end
 

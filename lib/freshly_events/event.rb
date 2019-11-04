@@ -2,7 +2,7 @@
 
 module FreshlyEvents
   #
-  # [FreshlyEvents::Event] represents a triggered event
+  # {FreshlyEvents::Event} represents a triggered event
   #
   class Event
     #
@@ -12,10 +12,10 @@ module FreshlyEvents
     #
     #   FreshlyEvents::Event.emit!(data, options, eval_context)
     #
-    # @param data [Hash] Data to be published to the targets.
-    # @param options [Hash] A hash of additional options to be tracked.
-    # @param eval_context [Hash] A context having handler defined in [FreshlyEvents::ContextHandlers].
-    # @return {FreshlyEvent::Event} An instance of [FreshlyEvents::Event]
+    # @param data {Hash} Data to be published to the targets.
+    # @param options {Hash} A hash of additional options to be tracked.
+    # @param eval_context {Hash} A context having handler defined in {FreshlyEvents::ContextHandlers}.
+    # @return {FreshlyEvent::Event} An instance of {FreshlyEvents::Event}
     #
     def self.emit!(data, options: {}, eval_context: {})
       event = new(data, options: options, eval_context: eval_context)
@@ -30,10 +30,10 @@ module FreshlyEvents
     #
     #   FreshlyEvents::Event.emit!(data, options, eval_context)
     #
-    # @param [Hash] data Data to be published to the targets.
-    # @param [Hash] options A hash of additional options to be tracked.
-    # @param [Hash] eval_context A context having handler defined in [FreshlyEvents::ContextHandlers].
-    # @return [FreshlyEvent::Event] An instance of event
+    # @param {Hash} data Data to be published to the targets.
+    # @param {Hash} options A hash of additional options to be tracked.
+    # @param {Hash} eval_context A context having handler defined in {FreshlyEvents::ContextHandlers}.
+    # @return {FreshlyEvent::Event} An instance of event
     #
     def initialize(data, options: {}, eval_context: {})
       @data = data
