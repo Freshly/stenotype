@@ -22,11 +22,24 @@ module FreshlyEvents
 
         #
         # Class methods to be injected into classes
-        # inherited from ActionController::Base
+        # inherited from [ActionController::Base]
         #
         module ClassMethods
           # Adds a before_action to each action from the passed list. A before action
-          # is emitting a FreshlyEvents::Event.
+          # is emitting a [FreshlyEvents::Event].
+          #
+          # @example:
+          #   class MyController < ActionController::Base
+          #     track_view :index, :show
+          #
+          #     def def index
+          #       # do_something
+          #     end
+          #
+          #     def show
+          #       # do something
+          #     end
+          #   end
           #
           # @param actions [Array<Symbol>] a list of tracked controller actions
           #

@@ -1,6 +1,10 @@
 # frozen_string_literal: true
 
 module FreshlyEvents
+  #
+  # A namespace containing extensions of various frameworks.
+  # For example Rails components could be extended
+  #
   module Frameworks
     #
     # @todo r.kapitonov Not a lucky name tho, consider changing to another name

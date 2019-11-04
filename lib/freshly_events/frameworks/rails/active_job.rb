@@ -4,10 +4,13 @@ require 'active_support/concern'
 
 module FreshlyEvents
   module Frameworks
+    #
+    # A namespace containing extensions for Ruby on Rails components
+    #
     module Rails
       #
       # An extension for ActiveJob to enable adding a hook
-      # before performing an instance of ActiveJob
+      # before performing an instance of [ActiveJob::Base] subclass
       #
       module ActiveJobExtension
         # @!visibility private

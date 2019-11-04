@@ -55,7 +55,7 @@ FreshlyEvents.configure do |config|
 
   config.dispatcher     = FreshlyEvents::Dispatcher.new
   config.gc_project_id  = 'freshly-events'
-  config.gc_credentials = '/Users/matthewhensrud/Freshly/gcp.json'
+  config.gc_credentials = '/Users/rkapitonov/.auth/key.json'
   config.gc_topic       = 'projects/freshly-events/topics/sandbox'
   config.gc_mode        = :async # either of [:sync, :async]
 

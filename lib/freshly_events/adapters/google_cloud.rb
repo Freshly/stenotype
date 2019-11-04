@@ -19,7 +19,7 @@ module FreshlyEvents
       def publish(event_data, **additional_arguments)
         case config.gc_mode
         when :async
-          topic.publish_async(event_data) do |result|
+          topic.publish_async(event_data, additional_arguments) do |result|
             raise FreshlyEvents::Exceptions::MessageNotPublished unless result.succeeded?
           end
         when :sync
@@ -37,6 +37,7 @@ module FreshlyEvents
       # @todo: r.kapitonov consider initializing the client once,
       # based on the adapter used in configuration (stdout, google cloud or other)
       #
+      # :nocov:
       def client
         @client ||= Google::Cloud::PubSub.new(
           project_id: project_id,
@@ -51,6 +52,7 @@ module FreshlyEvents
       def credentials
         config.gc_credentials
       end
+      # :nocov:
 
       # Use memoization, otherwise a new topic will be created
       # every time. And a new async_publisher will be created.

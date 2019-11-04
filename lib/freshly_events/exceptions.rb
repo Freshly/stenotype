@@ -1,6 +1,9 @@
 # frozen_string_literal: true
 
 module FreshlyEvents
+  #
+  # A namespace for holding library-level exceptions.
+  #
   module Exceptions
     #
     # This exception is being raised in case an unsupported mode
@@ -14,8 +17,8 @@ module FreshlyEvents
     class MessageNotPublished < StandardError; end
 
     #
-    # This exception is being in case no targets are
-    # specified FreshlyEvents::Configuration.
+    # This exception is being raised in case no targets are
+    # specified [FreshlyEvents::Configuration].
     #
     class NoTargetsSpecified < StandardError; end
 

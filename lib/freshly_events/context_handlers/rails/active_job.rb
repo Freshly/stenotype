@@ -2,6 +2,12 @@
 
 module FreshlyEvents
   module ContextHandlers
+    #
+    # A namespace containing extension of rails components
+    # for fetching specific data from those components.
+    # For example fetching request from a controller context,
+    # or fetching ActiveJob attributes from an ActiveJob instance
+    #
     module Rails
       #
       # ActiveJob handler to support fetching data out of an ActiveJob instance
