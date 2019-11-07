@@ -2,10 +2,10 @@
 
 require 'spec_helper'
 
-RSpec.describe FreshlyEvents::Frameworks::ObjectExt do
+RSpec.describe Hubbub::Frameworks::ObjectExt do
   subject(:dummy_klass) do
     Class.new do
-      extend FreshlyEvents::Frameworks::ObjectExt
+      extend Hubbub::Frameworks::ObjectExt
 
       emit_event_before :some_method
 
@@ -32,9 +32,9 @@ RSpec.describe FreshlyEvents::Frameworks::ObjectExt do
 
   describe '.emit_event_before' do
     let(:test_buffer) { [] }
-    let(:test_target) { FreshlyEvents::TestAdapter.new(test_buffer) }
+    let(:test_target) { Hubbub::TestAdapter.new(test_buffer) }
 
-    before { FreshlyEvents.config.targets = [test_target] }
+    before { Hubbub.config.targets = [test_target] }
 
     it 'wrap a method call with event trigger' do
       expect do

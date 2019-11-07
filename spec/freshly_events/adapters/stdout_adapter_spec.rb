@@ -2,7 +2,7 @@
 
 require 'spec_helper'
 
-RSpec.describe FreshlyEvents::Adapters::StdoutAdapter do
+RSpec.describe Hubbub::Adapters::StdoutAdapter do
   describe '#publish' do
     let(:client_double) { double(:client) }
 

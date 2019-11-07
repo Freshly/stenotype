@@ -1,6 +1,6 @@
 # frozen_string_literal: true
 
-module FreshlyEvents
+module Hubbub
   module ContextHandlers
     #
     # A namespace containing extension of rails components
@@ -12,7 +12,7 @@ module FreshlyEvents
       #
       # ActiveJob handler to support fetching data out of an ActiveJob instance
       #
-      class ActiveJob < FreshlyEvents::ContextHandlers::Base
+      class ActiveJob < Hubbub::ContextHandlers::Base
         self.handler_name = :active_job
 
         #

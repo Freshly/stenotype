@@ -1,9 +1,9 @@
 # frozen_string_literal: true
 
 require 'spec_helper'
-require 'freshly_events/frameworks/rails/action_controller'
+require 'hubbub/frameworks/rails/action_controller'
 
-RSpec.describe FreshlyEvents::Frameworks::Rails::ActionControllerExtension do
+RSpec.describe Hubbub::Frameworks::Rails::ActionControllerExtension do
   let(:dummy_controller) do
     Class.new(ActionController::Base) do
       def index
@@ -40,10 +40,10 @@ RSpec.describe FreshlyEvents::Frameworks::Rails::ActionControllerExtension do
   describe '#record_freshly_event' do
     let(:dummy_controller_instance) { dummy_controller.new }
     let(:test_buffer) { [] }
-    let(:test_target) { FreshlyEvents::TestAdapter.new(test_buffer) }
+    let(:test_target) { Hubbub::TestAdapter.new(test_buffer) }
 
     before do
-      FreshlyEvents.config.targets = [test_target]
+      Hubbub.config.targets = [test_target]
 
       dummy_controller.class_eval { track_view :index }
       dummy_controller_instance.action_name = 'index'

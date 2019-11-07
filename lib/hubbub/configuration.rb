@@ -1,6 +1,6 @@
 # frozen_string_literal: true
 
-module FreshlyEvents
+module Hubbub
   #
   # A module containing freshly-event gem configuration
   #
@@ -17,7 +17,7 @@ module FreshlyEvents
       #
       # Yields control to the caller
       #
-      # @return {FreshlyEvents::Configuration}
+      # @return {Hubbub::Configuration}
       #
       def configure
         yield self
@@ -25,14 +25,14 @@ module FreshlyEvents
       end
 
       #
-      # @raise {FreshlyEvents::Exceptions::NoTargetsSpecified} in case no targets are configured
+      # @raise {Hubbub::Exceptions::NoTargetsSpecified} in case no targets are configured
       # @return {Array<#publish>} An array of targets implementing method [#publish]
       #
       def targets
         if @targets.nil? || @targets.empty?
-          raise FreshlyEvents::Exceptions::NoTargetsSpecified,
+          raise Hubbub::Exceptions::NoTargetsSpecified,
                 'Please configure a target(s) for events to be sent to. ' \
-                'See FreshlyEvents::Configuration for reference.'
+                'See Hubbub::Configuration for reference.'
         else
           @targets
         end

@@ -1,6 +1,6 @@
 # frozen_string_literal: true
 
-module FreshlyEvents
+module Hubbub
   module ContextHandlers
     #
     # An abstract base class for implementing contexts handlers

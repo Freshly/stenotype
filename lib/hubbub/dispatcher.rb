@@ -1,8 +1,8 @@
 # frozen_string_literal: true
 
-module FreshlyEvents
+module Hubbub
   #
-  # [FreshlyEvents::Dispatcher] is responsible for gluing together
+  # [Hubbub::Dispatcher] is responsible for gluing together
   # publishing targets and data gathering.
   #
   class Dispatcher
@@ -11,14 +11,14 @@ module FreshlyEvents
     #
     # @example
     #
-    #   event = FreshlyEvents::Event.new(data, options, eval_context)
-    #   FreshlyEvents::Dispatcher.new.publish(event)
+    #   event = Hubbub::Event.new(data, options, eval_context)
+    #   Hubbub::Dispatcher.new.publish(event)
     #
-    # @param event {FreshlyEvents::Event} An instance of event to be published.
+    # @param event {Hubbub::Event} An instance of event to be published.
     # @param serializer {#serialize} A class responsible for serializing the event
     # @return {FreshlyEvent::Dispatcher} for the sake of chaining
     #
-    def publish(event, serializer: FreshlyEvents::EventSerializer)
+    def publish(event, serializer: Hubbub::EventSerializer)
       event_data = serializer.new(event).serialize
 
       targets.each do |t|
@@ -31,7 +31,7 @@ module FreshlyEvents
     private
 
     def targets
-      FreshlyEvents.config.targets
+      Hubbub.config.targets
     end
   end
 end

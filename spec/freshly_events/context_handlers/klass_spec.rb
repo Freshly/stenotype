@@ -2,7 +2,7 @@
 
 require 'spec_helper'
 
-RSpec.describe FreshlyEvents::ContextHandlers::Klass do
+RSpec.describe Hubbub::ContextHandlers::Klass do
   describe '.handler_name' do
     subject(:handler_klass) { described_class }
 

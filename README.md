@@ -1,4 +1,4 @@
-# FreshlyEvents
+# Hubbub
 
 This gem is a tool providing extensions to several rails components in order to track events along with the execution context. Currently ActionController and ActionJob are supported to name a few.
 
@@ -7,7 +7,7 @@ This gem is a tool providing extensions to several rails components in order to 
 Add this line to your application's Gemfile:
 
 ```ruby
-gem 'freshly_events'
+gem 'hubbub'
 ```
 
 And then execute:
@@ -16,7 +16,7 @@ And then execute:
 
 Or install it yourself as:
 
-    $ gem install freshly_events
+    $ gem install hubbub
 
 ## Usage
 
@@ -24,13 +24,13 @@ Or install it yourself as:
 
 Configuring the library is as simple as:
 ```ruby
-FreshlyEvents.configure do |config|
+Hubbub.configure do |config|
   config.targets = [ # Supported targets
-    FreshlyEvents::Adapters::StdoutAdapter.new,
-    FreshlyEvents::Adapters::GoogleCloud.new
+    Hubbub::Adapters::StdoutAdapter.new,
+    Hubbub::Adapters::GoogleCloud.new
   ]
 
-  config.dispatcher     = FreshlyEvents::Dispatcher.new
+  config.dispatcher     = Hubbub::Dispatcher.new
   config.gc_project_id  = 'google_cloud_project_id'
   config.gc_credentials = 'path_to_key_json'
   config.gc_topic       = 'google_cloud_topic'
@@ -44,7 +44,7 @@ Contain an array of targets for the events to be published to. Targets must impl
 
 #### config.dispatcher
 
-Dispatcher used to dispatch the event. A dispatcher must implement method `#publish(even, serializer: FreshlyEvents::EventSerializer)`. By default `FreshlyEvents::EventSerializer` is used, which is responsible for collecting the data from the event and evaluation context.
+Dispatcher used to dispatch the event. A dispatcher must implement method `#publish(even, serializer: Hubbub::EventSerializer)`. By default `Hubbub::EventSerializer` is used, which is responsible for collecting the data from the event and evaluation context.
 
 #### config.gc_project_id
 
@@ -70,7 +70,7 @@ Each event is emitted in a context which might be an ActionController instance o
 
 Emitting an event is as simple as:
 ```ruby
-FreshlyEvents::Event.emit!(
+Hubbub::Event.emit!(
     data,
     options: additional_options,
     eval_context: { name_of_registered_context_handler: context_object }
@@ -136,9 +136,9 @@ end
 #### Custom adapters
 By default two adapters are implemented: Google Cloud and simple Stdout adapter.
 
-Adding a new one might be performed by defining a class inheriting from `FreshlyEvents::Adapters::Base`:
+Adding a new one might be performed by defining a class inheriting from `Hubbub::Adapters::Base`:
 ```ruby
-class CustomAdapter < FreshlyEvents::Adapters::Base
+class CustomAdapter < Hubbub::Adapters::Base
   # A client might be optionally passed to
   # the constructor.
   #
@@ -154,14 +154,14 @@ end
 
 After defining a custom adapter it must be added to the list of adapters:
 ```ruby
-FreshlyEvents.config.targets.push(CustomAdapter.new)
+Hubbub.config.targets.push(CustomAdapter.new)
 ```
 
 #### Custom context handlers
 
-A list of context handlers might be extended by defining a class inheriting from `FreshlyEvents::ContextHandlers::Base` and registering a new context handler. Event handler must have a `self.handler_name` in order to use it during context serialization. Also custom handler must implement method `#as_json`:
+A list of context handlers might be extended by defining a class inheriting from `Hubbub::ContextHandlers::Base` and registering a new context handler. Event handler must have a `self.handler_name` in order to use it during context serialization. Also custom handler must implement method `#as_json`:
 ```ruby
-class CustomHandler < FreshlyEvents::ContextHandlers::Base
+class CustomHandler < Hubbub::ContextHandlers::Base
   self.handler_name = :custom_handler_name
 
   def as_json(*_args)
@@ -185,7 +185,7 @@ end
 
 After defining a new context handler you must register it as follows:
 ```ruby
-FreshlyEvents::ContextHandlers.register CustomHandler
+Hubbub::ContextHandlers.register CustomHandler
 ```
 
 ## Development

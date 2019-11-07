@@ -2,7 +2,7 @@
 
 require 'spec_helper'
 
-RSpec.describe FreshlyEvents::Adapters::GoogleCloud do
+RSpec.describe Hubbub::Adapters::GoogleCloud do
   describe '#publish' do
     let(:topic_double) do
       double(:topic,
@@ -18,7 +18,7 @@ RSpec.describe FreshlyEvents::Adapters::GoogleCloud do
     subject(:adapter) { described_class.new(client: fake_client) }
 
     context 'for async mode' do
-      before { FreshlyEvents.config.gc_mode = :async }
+      before { Hubbub.config.gc_mode = :async }
 
       context 'when publishing has succeeded' do
         it 'publishes the message asynchronously' do
@@ -36,13 +36,13 @@ RSpec.describe FreshlyEvents::Adapters::GoogleCloud do
         it 'raises' do
           expect do
             adapter.publish(event_data, additional_arguments)
-          end.to raise_error(FreshlyEvents::Exceptions::MessageNotPublished)
+          end.to raise_error(Hubbub::Exceptions::MessageNotPublished)
         end
       end
     end
 
     context 'for sync mode' do
-      before { FreshlyEvents.config.gc_mode = :sync }
+      before { Hubbub.config.gc_mode = :sync }
 
       it 'publishes the message synchronously' do
         expect(topic_double).to receive(:publish).with(event_data, additional_arguments).once
@@ -52,12 +52,12 @@ RSpec.describe FreshlyEvents::Adapters::GoogleCloud do
     end
 
     context 'for unsupported mode' do
-      before { FreshlyEvents.config.gc_mode = :unsupported }
+      before { Hubbub.config.gc_mode = :unsupported }
 
       it 'raises' do
         expect do
           described_class.new.publish(event_data, additional_arguments)
-        end.to raise_error(FreshlyEvents::Exceptions::GoogleCloudUnsupportedMode,
+        end.to raise_error(Hubbub::Exceptions::GoogleCloudUnsupportedMode,
                            /Please use either :sync or :async modes/)
       end
     end

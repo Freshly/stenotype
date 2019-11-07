@@ -1,12 +1,12 @@
 # frozen_string_literal: true
 
-module FreshlyEvents
+module Hubbub
   module ContextHandlers
     module Rails
       #
       # ActionController handler to support fetching data out of a rails controller instance
       #
-      class Controller < FreshlyEvents::ContextHandlers::Base
+      class Controller < Hubbub::ContextHandlers::Base
         self.handler_name = :controller
 
         #

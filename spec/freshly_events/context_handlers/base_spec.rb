@@ -2,7 +2,7 @@
 
 require 'spec_helper'
 
-RSpec.describe FreshlyEvents::ContextHandlers::Base do
+RSpec.describe Hubbub::ContextHandlers::Base do
   let(:dummy_handler_class) { Class.new(described_class) }
 
   describe '#as_json' do

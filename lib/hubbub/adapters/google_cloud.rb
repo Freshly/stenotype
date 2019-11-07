@@ -2,7 +2,7 @@
 
 require 'google/cloud/pubsub'
 
-module FreshlyEvents
+module Hubbub
   module Adapters
     #
     # An adapter implementing method {#publish} to send data to Google Cloud PubSub
@@ -10,9 +10,9 @@ module FreshlyEvents
     class GoogleCloud < Base
       #
       # @param event_data {Hash} The data to be published to Google Cloud
-      # @raise {FreshlyEvents::Exceptions::GoogleCloudUnsupportedMode} unless the mode
+      # @raise {Hubbub::Exceptions::GoogleCloudUnsupportedMode} unless the mode
       #   in configured to be :sync or :async
-      # @raise {FreshlyEvents::Exceptions::MessageNotPublished} unless message is published
+      # @raise {Hubbub::Exceptions::MessageNotPublished} unless message is published
       #
       # rubocop:disable Metrics/MethodLength
       #
@@ -20,12 +20,12 @@ module FreshlyEvents
         case config.gc_mode
         when :async
           topic.publish_async(event_data, additional_arguments) do |result|
-            raise FreshlyEvents::Exceptions::MessageNotPublished unless result.succeeded?
+            raise Hubbub::Exceptions::MessageNotPublished unless result.succeeded?
           end
         when :sync
           topic.publish(event_data, additional_arguments)
         else
-          raise FreshlyEvents::Exceptions::GoogleCloudUnsupportedMode,
+          raise Hubbub::Exceptions::GoogleCloudUnsupportedMode,
                 'Please use either :sync or :async modes for publishing the events.'
         end
       end
@@ -65,7 +65,7 @@ module FreshlyEvents
       end
 
       def config
-        FreshlyEvents.config
+        Hubbub.config
       end
     end
   end

@@ -1,6 +1,6 @@
 # frozen_string_literal: true
 
-module FreshlyEvents
+module Hubbub
   module Adapters
     #
     # An adapter implementing method {#publish} to send data to STDOUT

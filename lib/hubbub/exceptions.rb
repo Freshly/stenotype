@@ -1,6 +1,6 @@
 # frozen_string_literal: true
 
-module FreshlyEvents
+module Hubbub
   #
   # A namespace for holding library-level exceptions.
   #
@@ -18,7 +18,7 @@ module FreshlyEvents
 
     #
     # This exception is being raised in case no targets are
-    # specified {FreshlyEvents::Configuration}.
+    # specified {Hubbub::Configuration}.
     #
     class NoTargetsSpecified < StandardError; end
 
@@ -26,6 +26,6 @@ module FreshlyEvents
     # This exception is being raised upon using a context handler which
     # has never been registered in known handlers.
     #
-    class UnkownHandler < StandardError; end
+    class UnknownHandler < StandardError; end
   end
 end

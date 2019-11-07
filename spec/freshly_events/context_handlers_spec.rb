@@ -2,7 +2,7 @@
 
 require 'spec_helper'
 
-RSpec.describe FreshlyEvents::ContextHandlers do
+RSpec.describe Hubbub::ContextHandlers do
   subject(:context_handlers) { described_class }
 
   describe '.known' do
@@ -14,11 +14,11 @@ RSpec.describe FreshlyEvents::ContextHandlers do
         expect(context_handlers.known).to be_a(Array)
       end
 
-      after { FreshlyEvents::ContextHandlers.reset_defaults! }
+      after { Hubbub::ContextHandlers.reset_defaults! }
     end
 
     context 'when there are registered handlers' do
-      let(:test_handler) { FreshlyEvents::TestHandler }
+      let(:test_handler) { Hubbub::TestHandler }
 
       before do
         context_handlers.known = nil
@@ -29,12 +29,12 @@ RSpec.describe FreshlyEvents::ContextHandlers do
         expect(context_handlers.known).to match_array([test_handler])
       end
 
-      after { FreshlyEvents::ContextHandlers.reset_defaults! }
+      after { Hubbub::ContextHandlers.reset_defaults! }
     end
   end
 
   describe '.register' do
-    let(:test_handler) { FreshlyEvents::TestHandler }
+    let(:test_handler) { Hubbub::TestHandler }
 
     before { context_handlers.known = nil }
 
@@ -44,6 +44,6 @@ RSpec.describe FreshlyEvents::ContextHandlers do
       expect(context_handlers.known).to match_array([test_handler])
     end
 
-    after { FreshlyEvents::ContextHandlers.reset_defaults! }
+    after { Hubbub::ContextHandlers.reset_defaults! }
   end
 end

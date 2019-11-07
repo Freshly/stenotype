@@ -1,15 +1,15 @@
 # frozen_string_literal: true
 
-module FreshlyEvents
+module Hubbub
   #
-  # A class used to serialize a {FreshlyEvents::Event}
+  # A class used to serialize a {Hubbub::Event}
   # upon publishing it to targets
   #
   class EventSerializer
     attr_reader :event
 
     #
-    # @param event {FreshlyEvents::Event}
+    # @param event {Hubbub::Event}
     #
     def initialize(event)
       @event = event
@@ -43,7 +43,7 @@ module FreshlyEvents
 
     def eval_context_options
       eval_context.map do |context_name, context|
-        handler = FreshlyEvents::ContextHandlers.known.choose(handler_name: context_name)
+        handler = Hubbub::ContextHandlers.known.choose(handler_name: context_name)
         handler.new(context).as_json
       end.reduce(:merge!) || {}
     end

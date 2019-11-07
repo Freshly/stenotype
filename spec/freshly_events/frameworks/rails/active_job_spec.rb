@@ -1,9 +1,9 @@
 # frozen_string_literal: true
 
 require 'spec_helper'
-require 'freshly_events/frameworks/rails/active_job'
+require 'hubbub/frameworks/rails/active_job'
 
-RSpec.describe FreshlyEvents::Frameworks::Rails::ActiveJobExtension do
+RSpec.describe Hubbub::Frameworks::Rails::ActiveJobExtension do
   let(:dummy_job_klass) do
     Class.new(ActiveJob::Base) do
       trackable_job!
@@ -27,9 +27,9 @@ RSpec.describe FreshlyEvents::Frameworks::Rails::ActiveJobExtension do
   subject(:dummy_job_instance) { dummy_job_klass.new }
 
   let(:test_buffer) { [] }
-  let(:test_target) { FreshlyEvents::TestAdapter.new(test_buffer) }
+  let(:test_target) { Hubbub::TestAdapter.new(test_buffer) }
 
-  before { FreshlyEvents.config.targets = [test_target] }
+  before { Hubbub.config.targets = [test_target] }
 
   describe '.trackable_job!' do
     it 'prepends an emit event action before performing the job' do

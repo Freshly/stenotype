@@ -1,6 +1,6 @@
 # frozen_string_literal: true
 
-module FreshlyEvents
+module Hubbub
   #
   # A namespace containing implementations of various adapters
   # for publishing events to various destinations.

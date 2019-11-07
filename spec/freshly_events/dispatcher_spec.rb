@@ -2,7 +2,7 @@
 
 require 'spec_helper'
 
-RSpec.describe FreshlyEvents::Dispatcher do
+RSpec.describe Hubbub::Dispatcher do
   describe '#publish' do
     let(:dummy_serializer) do
       Class.new do
@@ -18,13 +18,13 @@ RSpec.describe FreshlyEvents::Dispatcher do
       end
     end
 
-    let(:test_target) { FreshlyEvents::TestAdapter.new }
-    let(:event) { FreshlyEvents::Event.new('dummy data') }
+    let(:test_target) { Hubbub::TestAdapter.new }
+    let(:event) { Hubbub::Event.new('dummy data') }
 
     subject(:dispatcher) { described_class.new }
 
     before do
-      config = FreshlyEvents.config
+      config = Hubbub.config
       config.targets = [test_target]
     end
 

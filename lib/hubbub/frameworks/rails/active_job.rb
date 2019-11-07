@@ -2,7 +2,7 @@
 
 require 'active_support/concern'
 
-module FreshlyEvents
+module Hubbub
   module Frameworks
     #
     # A namespace containing extensions for Ruby on Rails components
@@ -37,7 +37,7 @@ module FreshlyEvents
           proxy = const_get(:JobExt)
           proxy.module_eval do
             define_method(:perform) do |*args, **rest_args, &block|
-              FreshlyEvents::Event.emit!(
+              Hubbub::Event.emit!(
                 { type: 'active_job' },
                 options: {},
                 eval_context: { active_job: self }

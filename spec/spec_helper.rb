@@ -13,12 +13,12 @@ SimpleCov.profiles.define 'gem' do
   track_files '{lib}/**/*.rb'
 
   add_filter '/spec'
-  add_filter 'lib/freshly_events/version.rb'
+  add_filter 'lib/hubbub/version.rb'
 end
 
 SimpleCov.start 'gem'
 
-require 'freshly_events'
+require 'hubbub'
 Dir[File.join(File.expand_path(__dir__), 'support/**/*.rb')].each { |f| require f }
 
 RSpec.configure do |config|
@@ -40,18 +40,18 @@ RSpec.configure do |config|
 
   config.before(:suite) do |_example|
     # Configure a dummy target
-    FreshlyEvents.configure do |c|
-      c.targets = [FreshlyEvents::TestAdapter.new([])]
+    Hubbub.configure do |c|
+      c.targets = [Hubbub::TestAdapter.new([])]
     end
   end
 
-  module FreshlyEvents
+  module Hubbub
     module ContextHandlers
       def self.reset_defaults!
-        self.known = FreshlyEvents::ContextHandlers::Collection.new
-        register FreshlyEvents::ContextHandlers::Klass
-        register FreshlyEvents::ContextHandlers::Rails::ActiveJob
-        register FreshlyEvents::ContextHandlers::Rails::Controller
+        self.known = Hubbub::ContextHandlers::Collection.new
+        register Hubbub::ContextHandlers::Klass
+        register Hubbub::ContextHandlers::Rails::ActiveJob
+        register Hubbub::ContextHandlers::Rails::Controller
       end
     end
   end

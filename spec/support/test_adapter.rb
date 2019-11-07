@@ -1,9 +1,9 @@
 # frozen_string_literal: true
 
-require 'freshly_events/adapters/base'
+require 'hubbub/adapters/base'
 
-module FreshlyEvents
-  class TestAdapter < FreshlyEvents::Adapters::Base
+module Hubbub
+  class TestAdapter < Hubbub::Adapters::Base
     attr_writer :buffer
 
     def initialize(buffer = [])

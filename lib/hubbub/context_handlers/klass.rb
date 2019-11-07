@@ -1,11 +1,11 @@
 # frozen_string_literal: true
 
-module FreshlyEvents
+module Hubbub
   module ContextHandlers
     #
     # Plain Ruby class handler to support fetching data from a class
     #
-    class Klass < FreshlyEvents::ContextHandlers::Base
+    class Klass < Hubbub::ContextHandlers::Base
       self.handler_name = :klass
 
       #

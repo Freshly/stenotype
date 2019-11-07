@@ -1,6 +1,6 @@
 # frozen_string_literal: true
 
-module FreshlyEvents
+module Hubbub
   #
   # A namespace containing extensions of various frameworks.
   # For example Rails components could be extended
@@ -43,7 +43,7 @@ module FreshlyEvents
         methods.each do |method|
           proxy.module_eval do
             define_method(method) do |*args, **rest_args, &block|
-              FreshlyEvents::Event.emit!(
+              Hubbub::Event.emit!(
                 { type: 'class' },
                 options: {
                   class: self.class.name,

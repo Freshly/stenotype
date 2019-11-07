@@ -2,7 +2,7 @@
 
 require 'spec_helper'
 
-RSpec.describe FreshlyEvents::ContextHandlers::Rails::Controller do
+RSpec.describe Hubbub::ContextHandlers::Rails::Controller do
   let(:dummy_controller) do
     Class.new(ActionController::Base) do
       class << self

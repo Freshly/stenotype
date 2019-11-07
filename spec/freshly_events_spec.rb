@@ -1,8 +1,8 @@
 # frozen_string_literal: true
 
-RSpec.describe FreshlyEvents do
+RSpec.describe Hubbub do
   it 'has a version number' do
-    expect(FreshlyEvents::VERSION).not_to be nil
+    expect(Hubbub::VERSION).not_to be nil
   end
 
   # TODO: r.kapitonov Define a strategy for top level specs:

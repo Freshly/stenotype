@@ -1,12 +1,12 @@
 # frozen_string_literal: true
 
-require 'freshly_events/context_handlers/base'
-require 'freshly_events/context_handlers/rails/controller'
-require 'freshly_events/context_handlers/rails/active_job'
-require 'freshly_events/context_handlers/klass'
-require 'freshly_events/context_handlers/collection'
+require 'hubbub/context_handlers/base'
+require 'hubbub/context_handlers/rails/controller'
+require 'hubbub/context_handlers/rails/active_job'
+require 'hubbub/context_handlers/klass'
+require 'hubbub/context_handlers/collection'
 
-module FreshlyEvents
+module Hubbub
   #
   # A namespace to contain various context
   # handlers implementations
@@ -18,7 +18,7 @@ module FreshlyEvents
       # @return {Array<#publish>} A list of handlers implementing [#publish]
       #
       def known
-        @known ||= FreshlyEvents::ContextHandlers::Collection.new
+        @known ||= Hubbub::ContextHandlers::Collection.new
       end
 
       #

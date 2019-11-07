@@ -2,7 +2,7 @@
 
 require 'active_support/concern'
 
-module FreshlyEvents
+module Hubbub
   module Frameworks
     module Rails
       #
@@ -17,7 +17,7 @@ module FreshlyEvents
         # @param data {Hash} Data to be sent to targets
         #
         def record_freshly_event(data)
-          FreshlyEvents::Event.emit!(data, options: {}, eval_context: { controller: self })
+          Hubbub::Event.emit!(data, options: {}, eval_context: { controller: self })
         end
 
         #
@@ -26,7 +26,7 @@ module FreshlyEvents
         #
         module ClassMethods
           # Adds a before_action to each action from the passed list. A before action
-          # is emitting a {FreshlyEvents::Event}.
+          # is emitting a {Hubbub::Event}.
           #
           # @example:
           #   class MyController < ActionController::Base

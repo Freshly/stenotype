@@ -2,7 +2,7 @@
 
 require 'spec_helper'
 
-RSpec.describe FreshlyEvents::Adapters::Base do
+RSpec.describe Hubbub::Adapters::Base do
   describe '#publish' do
     let(:dummy_klass) { Class.new(described_class) }
     subject(:dummy_klass_instance) { dummy_klass.new }

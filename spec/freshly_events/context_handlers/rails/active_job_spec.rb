@@ -2,7 +2,7 @@
 
 require 'spec_helper'
 
-RSpec.describe FreshlyEvents::ContextHandlers::Rails::ActiveJob do
+RSpec.describe Hubbub::ContextHandlers::Rails::ActiveJob do
   let(:dummy_job_klass) do
     Class.new(ActiveJob::Base) do
       class << self

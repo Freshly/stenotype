@@ -1,14 +1,14 @@
 # frozen_string_literal: true
 
-lib = File.expand_path('lib', __dir__)
+lib = File.expand_path("lib", __dir__)
 $LOAD_PATH.unshift(lib) unless $LOAD_PATH.include?(lib)
-require 'freshly_events/version'
+require "hubbub/version"
 
 Gem::Specification.new do |spec|
-  spec.name          = 'freshly_events'
-  spec.version       = FreshlyEvents::VERSION
-  spec.authors       = ['Roman Kapitonov']
-  spec.email         = ['RomanKapitonov@coherentsolutions.com']
+  spec.name          = 'hubbub'
+  spec.version       = Hubbub::VERSION
+  spec.authors       = ["Roman Kapitonov"]
+  spec.email         = ["RomanKapitonov@coherentsolutions.com"]
 
   spec.summary       = 'Fresh pub sub experiment'
   spec.description   = 'Pretty much it'
@@ -31,7 +31,7 @@ Gem::Specification.new do |spec|
   spec.require_paths = ['lib']
 
   spec.add_dependency 'activesupport', '>= 5.0.0'
-  spec.add_dependency 'google-cloud-pubsub', '~> 1.1'
+  spec.add_dependency 'google-cloud-pubsub', '~> 1.0.0'
 
   spec.add_development_dependency 'bundler', '~> 2.0'
   spec.add_development_dependency 'github-markup', '~> 3.0'

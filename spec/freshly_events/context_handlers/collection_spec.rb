@@ -2,11 +2,11 @@
 
 require 'spec_helper'
 
-RSpec.describe FreshlyEvents::ContextHandlers::Collection do
+RSpec.describe Hubbub::ContextHandlers::Collection do
   subject(:collection) { described_class.new }
 
   let(:dummy_handler) do
-    Class.new(FreshlyEvents::ContextHandlers::Base) do
+    Class.new(Hubbub::ContextHandlers::Base) do
       self.handler_name = :dummy_handler
 
       class << self
@@ -30,7 +30,7 @@ RSpec.describe FreshlyEvents::ContextHandlers::Collection do
       it 'raises' do
         expect do
           collection.choose(handler_name: :unknown)
-        end.to raise_error(FreshlyEvents::Exceptions::UnkownHandler)
+        end.to raise_error(Hubbub::Exceptions::UnknownHandler)
       end
     end
   end

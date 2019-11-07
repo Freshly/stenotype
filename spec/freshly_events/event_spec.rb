@@ -2,7 +2,7 @@
 
 require 'spec_helper'
 
-RSpec.describe FreshlyEvents::Event do
+RSpec.describe Hubbub::Event do
   xdescribe '.emit!' do
     it "delegates emit! to instance of #{described_class}" do
     end

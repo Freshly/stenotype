@@ -2,5 +2,9 @@
 
 source 'https://rubygems.org'
 
-# Specify your gem's dependencies in freshly_events.gemspec
+group :development, :test do
+  gem "rspice"
+end
+
+# Specify your gem's dependencies in hubbub.gemspec
 gemspec

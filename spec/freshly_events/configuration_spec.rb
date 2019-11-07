@@ -2,13 +2,13 @@
 
 require 'spec_helper'
 
-RSpec.describe FreshlyEvents::Configuration do
+RSpec.describe Hubbub::Configuration do
   subject(:configuration) { described_class }
 
   describe '.targets' do
     context 'when a target(s) have been specified' do
-      let(:test_target) { FreshlyEvents::TestAdapter.new }
-      before { FreshlyEvents.config.targets = [test_target] }
+      let(:test_target) { Hubbub::TestAdapter.new }
+      before { Hubbub.config.targets = [test_target] }
 
       it 'returns it' do
         expect(configuration.targets).to match_array([test_target])
@@ -16,13 +16,13 @@ RSpec.describe FreshlyEvents::Configuration do
     end
 
     context 'when no targets have been specified' do
-      before { FreshlyEvents.config.targets = [] }
+      before { Hubbub.config.targets = [] }
 
       it 'raises' do
         expect do
           configuration.targets
         end.to raise_error(
-          FreshlyEvents::Exceptions::NoTargetsSpecified,
+          Hubbub::Exceptions::NoTargetsSpecified,
           /Please configure a target\(s\)/
         )
       end

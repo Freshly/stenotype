@@ -2,7 +2,7 @@
 
 require 'spec_helper'
 
-RSpec.describe FreshlyEvents::EventSerializer do
+RSpec.describe Hubbub::EventSerializer do
   subject(:serializer) { described_class.new(event) }
 
   let(:data) { { data_key: 'data value' } }
@@ -10,7 +10,7 @@ RSpec.describe FreshlyEvents::EventSerializer do
   let(:eval_context) { { klass: dummy_context.new } }
 
   let(:event) do
-    FreshlyEvents::Event.new(
+    Hubbub::Event.new(
       data,
       options: options,
       eval_context: eval_context

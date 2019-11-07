@@ -1,4 +1,6 @@
-Metrics/LineLength:
-  Max: 120
-Metrics/BlockLength:
-  ExcludedMethods: ['describe', 'context']
+inherit_gem:
+  spicerack-styleguide:
+    - rubocop.yml
+
+AllCops:
+  TargetRubyVersion: 2.6
