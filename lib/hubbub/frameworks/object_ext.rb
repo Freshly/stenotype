@@ -58,15 +58,6 @@ module Hubbub
           send(:prepend, proxy)
         end
       end
-
-      def emit_event(key, *data)
-        Hubbub::Event.emit!(
-            { type: 'event',
-              name: key
-            }.merge(data),
-            eval_context: { klass: self }
-        )
-      end
       # rubocop:enable Metrics/MethodLength
     end
   end
