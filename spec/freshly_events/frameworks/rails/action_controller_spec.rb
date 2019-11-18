@@ -7,8 +7,17 @@ RSpec.describe Hubbub::Frameworks::Rails::ActionControllerExtension do
   let(:dummy_controller) do
     Class.new(ActionController::Base) do
       def index
-        # do something
         head :ok
+      end
+
+      def create
+        head :ok
+      end
+
+      private
+
+      def helper
+        'do something'
       end
 
       class << self
@@ -19,18 +28,39 @@ RSpec.describe Hubbub::Frameworks::Rails::ActionControllerExtension do
     end
   end
 
-  let(:dummy_request) { ActionDispatch::TestRequest.create }
-  let(:dummy_response) { ActionDispatch::TestResponse.new }
-
-  before do
-    allow_any_instance_of(dummy_controller).to receive(:request).and_return(dummy_request)
-    allow(dummy_request).to receive(:controller_class).and_return(dummy_controller)
-  end
-
   describe '.track_view' do
     it 'defines a before_action' do
       expect do
-        dummy_controller.track_view(actions: :index)
+        dummy_controller.track_view(:index)
+      end.to change {
+        dummy_controller._process_action_callbacks.count
+      }.from(0).to(1)
+    end
+
+    it 'adds a callback once' do
+      expect do
+        dummy_controller.track_view(:index)
+        dummy_controller.track_view(:index)
+      end.to change {
+        dummy_controller._process_action_callbacks.count
+      }.from(0).to(1)
+    end
+  end
+
+  describe '.track_all_views' do
+    it 'defines a before_action for all controller actions' do
+      expect do
+        dummy_controller.track_all_views
+      end.to change {
+        dummy_controller._process_action_callbacks.count
+      }.from(0).to(1)
+      # Note that there are actually two callbacks yet AC lists only one
+    end
+
+    it 'adds callbacks once' do
+      expect do
+        dummy_controller.track_all_views
+        dummy_controller.track_all_views
       end.to change {
         dummy_controller._process_action_callbacks.count
       }.from(0).to(1)
@@ -38,6 +68,14 @@ RSpec.describe Hubbub::Frameworks::Rails::ActionControllerExtension do
   end
 
   describe '#record_freshly_event' do
+    let(:dummy_request) { ActionDispatch::TestRequest.create }
+    let(:dummy_response) { ActionDispatch::TestResponse.new }
+
+    before do
+      allow_any_instance_of(dummy_controller).to receive(:request).and_return(dummy_request)
+      allow(dummy_request).to receive(:controller_class).and_return(dummy_controller)
+    end
+
     let(:dummy_controller_instance) { dummy_controller.new }
     let(:test_buffer) { [] }
     let(:test_target) { Hubbub::TestAdapter.new(test_buffer) }
