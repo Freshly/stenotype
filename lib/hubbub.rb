@@ -48,20 +48,24 @@ require "hubbub/version"
 require "hubbub/frameworks/object_ext"
 
 Hubbub.configure do |config|
+  config.uuid_generator = SecureRandom
+  config.dispatcher     = Hubbub::Dispatcher.new
+
+  config.gc_project_id  = ENV['GC_PROJECT_ID']
+  config.gc_credentials = ENV['GC_CREDENTIALS']
+  config.gc_topic       = ENV['GC_TOPIC']
+  config.gc_mode        = :async
+
   config.targets = [
     Hubbub::Adapters::StdoutAdapter.new,
     Hubbub::Adapters::GoogleCloud.new
   ]
 
-  config.dispatcher     = Hubbub::Dispatcher.new
-  config.gc_project_id  = 'freshly-events'
-  config.gc_credentials = '/Users/rkapitonov/.auth/key.json'
-  config.gc_topic       = 'projects/freshly-events/topics/sandbox'
-  config.gc_mode        = :async # either of [:sync, :async]
-
   Hubbub::ContextHandlers.module_eval do
     register Hubbub::ContextHandlers::Klass
   end
+
+  Object.send(:include, Hubbub::Frameworks::ObjectExt)
 end
 
 if defined?(Rails)

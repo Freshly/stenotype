@@ -27,7 +27,8 @@ module Hubbub
       def register(handler)
         unless handler < Hubbub::ContextHandlers::Base
           raise NotImplementedError,
-                "Handler must inherit from #{Hubbub::ContextHandlers::Base}"
+                "Handler must inherit from #{Hubbub::ContextHandlers::Base}, " \
+                "but inherited from #{handler.superclass}"
         end
 
         push(handler) unless registered?(handler)
@@ -40,7 +41,8 @@ module Hubbub
       def unregister(handler)
         unless handler < Hubbub::ContextHandlers::Base
           raise NotImplementedError,
-                "Handler must inherit from #{Hubbub::ContextHandlers::Base}"
+                "Handler must inherit from #{Hubbub::ContextHandlers::Base}, " \
+                "but inherited from #{handler.superclass}"
         end
 
         delete(handler) if registered?(handler)

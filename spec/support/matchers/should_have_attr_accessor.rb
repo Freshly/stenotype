@@ -2,9 +2,6 @@
 
 RSpec::Matchers.define :have_attr_accessor do |field|
   match do |object_instance|
-    #
-    # @todo r.kapitonov How to reuse have_attr_reader/have_attr_writer?
-    #
     object_instance.respond_to?(field) &&
       object_instance.respond_to?("#{field}=")
   end

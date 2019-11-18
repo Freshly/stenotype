@@ -16,6 +16,8 @@ module Hubbub
       # @param context {Object} A context where the event was emitted
       # @param options {Hash} A hash of additional options
       #
+      # @return {#as_json} A context handler implementing [#as_json]
+      #
       def initialize(context, options = {})
         @context = context
         @options = options

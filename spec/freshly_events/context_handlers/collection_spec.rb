@@ -52,7 +52,7 @@ RSpec.describe Hubbub::ContextHandlers::Collection do
       it 'raises' do
         expect do
           collection.register(dummy_handler)
-        end.to raise_error(NotImplementedError, /Hander must inherit from/)
+        end.to raise_error(NotImplementedError, /Handler must inherit from/)
       end
     end
   end
@@ -76,7 +76,7 @@ RSpec.describe Hubbub::ContextHandlers::Collection do
       it 'raises' do
         expect do
           collection.unregister(dummy_handler)
-        end.to raise_error(NotImplementedError, /Hander must inherit from/)
+        end.to raise_error(NotImplementedError, /Handler must inherit from/)
       end
     end
   end

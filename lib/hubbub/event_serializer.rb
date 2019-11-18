@@ -1,4 +1,5 @@
 # frozen_string_literal: true
+require 'securerandom'
 
 module Hubbub
   #
@@ -6,13 +7,14 @@ module Hubbub
   # upon publishing it to targets
   #
   class EventSerializer
-    attr_reader :event
+    attr_reader :event, :uuid_generator
 
     #
     # @param event {Hubbub::Event}
     #
-    def initialize(event)
+    def initialize(event, uuid_generator: Hubbub.config.uuid_generator)
       @event = event
+      @uuid_generator = uuid_generator
     end
 
     #
@@ -49,7 +51,10 @@ module Hubbub
     end
 
     def default_options
-      { timestamp: Time.now.utc }
+      {
+        timestamp: Time.now.utc,
+        uuid: uuid_generator.uuid
+      }
     end
   end
 end

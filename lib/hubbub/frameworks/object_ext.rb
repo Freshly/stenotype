@@ -7,56 +7,96 @@ module Hubbub
   #
   module Frameworks
     #
-    # @todo r.kapitonov Not a lucky name tho, consider changing to another name
-    # @todo r.kapitonov Consider a way to track class methods invocation
-    #
     # An extension for a plain Ruby class in order to track invocation of
     # instance methods.
     #
     module ObjectExt
+      #
+      # Class methods for {Object} to be extended by
+      #
+      ClassMethodsExtension = Class.new(Module)
+      #
+      # Instance methods to be included into {Object} ancestors chain
+      #
+      InstanceMethodsExtension = Class.new(Module)
+
+      attr_reader :instance_mod,
+                  :class_mod
+
       # @!visibility private
-      def self.extended(base)
-        base.const_set(:ObjectProxy, Module.new)
+      def self.included(klass)
+        @instance_mod = InstanceMethodsExtension.new
+        @class_mod = ClassMethodsExtension.new
+
+        build_instance_methods
+        build_class_methods
+
+        klass.const_set(:InstanceProxy, Module.new)
+        klass.const_set(:ClassProxy, Module.new)
+
+        klass.send(:include, instance_mod)
+        klass.extend(class_mod)
+
         super
       end
 
       #
-      # @example:
-      #   class PlainRubyClass
-      #     # => will prepend a specified methods with event recorder
-      #     emit_event_before :some_method, :another_method
-      #
-      #     def some_method(data)
-      #       # do_something
-      #     end
-      #
-      #     def another_method(args)
-      #       # do_something
-      #     end
-      #   end
-      #
       # rubocop:disable Metrics/MethodLength
+      # @!visibility private
       #
-      def emit_event_before(*methods)
-        proxy = const_get(:ObjectProxy)
+      def build_instance_methods
+        instance_mod.class_eval <<-RUBY, __FILE__, __LINE__ + 1
+          def emit_event_before(*methods)
+            proxy = const_get(:InstanceProxy)
 
-        methods.each do |method|
-          proxy.module_eval do
-            define_method(method) do |*args, **rest_args, &block|
-              Hubbub::Event.emit!(
-                { type: 'class' },
-                options: {
-                  class: self.class.name,
-                  method: __method__
-                },
-                eval_context: { klass: self }
-              )
-              super(*args, **rest_args, &block)
+            methods.each do |method|
+              proxy.module_eval do
+                define_method(method) do |*args, **rest_args, &block|
+                  Hubbub::Event.emit!(
+                    { type: 'class_instance' },
+                    options: {
+                      class: self.class.name,
+                      method: __method__
+                    },
+                    eval_context: { klass: self }
+                  )
+                  super(*args, **rest_args, &block)
+                end
+              end
+
+              send(:prepend, proxy)
             end
           end
+        RUBY
+      end
 
-          send(:prepend, proxy)
-        end
+      #
+      # @!visibility private
+      #
+      def build_class_methods
+        class_mod.class_eval <<-RUBY, __FILE__, __LINE__ + 1
+          def emit_klass_event_before(*class_methods)
+            proxy = const_get(:ClassProxy)
+
+            class_methods.each do |method|
+              proxy.module_eval do
+                define_method(method) do |*args, **rest_args, &block|
+                  Hubbub::Event.emit!(
+                    { type: 'class' },
+                    options: {
+                      class: self.name,
+                      method: __method__
+                    },
+                    eval_context: { klass: self }
+                  )
+                  super(*args, **rest_args, &block)
+                end
+              end
+
+              singleton_class.send(:prepend, proxy)
+            end
+          end
+        RUBY
       end
       # rubocop:enable Metrics/MethodLength
     end

@@ -7,6 +7,7 @@ module Hubbub
   # e. g. (Google Cloud, Kafka, Stdout, other)
   #
   module Adapters
+    #
     # An abstract base class for implementing adapters
     #
     # @abstract
@@ -14,6 +15,9 @@ module Hubbub
     class Base
       attr_reader :client
 
+      #
+      # @return {#publish} An adapter implementing method [#publish]
+      #
       def initialize(client: nil)
         @client = client
       end

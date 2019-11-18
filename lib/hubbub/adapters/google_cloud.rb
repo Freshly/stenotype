@@ -33,33 +33,17 @@ module Hubbub
 
       private
 
-      #
-      # @todo: r.kapitonov consider initializing the client once,
-      # based on the adapter used in configuration (stdout, google cloud or other)
-      #
       # :nocov:
       def client
         @client ||= Google::Cloud::PubSub.new(
-          project_id: project_id,
-          credentials: credentials
+          project_id: config.gc_project_id,
+          credentials: config.gc_credentials
         )
       end
 
-      def project_id
-        config.gc_project_id
-      end
-
-      def credentials
-        config.gc_credentials
-      end
-      # :nocov:
-
       # Use memoization, otherwise a new topic will be created
       # every time. And a new async_publisher will be created.
-      #
-      # @todo: r.kapitonov consider initializing a topic during gem load
-      # similar to how dispatcher is instantiated.
-      #
+      # :nocov:
       def topic
         @topic ||= client.topic config.gc_topic
       end

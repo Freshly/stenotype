@@ -16,12 +16,13 @@ module Hubbub
         self.handler_name = :active_job
 
         #
-        # @todo: r.kapitonov do we need other data? params? enqueued_at?
+        # @todo: r.kapitonov how to deal with _args? It won't necessarily respond to #as_json
         # @return {Hash} a JSON representation of job's data
         #
         def as_json(*_args)
           {
             job_id: job_id,
+            enqueued_at: Time.now,
             queue_name: queue_name,
             class: context.class.name
           }

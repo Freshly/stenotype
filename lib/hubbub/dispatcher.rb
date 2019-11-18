@@ -2,7 +2,7 @@
 
 module Hubbub
   #
-  # [Hubbub::Dispatcher] is responsible for gluing together
+  # {Hubbub::Dispatcher} is responsible for gluing together
   # publishing targets and data gathering.
   #
   class Dispatcher
@@ -16,7 +16,7 @@ module Hubbub
     #
     # @param event {Hubbub::Event} An instance of event to be published.
     # @param serializer {#serialize} A class responsible for serializing the event
-    # @return {FreshlyEvent::Dispatcher} for the sake of chaining
+    # @return {Hubbub::Dispatcher} for the sake of chaining
     #
     def publish(event, serializer: Hubbub::EventSerializer)
       event_data = serializer.new(event).serialize

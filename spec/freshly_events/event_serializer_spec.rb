@@ -3,7 +3,7 @@
 require 'spec_helper'
 
 RSpec.describe Hubbub::EventSerializer do
-  subject(:serializer) { described_class.new(event) }
+  subject(:serializer) { described_class.new(event, uuid_generator: Hubbub::TestUuidGen) }
 
   let(:data) { { data_key: 'data value' } }
   let(:options) { { options_key: 'options value' } }
@@ -24,7 +24,8 @@ RSpec.describe Hubbub::EventSerializer do
       expect(serializer.serialize).to eq(
         data_key: 'data value',
         options_key: 'options value',
-        timestamp: Time.now.utc
+        timestamp: Time.now.utc,
+        uuid: 'abcd'
       )
     end
   end

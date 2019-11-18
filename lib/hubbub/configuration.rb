@@ -13,6 +13,7 @@ module Hubbub
       attr_accessor :gc_mode
 
       attr_accessor :dispatcher
+      attr_accessor :uuid_generator
 
       #
       # Yields control to the caller

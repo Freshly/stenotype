@@ -42,6 +42,7 @@ RSpec.configure do |config|
     # Configure a dummy target
     Hubbub.configure do |c|
       c.targets = [Hubbub::TestAdapter.new([])]
+      c.uuid_generator = Hubbub::TestUuidGen
     end
   end
 

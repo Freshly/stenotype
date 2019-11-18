@@ -26,6 +26,7 @@ RSpec.describe Hubbub::ContextHandlers::Rails::ActiveJob do
       expect(context_handler.as_json).to eq(
         class: :DummyJob,
         job_id: 'job id',
+        enqueued_at: Time.now,
         queue_name: 'default'
       )
     end

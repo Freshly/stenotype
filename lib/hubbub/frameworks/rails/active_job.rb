@@ -29,8 +29,6 @@ module Hubbub
         #     end
         #   end
         #
-        # @todo: r.kapitonov perhaps consider using an alias method instead?
-        #
         # rubocop:disable Metrics/MethodLength
         #
         def trackable_job!

@@ -63,7 +63,8 @@ RSpec.describe Hubbub::Frameworks::Rails::ActionControllerExtension do
                       referer: nil,
                       timestamp: Time.now.utc,
                       type: 'view',
-                      url: 'http://test.host/'
+                      url: 'http://test.host/',
+                      uuid: 'abcd'
                     }])
     end
   end

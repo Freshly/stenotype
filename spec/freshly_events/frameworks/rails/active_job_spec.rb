@@ -40,8 +40,10 @@ RSpec.describe Hubbub::Frameworks::Rails::ActiveJobExtension do
       }.from([]).to([{
                       type: 'active_job',
                       timestamp: Time.now.utc,
+                      enqueued_at: Time.now.utc,
                       job_id: 'uuid',
                       queue_name: 'default',
+                      uuid: 'abcd',
                       class: 'DummyJob'
                     }])
     end
