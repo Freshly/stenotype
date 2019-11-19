@@ -12,6 +12,16 @@ RSpec.describe Hubbub::Frameworks::ObjectExt do
         :result_of_some_method
       end
 
+      def emit_manually
+        emit_event
+      end
+
+      def to_be_aliased
+        emit_event
+      end
+
+      alias :aliased :to_be_aliased
+
       class << self
         def name
           'DummyKlass'
@@ -33,6 +43,55 @@ RSpec.describe Hubbub::Frameworks::ObjectExt do
   context 'instance methods' do
     it 'include emit_event_before' do
       expect(dummy_klass.new).to respond_to(:emit_event_before)
+    end
+  end
+
+  describe '#emit_event' do
+    let(:test_buffer) { [] }
+    let(:test_target) { Hubbub::TestAdapter.new(test_buffer) }
+
+    before do
+      Hubbub.config.targets = [test_target]
+    end
+
+    context 'for regular methods' do
+      let(:expected_event_data) do
+        {
+          class: "DummyKlass",
+          method: :emit_manually,
+          timestamp: Time.now.utc,
+          type: "class_instance",
+          uuid: "abcd"
+        }
+      end
+
+      it 'manually emits an event' do
+        expect do
+          dummy_klass.new.emit_manually
+        end.to change {
+          test_buffer
+        }.from([]).to([expected_event_data])
+      end
+    end
+
+    context 'for aliased methods' do
+      let(:expected_event_data) do
+        {
+          class: "DummyKlass",
+          method: :to_be_aliased,
+          timestamp: Time.now.utc,
+          type: "class_instance",
+          uuid: "abcd"
+        }
+      end
+
+      it 'manually emits an event' do
+        expect do
+          dummy_klass.new.aliased
+        end.to change {
+          test_buffer
+        }.from([]).to([expected_event_data])
+      end
     end
   end
 

@@ -12,11 +12,11 @@ module Hubbub
     #
     module ObjectExt
       #
-      # Class methods for {Object} to be extended by
+      # Class methods for `Object` to be extended by
       #
       ClassMethodsExtension = Class.new(Module)
       #
-      # Instance methods to be included into {Object} ancestors chain
+      # Instance methods to be included into `Object` ancestors chain
       #
       InstanceMethodsExtension = Class.new(Module)
 
@@ -46,6 +46,20 @@ module Hubbub
       #
       def build_instance_methods
         instance_mod.class_eval <<-RUBY, __FILE__, __LINE__ + 1
+          def emit_event(data = {}, method: caller_locations.first.label, eval_context: nil)
+            Hubbub::Event.emit!(
+              {
+                type: 'class_instance',
+                **data,
+              },
+              options: {
+                class: self.class.name,
+                method: method.to_sym
+              },
+              eval_context: (eval_context || { klass: self })
+            )
+          end
+
           def emit_event_before(*methods)
             proxy = const_get(:InstanceProxy)
 

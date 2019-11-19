@@ -65,6 +65,7 @@ module Hubbub
             _tracked_actions.merge(delta)
           end
 
+          # :nodoc:
           def _tracked_actions
             @_tracked_actions ||= Set.new
           end
@@ -85,8 +86,6 @@ module Hubbub
           #       # do something
           #     end
           #   end
-          #
-          # @param actions {Array<Symbol>} a list of tracked controller actions
           #
           def track_all_views
             actions = self.action_methods

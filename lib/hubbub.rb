@@ -89,6 +89,8 @@ if defined?(Rails)
       end
 
       ActiveSupport.on_load(:active_job) do
+        # @todo: consider using `::ActiveJob::Base.around_perform`
+        #        or `::ActiveJob::Base.around_enqueue`
         extend Hubbub::Frameworks::Rails::ActiveJobExtension
       end
     end

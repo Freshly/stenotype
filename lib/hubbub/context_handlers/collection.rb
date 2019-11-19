@@ -22,11 +22,11 @@ module Hubbub
 
       #
       # @param handler {#as_json} a new handler to be added to collection
-      # @raise {NotImplementedError} in case handler does not inherit from {Hubbub::ContextHandlers::Base}
+      # @raise {ArgumentError} in case handler does not inherit from {Hubbub::ContextHandlers::Base}
       #
       def register(handler)
         unless handler < Hubbub::ContextHandlers::Base
-          raise NotImplementedError,
+          raise ArgumentError,
                 "Handler must inherit from #{Hubbub::ContextHandlers::Base}, " \
                 "but inherited from #{handler.superclass}"
         end
@@ -36,11 +36,11 @@ module Hubbub
 
       #
       # @param handler {#as_json} a handler to be removed from the collection of known handlers
-      # @raise {NotIMplementedError} in case handler does not inherit from {Hubbub::ContextHandlers::Base}
+      # @raise {ArgumentError} in case handler does not inherit from {Hubbub::ContextHandlers::Base}
       #
       def unregister(handler)
         unless handler < Hubbub::ContextHandlers::Base
-          raise NotImplementedError,
+          raise ArgumentError,
                 "Handler must inherit from #{Hubbub::ContextHandlers::Base}, " \
                 "but inherited from #{handler.superclass}"
         end
