@@ -17,13 +17,13 @@ module Hubbub
     # @param eval_context {Hash} A context having handler defined in {Hubbub::ContextHandlers}.
     # @return {Hubbub::Event} An instance of {Hubbub::Event}
     #
-    def self.emit!(data, options: {}, eval_context: {})
-      event = new(data, options: options, eval_context: eval_context)
+    def self.emit!(data, options: {}, eval_context: {}, dispatcher: Hubbub.config.dispatcher)
+      event = new(data, options: options, eval_context: eval_context, dispatcher: dispatcher)
       event.emit!
       event
     end
 
-    attr_reader :data, :options, :eval_context
+    attr_reader :data, :options, :eval_context, :dispatcher
 
     #
     # @example
@@ -35,10 +35,11 @@ module Hubbub
     # @param {Hash} eval_context A context having handler defined in {Hubbub::ContextHandlers}.
     # @return {Hubbub::Event} An instance of event
     #
-    def initialize(data, options: {}, eval_context: {})
+    def initialize(data, options: {}, eval_context: {}, dispatcher: Hubbub.config.dispatcher)
       @data = data
       @options = options
       @eval_context = eval_context
+      @dispatcher = dispatcher
     end
 
     #
@@ -51,14 +52,6 @@ module Hubbub
     #
     def emit!
       dispatcher.publish(self)
-    end
-
-    private
-
-    # Should we create an instance on each event?
-    # because it seems like dispatcher has to have some sort of state
-    def dispatcher
-      Hubbub.config.dispatcher
     end
   end
 end

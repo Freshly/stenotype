@@ -14,3 +14,4 @@
  - [ ] Consider using `::ActiveJob::Base.around_perform` or `::ActiveJob::Base.around_enqueue` in case we need to track all jobs.
  - [ ] Figure out the params for plain ruby class context handler.
  - [ ] Consider `ContextHandlers::ActiveJob` params. How to deal with \_args? It won't necessarily respond to `#as_json`.
+ - [ ] Consider a way to switch from evaluating ruby code to using plain modules extension.

@@ -77,9 +77,9 @@ module Hubbub
                   super(*args, **rest_args, &block)
                 end
               end
-
-              send(:prepend, proxy)
             end
+
+            send(:prepend, proxy)
           end
         RUBY
       end
