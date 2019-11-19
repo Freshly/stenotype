@@ -30,6 +30,7 @@ Hubbub.configure do |config|
     Hubbub::Adapters::GoogleCloud.new
   ]
 
+  config.uuid_generator = SecureRandom
   config.dispatcher     = Hubbub::Dispatcher.new
   config.gc_project_id  = 'google_cloud_project_id'
   config.gc_credentials = 'path_to_key_json'
@@ -41,6 +42,10 @@ end
 #### config.targets
 
 Contain an array of targets for the events to be published to. Targets must implement method `#publish(event_data, **additional_arguments)`.
+
+#### config.uuid_generator
+
+An object that must implement method `#uuid`. Used when an event is emitted to generate a unique id for each event.
 
 #### config.dispatcher
 
@@ -120,6 +125,7 @@ To track methods from arbitrary ruby classes `Object` is extended. Any instance 
 ```ruby
 class PlainRubyClass
   emit_event_before :some_method, :another_method
+  emit_klass_event_before :class_method
 
   def some_method(data)
     # do something
@@ -127,6 +133,48 @@ class PlainRubyClass
 
   def another_method(args)
     # do something
+  end
+
+  def self.class_method
+    # do something
+  end
+end
+```
+
+You could also use a generic method `emit_event` from anywhere. The method is mixed into `Object` class. It takes several optional kw arguments. `data` is a hash which is going to be serialized and sent as event data, `method` is by default the method you trigger `emit_event` from. `eval_context` is a hash containing the name of context handler and a context object itself.
+
+An example usage is as follows (see [Custom context handlers](#custom-context-handlers) for more details.):
+```ruby
+# BaseClass sets some state
+class BaseClass
+  attr_reader :local_state
+
+  def initialize
+    @local_state = 'some state'
+  end
+end
+
+# A custom handler is introduced
+class CustomHandler < Hubbub::ContextHandlers::Base
+  self.handler_name = :overriden_handler
+
+  def as_json(*_args)
+    {
+      state: context.local_state
+    }
+  end
+end
+
+Hubbub::ContextHandlers.register CustomHandler
+
+# Event is being emitted twice. First time with default options.
+# Second time with overriden method name and eval_context.
+class PlainRubyClass < BaseClass
+  def some_method(data)
+    event_data = collect_some_data_as_a_hash
+    emit_event(event_data) # method name will be `some_method`, eval_context: { klass: self }
+    other_event_data = do_something_else
+    emit_event(other_event_data, method: :custom_method_name, eval_context: { overriden_handler: self })
   end
 end
 ```
