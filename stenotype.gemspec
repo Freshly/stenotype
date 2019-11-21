@@ -16,8 +16,6 @@ Gem::Specification.new do |spec|
   spec.homepage      = 'https://github.com/Freshly/stenotype'
   spec.license       = 'MIT'
 
-  spec.metadata['allowed_push_host'] = 'TODO:'
-
   spec.metadata['homepage_uri'] = spec.homepage
   spec.metadata['source_code_uri'] = 'https://github.com/Freshly/stenotype'
   spec.metadata['changelog_uri'] = 'https://github.com/Freshly/stenotype/CHANGELOG.md'
