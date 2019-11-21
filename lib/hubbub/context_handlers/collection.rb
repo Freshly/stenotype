@@ -23,6 +23,7 @@ module Hubbub
       #
       # @param handler {#as_json} a new handler to be added to collection
       # @raise {ArgumentError} in case handler does not inherit from {Hubbub::ContextHandlers::Base}
+      # @return {Hubbub::ContextHandlers::Collection} a collection object
       #
       def register(handler)
         unless handler < Hubbub::ContextHandlers::Base
@@ -32,11 +33,13 @@ module Hubbub
         end
 
         push(handler) unless registered?(handler)
+        self
       end
 
       #
       # @param handler {#as_json} a handler to be removed from the collection of known handlers
       # @raise {ArgumentError} in case handler does not inherit from {Hubbub::ContextHandlers::Base}
+      # @return {Hubbub::ContextHandlers::Collection} a collection object
       #
       def unregister(handler)
         unless handler < Hubbub::ContextHandlers::Base
@@ -46,6 +49,7 @@ module Hubbub
         end
 
         delete(handler) if registered?(handler)
+        self
       end
 
       #

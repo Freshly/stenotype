@@ -8,18 +8,18 @@ Gem::Specification.new do |spec|
   spec.name          = 'hubbub'
   spec.version       = Hubbub::VERSION
   spec.authors       = ["Roman Kapitonov"]
-  spec.email         = ["RomanKapitonov@coherentsolutions.com"]
+  spec.email         = ["roman.kapitonov@freshly.com"]
 
-  spec.summary       = 'Fresh pub sub experiment'
+  spec.summary       = 'Freshly gem for emitting events and sending them to Google Cloud.'
   spec.description   = 'Pretty much it'
-  spec.homepage      = 'https://www.freshly.com'
+  spec.homepage      = 'https://github.com/Freshly/hubbub'
   spec.license       = 'MIT'
 
   spec.metadata['allowed_push_host'] = 'TODO:'
 
   spec.metadata['homepage_uri'] = spec.homepage
-  spec.metadata['source_code_uri'] = 'https://github.com/Freshly/freshly-pub-sub-subscriber'
-  spec.metadata['changelog_uri'] = 'https://github.com/Freshly/freshly-pub-sub-subscriber/CHANGELOG.md'
+  spec.metadata['source_code_uri'] = 'https://github.com/Freshly/hubbub'
+  spec.metadata['changelog_uri'] = 'https://github.com/Freshly/hubbub/CHANGELOG.md'
 
   # Specify which files should be added to the gem when it is released.
   # The `git ls-files -z` loads the files in the RubyGem that have been added into git.

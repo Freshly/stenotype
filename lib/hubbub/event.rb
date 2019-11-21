@@ -6,7 +6,7 @@ module Hubbub
   #
   class Event
     #
-    # Delegates event to instance of [Hubbub::Event].
+    # Delegates event to instance of {Hubbub::Event}.
     #
     # @example
     #
@@ -15,6 +15,7 @@ module Hubbub
     # @param data {Hash} Data to be published to the targets.
     # @param options {Hash} A hash of additional options to be tracked.
     # @param eval_context {Hash} A context having handler defined in {Hubbub::ContextHandlers}.
+    # @param dispatcher {#publish} A dispatcher object responding to [#publish]
     # @return {Hubbub::Event} An instance of {Hubbub::Event}
     #
     def self.emit!(data, options: {}, eval_context: {}, dispatcher: Hubbub.config.dispatcher)
@@ -33,6 +34,7 @@ module Hubbub
     # @param {Hash} data Data to be published to the targets.
     # @param {Hash} options A hash of additional options to be tracked.
     # @param {Hash} eval_context A context having handler defined in {Hubbub::ContextHandlers}.
+    # @param dispatcher {#publish} A dispatcher object responding to [#publish].
     # @return {Hubbub::Event} An instance of event
     #
     def initialize(data, options: {}, eval_context: {}, dispatcher: Hubbub.config.dispatcher)
@@ -43,7 +45,7 @@ module Hubbub
     end
 
     #
-    # Emits a [Hubbub::Event].
+    # Emits a {Hubbub::Event}.
     #
     # @example
     #

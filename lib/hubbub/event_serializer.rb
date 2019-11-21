@@ -11,6 +11,7 @@ module Hubbub
 
     #
     # @param event {Hubbub::Event}
+    # @param uuid_generator {#uuid} an object responding to [#uuid]
     #
     def initialize(event, uuid_generator: Hubbub.config.uuid_generator)
       @event = event

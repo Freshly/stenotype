@@ -6,7 +6,7 @@ module Hubbub
     # An abstract base class for implementing contexts handlers
     #
     # @abstract
-    # @attr_reader {Object} context A context where the event was emitted
+    # @attr_reader {Object} context A context in which the event was emitted
     # @attr_reader {Hash} options A hash of additional options
     #
     class Base
@@ -35,7 +35,9 @@ module Hubbub
       # @attr_writer {Symbol} handler_name The name under which a handler is going to be registered
       #
       class << self
+        # Handler name by which it will be registered in {Hubbub::ContextHandlers::Collection}
         attr_writer :handler_name
+
         #
         # @return {Symbol} Name of the handler
         # @raise {NotImplementedError} in case handler name is not specified.

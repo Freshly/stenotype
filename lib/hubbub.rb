@@ -7,7 +7,7 @@ module Hubbub
   class << self
     ##
     # Configures the library.
-    # :yields: {Hubbub::Configuration}
+    # @yield {Hubbub::Configuration}
     #
     # @example
     #

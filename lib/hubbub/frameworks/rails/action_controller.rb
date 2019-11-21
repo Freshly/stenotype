@@ -31,7 +31,7 @@ module Hubbub
           # Each time a new track_view is called it will find a symmetric difference
           # of two sets: set of 'used' actions and a set passed to `track_view`.
           #
-          # @example:
+          # @example
           #   class MyController < ActionController::Base
           #     track_view :index, :show
           #
@@ -71,10 +71,10 @@ module Hubbub
           end
 
           # Note this action will only define a symmetric difference of
-          # the covered with events actions and the ones not used yet. See
-          # documentation for {Hubbub::Frameworks::ActionController::ClassMethods#track_view}
+          # the covered with events actions and the ones not used yet.
+          # @see #track_view
           #
-          # @example:
+          # @example
           #   class MyController < ActionController::Base
           #     track_all_views
           #

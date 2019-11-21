@@ -20,7 +20,7 @@ module Hubbub
         end
 
         #
-        # @example:
+        # @example
         #   class MyJob < ApplicationJob
         #     trackable_job! # => will prepend a perform action with event recorder
         #

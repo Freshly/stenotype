@@ -24,7 +24,7 @@ module Hubbub
 
     #
     # This exception is being raised upon using a context handler which
-    # has never been registered in known handlers.
+    # has never been registered in known handlers in {Hubbub::ContextHandlers::Collection}.
     #
     class UnknownHandler < StandardError; end
   end

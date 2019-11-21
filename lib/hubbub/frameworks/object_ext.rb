@@ -41,8 +41,34 @@ module Hubbub
       end
 
       #
+      # @!method emit_event(data = {}, method: caller_locations.first.label, eval_context: nil)
+      #   A method injected into all instances of Object
+      # @!scope instance
+      # @param data {Hash} Data to be sent to the targets
+      # @param method {String} An optional method name
+      # @param eval_context {Hash} A hash linking object to context handler
+      # @return {Hubbub::Event} An instance of emitted event
+      #
+
+      #
+      # @!method emit_event_before(*methods)
+      #   A method injected into all instances of Object
+      # @!scope instance
+      # @param methods {Array<Symbol>} A list of method before which an event will be emitted
+      #
+
+      #
+      # @!method emit_klass_event_before(*class_methods)
+      #   A class method injected into all subclasses of [Object]
+      # @!scope class
+      # @param class_method {Array<Symbol>} A list of class method before which
+      #   an event will be emitted
+      #
+
+      #
       # rubocop:disable Metrics/MethodLength
-      # @!visibility private
+      # Adds two methods: [#emit_event] and [#emit_event_before] to every object
+      #   inherited from [Object]
       #
       def build_instance_methods
         instance_mod.class_eval <<-RUBY, __FILE__, __LINE__ + 1
@@ -85,7 +111,8 @@ module Hubbub
       end
 
       #
-      # @!visibility private
+      # Adds class method [#emit_klass_event_before] to every class
+      #   inherited from [Object]
       #
       def build_class_methods
         class_mod.class_eval <<-RUBY, __FILE__, __LINE__ + 1
