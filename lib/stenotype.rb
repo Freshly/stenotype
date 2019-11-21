@@ -74,7 +74,7 @@ if defined?(Rails)
 
   module Stenotype
     class Railtie < Rails::Railtie # :nodoc:
-      config.Stenotype = Stenotype.config
+      config.stenotype = Stenotype.config
 
       #
       # Register Rails handlers
