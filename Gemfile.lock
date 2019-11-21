@@ -1,7 +1,7 @@
 PATH
   remote: .
   specs:
-    hubbub (0.1.0)
+    stenotype (0.1.0)
       activesupport (>= 5.0.0)
       google-cloud-pubsub (~> 1.0.0)
 
@@ -223,7 +223,6 @@ PLATFORMS
 DEPENDENCIES
   bundler (~> 2.0)
   github-markup (~> 3.0)
-  hubbub!
   pry (~> 0.12)
   rails (~> 5.2.3)
   rake (~> 10.0)
@@ -232,6 +231,7 @@ DEPENDENCIES
   rspice
   rubocop (~> 0.76)
   simplecov (~> 0.17)
+  stenotype!
   timecop (~> 0.9)
   yard (~> 0.9)
 

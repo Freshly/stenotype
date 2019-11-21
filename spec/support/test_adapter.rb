@@ -1,9 +1,9 @@
 # frozen_string_literal: true
 
-require 'hubbub/adapters/base'
+require 'stenotype/adapters/base'
 
-module Hubbub
-  class TestAdapter < Hubbub::Adapters::Base
+module Stenotype
+  class TestAdapter < Stenotype::Adapters::Base
     attr_writer :buffer
 
     def initialize(buffer = [])

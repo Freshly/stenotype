@@ -1,4 +1,4 @@
-# Freshly-events TODO list
+# Stenotype TODO list
 
  - [x] Figure out how to pass context to data publisher. **Context is passed explicitly**
  - [x] Switch from synchronous to asynchronous message publishing. **A config option for this is available**

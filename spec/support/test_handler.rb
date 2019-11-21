@@ -1,7 +1,7 @@
 # frozen_string_literal: true
 
-module Hubbub
-  class TestHandler < Hubbub::ContextHandlers::Base
+module Stenotype
+  class TestHandler < Stenotype::ContextHandlers::Base
     self.handler_name = :klass
 
     def as_json(*_args)

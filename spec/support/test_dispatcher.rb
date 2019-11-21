@@ -1,6 +1,6 @@
 # frozen_string_literal: true
 
-module Hubbub
+module Stenotype
   class TestDispatcher
     attr_accessor :dispatched_events
 

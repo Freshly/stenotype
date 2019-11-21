@@ -13,12 +13,12 @@ SimpleCov.profiles.define 'gem' do
   track_files '{lib}/**/*.rb'
 
   add_filter '/spec'
-  add_filter 'lib/hubbub/version.rb'
+  add_filter 'lib/stenotype/version.rb'
 end
 
 SimpleCov.start 'gem'
 
-require 'hubbub'
+require 'stenotype'
 Dir[File.join(File.expand_path(__dir__), 'support/**/*.rb')].each { |f| require f }
 
 RSpec.configure do |config|
@@ -40,19 +40,19 @@ RSpec.configure do |config|
 
   config.before(:suite) do |_example|
     # Configure a dummy target
-    Hubbub.configure do |c|
-      c.targets = [Hubbub::TestAdapter.new([])]
-      c.uuid_generator = Hubbub::TestUuidGen
+    Stenotype.configure do |c|
+      c.targets = [Stenotype::TestAdapter.new([])]
+      c.uuid_generator = Stenotype::TestUuidGen
     end
   end
 
-  module Hubbub
+  module Stenotype
     module ContextHandlers
       def self.reset_defaults!
-        self.known = Hubbub::ContextHandlers::Collection.new
-        register Hubbub::ContextHandlers::Klass
-        register Hubbub::ContextHandlers::Rails::ActiveJob
-        register Hubbub::ContextHandlers::Rails::Controller
+        self.known = Stenotype::ContextHandlers::Collection.new
+        register Stenotype::ContextHandlers::Klass
+        register Stenotype::ContextHandlers::Rails::ActiveJob
+        register Stenotype::ContextHandlers::Rails::Controller
       end
     end
   end

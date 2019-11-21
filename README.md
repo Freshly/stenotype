@@ -1,4 +1,4 @@
-# Hubbub
+# Stenotype
 
 This gem is a tool providing extensions to several rails components in order to track events along with the execution context. Currently ActionController and ActionJob are supported to name a few.
 
@@ -7,7 +7,7 @@ This gem is a tool providing extensions to several rails components in order to 
 Add this line to your application's Gemfile:
 
 ```ruby
-gem 'hubbub'
+gem 'Stenotype'
 ```
 
 And then execute:
@@ -16,7 +16,7 @@ And then execute:
 
 Or install it yourself as:
 
-    $ gem install hubbub
+    $ gem install Stenotype
 
 ## Usage
 
@@ -24,14 +24,14 @@ Or install it yourself as:
 
 Configuring the library is as simple as:
 ```ruby
-Hubbub.configure do |config|
+Stenotype.configure do |config|
   config.targets = [ # Supported targets
-    Hubbub::Adapters::StdoutAdapter.new,
-    Hubbub::Adapters::GoogleCloud.new
+    Stenotype::Adapters::StdoutAdapter.new,
+    Stenotype::Adapters::GoogleCloud.new
   ]
 
   config.uuid_generator = SecureRandom
-  config.dispatcher     = Hubbub::Dispatcher.new
+  config.dispatcher     = Stenotype::Dispatcher.new
   config.gc_project_id  = 'google_cloud_project_id'
   config.gc_credentials = 'path_to_key_json'
   config.gc_topic       = 'google_cloud_topic'
@@ -49,7 +49,7 @@ An object that must implement method `#uuid`. Used when an event is emitted to g
 
 #### config.dispatcher
 
-Dispatcher used to dispatch the event. A dispatcher must implement method `#publish(even, serializer: Hubbub::EventSerializer)`. By default `Hubbub::EventSerializer` is used, which is responsible for collecting the data from the event and evaluation context.
+Dispatcher used to dispatch the event. A dispatcher must implement method `#publish(even, serializer: Stenotype::EventSerializer)`. By default `Stenotype::EventSerializer` is used, which is responsible for collecting the data from the event and evaluation context.
 
 #### config.gc_project_id
 
@@ -75,7 +75,7 @@ Each event is emitted in a context which might be an ActionController instance o
 
 Emitting an event is as simple as:
 ```ruby
-Hubbub::Event.emit!(
+Stenotype::Event.emit!(
     data,
     options: additional_options,
     eval_context: { name_of_registered_context_handler: context_object }
@@ -155,7 +155,7 @@ class BaseClass
 end
 
 # A custom handler is introduced
-class CustomHandler < Hubbub::ContextHandlers::Base
+class CustomHandler < Stenotype::ContextHandlers::Base
   self.handler_name = :overriden_handler
 
   def as_json(*_args)
@@ -165,7 +165,7 @@ class CustomHandler < Hubbub::ContextHandlers::Base
   end
 end
 
-Hubbub::ContextHandlers.register CustomHandler
+Stenotype::ContextHandlers.register CustomHandler
 
 # Event is being emitted twice. First time with default options.
 # Second time with overriden method name and eval_context.
@@ -184,9 +184,9 @@ end
 #### Custom adapters
 By default two adapters are implemented: Google Cloud and simple Stdout adapter.
 
-Adding a new one might be performed by defining a class inheriting from `Hubbub::Adapters::Base`:
+Adding a new one might be performed by defining a class inheriting from `Stenotype::Adapters::Base`:
 ```ruby
-class CustomAdapter < Hubbub::Adapters::Base
+class CustomAdapter < Stenotype::Adapters::Base
   # A client might be optionally passed to
   # the constructor.
   #
@@ -202,14 +202,14 @@ end
 
 After defining a custom adapter it must be added to the list of adapters:
 ```ruby
-Hubbub.config.targets.push(CustomAdapter.new)
+Stenotype.config.targets.push(CustomAdapter.new)
 ```
 
 #### Custom context handlers
 
-A list of context handlers might be extended by defining a class inheriting from `Hubbub::ContextHandlers::Base` and registering a new context handler. Event handler must have a `self.handler_name` in order to use it during context serialization. Also custom handler must implement method `#as_json`:
+A list of context handlers might be extended by defining a class inheriting from `Stenotype::ContextHandlers::Base` and registering a new context handler. Event handler must have a `self.handler_name` in order to use it during context serialization. Also custom handler must implement method `#as_json`:
 ```ruby
-class CustomHandler < Hubbub::ContextHandlers::Base
+class CustomHandler < Stenotype::ContextHandlers::Base
   self.handler_name = :custom_handler_name
 
   def as_json(*_args)
@@ -233,7 +233,7 @@ end
 
 After defining a new context handler you must register it as follows:
 ```ruby
-Hubbub::ContextHandlers.register CustomHandler
+Stenotype::ContextHandlers.register CustomHandler
 ```
 
 ## Development
@@ -244,7 +244,7 @@ To install this gem onto your local machine, run `bundle exec rake install`. To 
 
 ## Contributing
 
-Bug reports and pull requests are welcome on GitHub at https://github.com/Freshly/hubbub.
+Bug reports and pull requests are welcome on GitHub at https://github.com/Freshly/Stenotype.
 
 ## License
 

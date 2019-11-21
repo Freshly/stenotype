@@ -1,6 +1,6 @@
 # frozen_string_literal: true
 
-module Hubbub
+module Stenotype
   class TestUuidGen
     def self.uuid
       'abcd'
