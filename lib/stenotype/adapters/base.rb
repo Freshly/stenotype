@@ -11,6 +11,16 @@ module Stenotype
     # An abstract base class for implementing adapters
     #
     # @abstract
+    # @example Defining a custom adapter
+    #  MyCustomAdapter < Stenotype::Adapters::Base
+    #    def publish(event_data, **additional_arguments)
+    #      client.publish(event_data, **additional_arguments)
+    #    end
+    #
+    #    def client
+    #      @client ||= SomeCustomClient.new(some_credential)
+    #    end
+    #  end
     #
     class Base
       attr_reader :client

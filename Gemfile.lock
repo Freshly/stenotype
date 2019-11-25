@@ -1,7 +1,7 @@
 PATH
   remote: .
   specs:
-    stenotype (0.1.0)
+    stenotype (0.1.1)
       activesupport (>= 5.0.0)
       google-cloud-pubsub (~> 1.0.0)
 

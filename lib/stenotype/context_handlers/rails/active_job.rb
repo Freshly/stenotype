@@ -22,7 +22,7 @@ module Stenotype
         def as_json(*_args)
           {
             job_id: job_id,
-            enqueued_at: Time.now,
+            enqueued_at: Time.now.utc,
             queue_name: queue_name,
             class: context.class.name
           }
@@ -30,13 +30,7 @@ module Stenotype
 
         private
 
-        def job_id
-          context.job_id
-        end
-
-        def queue_name
-          context.queue_name
-        end
+        delegate :job_id, :queue_name, to: :context
       end
     end
   end

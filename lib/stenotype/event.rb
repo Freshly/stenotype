@@ -8,8 +8,7 @@ module Stenotype
     #
     # Delegates event to instance of {Stenotype::Event}.
     #
-    # @example
-    #
+    # @example Emit an event using class method
     #   Stenotype::Event.emit!(data, options, eval_context)
     #
     # @param data {Hash} Data to be published to the targets.
@@ -27,9 +26,10 @@ module Stenotype
     attr_reader :data, :options, :eval_context, :dispatcher
 
     #
-    # @example
-    #
-    #   Stenotype::Event.emit!(data, options, eval_context)
+    # @example Create an event
+    #   event = Stenotype::Event.new(data, options, eval_context)
+    # @example Create an event with custom dispatcher
+    #   event = Stenotype::Event.new(data, options, eval_context, dispatcher: MyDispatcher.new)
     #
     # @param {Hash} data Data to be published to the targets.
     # @param {Hash} options A hash of additional options to be tracked.
@@ -47,10 +47,9 @@ module Stenotype
     #
     # Emits a {Stenotype::Event}.
     #
-    # @example
-    #
+    # @example Emit an instance of event
     #   event = Stenotype::Event.new(data, options, eval_context)
-    #   event.emit!
+    #   event.emit! #=> Publishes the event to targets
     #
     def emit!
       dispatcher.publish(self)

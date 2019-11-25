@@ -2,9 +2,11 @@
 
 require 'spec_helper'
 
-RSpec.describe Stenotype::Frameworks::ObjectExt do
+RSpec.describe Stenotype::Frameworks::Eventable do
   subject(:dummy_klass) do
     Class.new do
+      include Stenotype::Frameworks::Eventable
+
       emit_event_before :some_method
       emit_klass_event_before :some_class_method
 
@@ -41,8 +43,8 @@ RSpec.describe Stenotype::Frameworks::ObjectExt do
   end
 
   context 'instance methods' do
-    it 'include emit_event_before' do
-      expect(dummy_klass.new).to respond_to(:emit_event_before)
+    it 'include emit_event' do
+      expect(dummy_klass.new).to respond_to(:emit_event)
     end
   end
 

@@ -9,8 +9,7 @@ module Stenotype
     #
     # Publishes an event to the list of configured targets.
     #
-    # @example
-    #
+    # @example Manually dispatching an event
     #   event = Stenotype::Event.new(data, options, eval_context)
     #   Stenotype::Dispatcher.new.publish(event)
     #

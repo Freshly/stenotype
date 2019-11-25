@@ -9,6 +9,18 @@ module Stenotype
     # @attr_reader {Object} context A context in which the event was emitted
     # @attr_reader {Hash} options A hash of additional options
     #
+    # @example Defining a custom Handler
+    #   class MyCustomHandler < Stenotype::ContextHandlers::Base
+    #     self.context_name = :custom_handler
+    #
+    #     def as_json(*_args)
+    #       {
+    #         value1: context.value1,
+    #         value2: context.value2
+    #       }
+    #     end
+    #   end
+    #
     class Base
       attr_reader :context, :options
 

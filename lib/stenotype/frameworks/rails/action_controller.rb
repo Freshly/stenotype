@@ -16,7 +16,7 @@ module Stenotype
         # Emits and event with given data
         # @param data {Hash} Data to be sent to targets
         #
-        def record_freshly_event(data)
+        private def _record_freshly_event(data)
           Stenotype::Event.emit!(data, options: {}, eval_context: { controller: self })
         end
 
@@ -28,12 +28,19 @@ module Stenotype
           # Adds a before_action to each action from the passed list. A before action
           # is emitting a {Stenotype::Event}. Please note that in case track_view is
           # used several times, it will keep track of the actions which emit events.
-          # Each time a new track_view is called it will find a symmetric difference
-          # of two sets: set of 'used' actions and a set passed to `track_view`.
           #
-          # @example
+          # @note Each time a new track_view is called it will find a symmetric difference
+          #   of two sets: set of already tracked actions and a set passed to `track_view`.
+          #
+          # @example Tracking multiple actions with track_view
+          #   Stenotype.configure do |config|
+          #     config.enable_action_controller_extension = true
+          #     config.enable_active_job_extension = true
+          #   end
+          #
           #   class MyController < ActionController::Base
-          #     track_view :index, :show
+          #     track_view :index, :show # Emits an event upon calling index and show actions,
+          #                              # but does not trigger an event on create
           #
           #     def index
           #       # do_something
@@ -59,30 +66,37 @@ module Stenotype
             return if delta.empty?
 
             before_action only: delta do
-              record_freshly_event(type: 'view')
+              _record_freshly_event(type: 'view')
             end
 
             _tracked_actions.merge(delta)
           end
 
-          # :nodoc:
-          def _tracked_actions
+          #
+          # @return {Set<Symbol>} a set of tracked actions
+          #
+          private def _tracked_actions
             @_tracked_actions ||= Set.new
           end
 
-          # Note this action will only define a symmetric difference of
-          # the covered with events actions and the ones not used yet.
+          #
+          # @note This action will only define a symmetric difference of
+          # the tracked actions and the ones not tracked yet.
           # @see #track_view
           #
-          # @example
-          #   class MyController < ActionController::Base
-          #     track_all_views
+          # @example Emitting an event before all actions in controller
+          #   class UsersController < ApplicationController
+          #     track_all_views # Emits an event before all actions in a controller
           #
           #     def index
-          #       # do_something
+          #       # do something
           #     end
           #
           #     def show
+          #       # do something
+          #     end
+          #
+          #     def create
           #       # do something
           #     end
           #   end
@@ -97,7 +111,7 @@ module Stenotype
             return if delta.empty?
 
             before_action only: delta.to_a do
-              record_freshly_event(type: "view")
+              _record_freshly_event(type: "view")
             end
 
             # merge is a mutating op

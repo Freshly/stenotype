@@ -22,7 +22,7 @@ RSpec.describe Stenotype::Configuration do
         expect do
           configuration.targets
         end.to raise_error(
-          Stenotype::Exceptions::NoTargetsSpecified,
+          Stenotype::Errors::NoTargetsSpecified,
           /Please configure a target\(s\)/
         )
       end

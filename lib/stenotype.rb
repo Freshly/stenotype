@@ -4,9 +4,44 @@
 # A top level namespace for the freshly-events gem
 #
 module Stenotype
+  #
+  # A wrapper class for Stenotype specific errors
+  #
+  class StenotypeError < StandardError
+  end
+
+  #
+  # A module enclosing all Stenotype errors.
+  #
+  module Errors
+    #
+    # This exception is being raised in case an unsupported mode
+    # for Google Cloud is specified.
+    #
+    class GoogleCloudUnsupportedMode < StenotypeError; end
+
+    #
+    # This exception is being raised upon unsuccessful publishing of an event.
+    #
+    class MessageNotPublished < StenotypeError; end
+
+    #
+    # This exception is being raised in case no targets are
+    # specified {Stenotype::Configuration}.
+    #
+    class NoTargetsSpecified < StenotypeError; end
+
+    #
+    # This exception is being raised upon using a context handler which
+    # has never been registered in known handlers in {Stenotype::ContextHandlers::Collection}.
+    #
+    class UnknownHandler < StenotypeError; end
+  end
+
   class << self
     ##
-    # Configures the library.
+    # Configures the library. See also {Stenotype::Railtie} for Rails
+    #   specific configuration.
     # @yield {Stenotype::Configuration}
     #
     # @example
@@ -22,13 +57,19 @@ module Stenotype
     #      config.gc_credentials = ENV['GC_CREDENTIALS']
     #      config.gc_topic       = ENV['GC_TOPIC']
     #      config.gc_mode        = :async
+    #
+    #      config.enable_action_controller_extension = true
+    #      config.enable_active_job_extension = true
     #   end
     #
     def configure(&block)
       Stenotype::Configuration.configure(&block)
     end
 
-    ##
+    #
+    # @example
+    #   Stenotype.config #=> StenotypeConfiguation
+    #
     # @return {Stenotype::Configuration}
     #
     def config
@@ -43,9 +84,8 @@ require "stenotype/context_handlers"
 require "stenotype/dispatcher"
 require "stenotype/event"
 require "stenotype/event_serializer"
-require "stenotype/exceptions"
 require "stenotype/version"
-require "stenotype/frameworks/object_ext"
+require "stenotype/frameworks/eventable"
 
 Stenotype.configure do |config|
   config.uuid_generator = SecureRandom
@@ -64,35 +104,6 @@ Stenotype.configure do |config|
   Stenotype::ContextHandlers.module_eval do
     register Stenotype::ContextHandlers::Klass
   end
-
-  Object.send(:include, Stenotype::Frameworks::ObjectExt)
 end
 
-if defined?(Rails)
-  require "stenotype/frameworks/rails/action_controller"
-  require "stenotype/frameworks/rails/active_job"
-
-  module Stenotype
-    class Railtie < Rails::Railtie # :nodoc:
-      config.stenotype = Stenotype.config
-
-      #
-      # Register Rails handlers
-      #
-      Stenotype::ContextHandlers.module_eval do
-        register Stenotype::ContextHandlers::Rails::Controller
-        register Stenotype::ContextHandlers::Rails::ActiveJob
-      end
-
-      ActiveSupport.on_load(:action_controller) do
-        include Stenotype::Frameworks::Rails::ActionControllerExtension
-      end
-
-      ActiveSupport.on_load(:active_job) do
-        # @todo: consider using `::ActiveJob::Base.around_perform`
-        #        or `::ActiveJob::Base.around_enqueue`
-        extend Stenotype::Frameworks::Rails::ActiveJobExtension
-      end
-    end
-  end
-end
+require "stenotype/railtie" if defined?(Rails)

@@ -14,20 +14,21 @@ module Stenotype
         #
         def as_json(*_args)
           {
-            class: request.controller_class.name,
-            method: request.method,
-            url: request.url,
-            referer: request.referer,
-            params: request.params.except('controller', 'action'),
-            ip: request.remote_ip
+            class: controller_class.name,
+            method: method,
+            url: url,
+            referer: referer,
+            params: params.except('controller', 'action'),
+            ip: remote_ip
           }
         end
 
         private
 
-        def request
-          context.request
-        end
+        delegate :request, to: :context
+        delegate :method, :url, :referer, :remote_ip, :params,
+                 :controller_class, to: :request
+
       end
     end
   end

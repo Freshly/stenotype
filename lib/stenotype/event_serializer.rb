@@ -10,6 +10,14 @@ module Stenotype
     attr_reader :event, :uuid_generator
 
     #
+    # @example Serializing an event with default UUID generator
+    #   event = Stenotype::Event.new(data, attributes, eval_context)
+    #   serializer = Stenotype::EventSerializer.new(event)
+    #
+    # @example Serializing an event with custom UUID generator
+    #   event = Stenotype::Event.new(data, attributes, eval_context)
+    #   serializer = Stenotype::EventSerializer.new(event, uuid_generator: CustomUUIDGen)
+    #
     # @param event {Stenotype::Event}
     # @param uuid_generator {#uuid} an object responding to [#uuid]
     #
@@ -18,6 +26,18 @@ module Stenotype
       @uuid_generator = uuid_generator
     end
 
+    #
+    # @example Serializing an event with default uuid generator (SecureRandom)
+    #   event = Stenotype::Event.new(data, attributes, eval_context)
+    #   serializer = Stenotype::EventSerializer.new(event)
+    #   serializer.serialize #=> A hash with event.data, event.options,
+    #                        # default_options and eval_context_options
+    #
+    # @example Serializing an event with custom uuid generator
+    #   event = Stenotype::Event.new(data, attributes, eval_context)
+    #   serializer = Stenotype::EventSerializer.new(event, uuid_generator: CustomUUIDGen)
+    #   serializer.serialize #=> A hash with event.data, event.options,
+    #                        # default_options and eval_context_options
     #
     # @return {Hash} A hash representation of the event and its context
     #
