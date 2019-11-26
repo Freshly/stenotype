@@ -10,39 +10,6 @@ module Stenotype
     # An extension for a plain Ruby class in order to track invocation of
     # instance methods.
     #
-    # @example Usage of emit_event_before
-    #   class SomeRubyClass
-    #     include Stenotype::Frameworks::Eventable
-    #     emit_event_before :some_method # Triggers an event upon calling some_method
-    #
-    #     def some_method
-    #       # do something
-    #     end
-    #   end
-    # @param methods {Array<Symbol>} A list of method before which an event will be emitted
-    #
-    #
-    # @example Usage emit_klass_event_before
-    #   class SomeRubyClass
-    #     include Stenotype::Frameworks::Eventable
-    #     emit_klass_event_before :some_method # Triggers an event upon calling some_method
-    #
-    #     def self.some_method
-    #       # do something
-    #     end
-    #   end
-    #
-    # @example Usage of emit_event
-    #   class SomeRubyClass
-    #     include Stenotype::Frameworks::Eventable
-    #
-    #     def some_method
-    #       data = collection_data
-    #       emit_event(data, eval_context: self) # Track event with given data
-    #       data
-    #     end
-    #   end
-    #
     module Eventable
       #
       # Class methods for target to be extended by
@@ -73,25 +40,54 @@ module Stenotype
       #
       # @!method emit_event(data = {}, method: caller_locations.first.label, eval_context: nil)
       #   A method injected into target class to manually track events
-      # @!scope instance
-      # @param data {Hash} Data to be sent to the targets
-      # @param method {String} An optional method name
-      # @param eval_context {Hash} A hash linking object to context handler
-      # @return {Stenotype::Event} An instance of emitted event
+      #   @!scope instance
+      #   @param data {Hash} Data to be sent to the targets
+      #   @param method {String} An optional method name
+      #   @param eval_context {Hash} A hash linking object to context handler
+      #   @return {Stenotype::Event} An instance of emitted event
+      #   @example Usage of emit_event
+      #     class SomeRubyClass
+      #       include Stenotype::Frameworks::Eventable
+      #
+      #       def some_method
+      #         data = collection_data
+      #         emit_event(data, eval_context: self) # Track event with given data
+      #         data
+      #       end
+      #     end
       #
 
       #
       # @!method emit_event_before(*methods)
       #   A class method injected into target class to track instance methods invocation
-      # @!scope class
+      #   @param methods {Array<Symbol>} A list of method before which an event will be emitted
+      #   @!scope class
+      #   @example Usage of emit_event_before
+      #     class SomeRubyClass
+      #       include Stenotype::Frameworks::Eventable
+      #       emit_event_before :some_method # Triggers an event upon calling some_method
+      #
+      #       def some_method
+      #         # do something
+      #       end
+      #     end
       #
 
       #
-      # @!method emit_klass_event_before(*class_methods)
+      # @!method emit_klass_event_before(*class_methods) 
       #   A class method injected into a target class to track class methods invocation
-      # @!scope class
-      # @param class_method {Array<Symbol>} A list of class method before which
-      #   an event will be emitted
+      #   @!scope class
+      #   @param class_methods {Array<Symbol>} A list of class method before which
+      #                                       an event will be emitted
+      #   @example Usage emit_klass_event_before
+      #     class SomeRubyClass
+      #       include Stenotype::Frameworks::Eventable
+      #       emit_klass_event_before :some_method # Triggers an event upon calling some_method
+      #
+      #       def self.some_method
+      #         # do something
+      #       end
+      #     end
       #
 
       #

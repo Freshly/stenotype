@@ -17,9 +17,10 @@
 
 ### 0.1.0: The Big Bang
 
-- Initial commit
-- Rails controller and active job adapters
-- Generic event method
-- Handlers for GCP Pub/Sub and STDOUT
+* Rails controller and active job adapters
+* Generic event method
+* Handlers for GCP Pub/Sub and STDOUT
+* Initial commit
+
 
 
