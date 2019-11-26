@@ -85,7 +85,7 @@ require "stenotype/dispatcher"
 require "stenotype/event"
 require "stenotype/event_serializer"
 require "stenotype/version"
-require "stenotype/frameworks/eventable"
+require "stenotype/emitter"
 
 Stenotype.configure do |config|
   config.uuid_generator = SecureRandom

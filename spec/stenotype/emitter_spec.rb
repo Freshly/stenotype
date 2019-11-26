@@ -2,10 +2,10 @@
 
 require 'spec_helper'
 
-RSpec.describe Stenotype::Frameworks::Eventable do
+RSpec.describe Stenotype::Emitter do
   subject(:dummy_klass) do
     Class.new do
-      include Stenotype::Frameworks::Eventable
+      include Stenotype::Emitter
 
       emit_event_before :some_method
       emit_klass_event_before :some_class_method

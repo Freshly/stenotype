@@ -3,6 +3,10 @@
 require "active_support/concern"
 
 module Stenotype
+  #
+  # A namespace containing extensions of various frameworks.
+  # For example Rails components could be extended
+  #
   module Frameworks
     module Rails
       #
