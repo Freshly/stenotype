@@ -1,13 +1,11 @@
 # frozen_string_literal: true
 
-require 'securerandom'
-
 module Stenotype
   #
   # A module containing freshly-event gem configuration
   #
   # @example Configuring the library
-  #   Stenotype::Configuration.configure do |config|
+  #   Stenotype.configure do |config|
   #     config.targets = [Target1.new, Target2.new]
   #     config.uuid_generator = SecureRandom
   #
@@ -63,14 +61,14 @@ module Stenotype
 
     configuration_options do
       option :targets, default: []
-      option :dispatcher
+      option :dispatcher, default: Stenotype::Dispatcher
       option :uuid_generator, default: SecureRandom
 
       nested :google_cloud do
-        option :credentials
-        option :project_id
-        option :topic
-        option :mode
+        option :credentials, default: 'SPECIFY YOUR CREDENTIALS'
+        option :project_id, default: 'SPECIFY YOUR PROJECT ID'
+        option :topic, default: 'SPECIFY YOUR TOPIC'
+        option :mode, default: :async
       end
 
       nested :rails do
@@ -83,26 +81,23 @@ module Stenotype
 
     #
     # @example When at least one target is present
-    #   Stenotype::Configuration.configure do |config|
+    #   Stenotype.configure do |config|
     #     config.targets = [Target1.new, Target2.new]
     #   end
-    #   Stenotype::Configuration.targets #=> [target_obj1, target_obj2]
+    #   Stenotype.config.targets #=> [target_obj1, target_obj2]
     #
     # @example When no targets have been configured
-    #   Stenotype::Configuration.configure { |config| config.targets = [] }
-    #   Stenotype::Configuration.targets #=> Stenotype::Errors::NoTargetsSpecified
+    #   Stenotype.configure { |config| config.targets = [] }
+    #   Stenotype.config.targets #=> Stenotype::NoTargetsSpecifiedError
     #
-    # @raise {Stenotype::Errors::NoTargetsSpecified} in case no targets are configured
+    # @raise {Stenotype::NoTargetsSpecifiedError} in case no targets are configured
     # @return {Array<#publish>} An array of targets implementing method [#publish]
     #
     def targets
-      if config.targets.nil? || config.targets.empty?
-        raise Stenotype::Errors::NoTargetsSpecified,
-              'Please configure a target(s) for events to be sent to. ' \
-              'See Stenotype::Configuration for reference.'
-      else
-        config.targets
-      end
+      return config.targets unless config.targets.empty?
+      raise Stenotype::NoTargetsSpecifiedError,
+            'Please configure a target(s) for events to be sent to. ' \
+            'See Stenotype::Configuration for reference.'
     end
   end
 end

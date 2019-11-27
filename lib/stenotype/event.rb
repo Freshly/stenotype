@@ -41,7 +41,7 @@ module Stenotype
       @data = data
       @options = options
       @eval_context = eval_context
-      @dispatcher = dispatcher
+      @dispatcher = dispatcher.new
     end
 
     #

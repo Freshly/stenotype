@@ -50,7 +50,7 @@ RSpec.describe Stenotype::Frameworks::Rails::ActionControllerExtension do
     let(:test_target) { Stenotype::TestAdapter.new(test_buffer) }
 
     before do
-      Stenotype::Configuration.configure do |c|
+      Stenotype.configure do |c|
         c.targets = [test_target]
       end
     end
@@ -94,7 +94,7 @@ RSpec.describe Stenotype::Frameworks::Rails::ActionControllerExtension do
       }.from(0).to(1)
     end
 
-    context 'when an action is triggered' do
+    context 'when an action is triggered', type: :with_frozen_time do
       include_context 'within controller'
 
       let(:expected_result) do
@@ -127,7 +127,7 @@ RSpec.describe Stenotype::Frameworks::Rails::ActionControllerExtension do
     end
   end
 
-  describe '#record_freshly_event' do
+  describe '#record_freshly_event', type: :with_frozen_time do
     include_context 'within controller'
 
     before do

@@ -7,14 +7,14 @@ module Stenotype
   #   Stenotype extensions for emitting event in various Rails components.
   #
   class Railtie < ::Rails::Railtie
-    Stenotype::Configuration.configure do |config|
+    Stenotype.configure do |config|
       config.rails do |rails_config|
         rails_config.enable_action_controller_ext = true
         rails_config.enable_active_job_ext = true
       end
     end
 
-    config.stenotype = Stenotype::Configuration.config
+    config.stenotype = Stenotype.config
 
     if config.stenotype.rails.enable_action_controller_ext
       ActiveSupport.on_load(:action_controller) do

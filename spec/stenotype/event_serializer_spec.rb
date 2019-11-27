@@ -19,7 +19,7 @@ RSpec.describe Stenotype::EventSerializer do
 
   let(:dummy_context) { Class.new }
 
-  describe '#serialize' do
+  describe '#serialize', type: :with_frozen_time do
     it 'represents an event as a hash' do
       expect(serializer.serialize).to eq(
         data_key: 'data value',

@@ -21,7 +21,7 @@ RSpec.describe Stenotype::ContextHandlers::Rails::ActiveJob do
 
   subject(:context_handler) { described_class.new(dummy_job) }
 
-  describe '#as_json' do
+  describe '#as_json', type: :with_frozen_time do
     it 'casts active job data to JSON' do
       expect(context_handler.as_json).to eq(
         class: :DummyJob,

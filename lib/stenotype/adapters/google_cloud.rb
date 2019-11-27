@@ -36,9 +36,9 @@ module Stenotype
     class GoogleCloud < Base
       #
       # @param event_data {Hash} The data to be published to Google Cloud
-      # @raise {Stenotype::Errors::GoogleCloudUnsupportedMode} unless the mode
+      # @raise {Stenotype::GoogleCloudUnsupportedModeError} unless the mode
       #   in configured to be :sync or :async
-      # @raise {Stenotype::Errors::MessageNotPublished} unless message is published
+      # @raise {Stenotype::MessageNotPublishedError} unless message is published
       #
       # @example With default client
       #   google_cloud_adapter = Stenotype::Adapters::GoogleCloud.new
@@ -57,7 +57,7 @@ module Stenotype
         when :sync
           publish_sync(event_data, **additional_arguments)
         else
-          raise Stenotype::Errors::GoogleCloudUnsupportedMode,
+          raise Stenotype::GoogleCloudUnsupportedModeError,
                 'Please use either :sync or :async modes for publishing the events.'
         end
       end
@@ -70,7 +70,7 @@ module Stenotype
 
       def publish_async(event_data, **additional_arguments)
         topic.publish_async(event_data, additional_arguments) do |result|
-          raise Stenotype::Errors::MessageNotPublished unless result.succeeded?
+          raise Stenotype::MessageNotPublishedError unless result.succeeded?
         end
       end
 

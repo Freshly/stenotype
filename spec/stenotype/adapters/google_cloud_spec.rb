@@ -19,7 +19,7 @@ RSpec.describe Stenotype::Adapters::GoogleCloud do
 
     context 'for async mode' do
       before do
-        Stenotype::Configuration.configure do |c|
+        Stenotype.configure do |c|
           c.google_cloud.mode = :async
         end
       end
@@ -40,14 +40,14 @@ RSpec.describe Stenotype::Adapters::GoogleCloud do
         it 'raises' do
           expect do
             adapter.publish(event_data, additional_arguments)
-          end.to raise_error(Stenotype::Errors::MessageNotPublished)
+          end.to raise_error(Stenotype::MessageNotPublishedError)
         end
       end
     end
 
     context 'for sync mode' do
       before do
-        Stenotype::Configuration.configure do |c|
+        Stenotype.configure do |c|
           c.google_cloud.mode = :sync
         end
       end
@@ -61,7 +61,7 @@ RSpec.describe Stenotype::Adapters::GoogleCloud do
 
     context 'for unsupported mode' do
       before do
-        Stenotype::Configuration.configure do |c|
+        Stenotype.configure do |c|
           c.google_cloud.mode = :unsupported
         end
       end
@@ -69,7 +69,7 @@ RSpec.describe Stenotype::Adapters::GoogleCloud do
       it 'raises' do
         expect do
           described_class.new.publish(event_data, additional_arguments)
-        end.to raise_error(Stenotype::Errors::GoogleCloudUnsupportedMode,
+        end.to raise_error(Stenotype::GoogleCloudUnsupportedModeError,
                            /Please use either :sync/)
       end
     end

@@ -25,7 +25,7 @@ module Stenotype
     #
     #   collection.register(SomeRandomClass) #=> ArgumentError
     #   collection.unregister(SomeRandomClass) #=> ArgumentError
-    #   collection.choose(handler_name: :unknown) #=> Stenotype::Errors::UnknownHandler
+    #   collection.choose(handler_name: :unknown) #=> Stenotype::UnknownHandlerError
     #
     class Collection < Array
       #
@@ -33,7 +33,7 @@ module Stenotype
       # raises if a handler is not registered
       #
       # @param handler_name {Symbol} a handler to be found in the collection
-      # @raise {Stenotype::Errors::UnknownHandler} in case a handler is not registered
+      # @raise {Stenotype::UnknownHandlerError} in case a handler is not registered
       # @return {#as_json} A handler which respond to #as_json
       #
       # @example When a handler is present in the collection
@@ -47,7 +47,7 @@ module Stenotype
       #
       def choose(handler_name:)
         handler = detect { |e| e.handler_name == handler_name }
-        handler || raise(Stenotype::Errors::UnknownHandler,
+        handler || raise(Stenotype::UnknownHandlerError,
                          "Handler '#{handler_name}' is not found. " \
                          "Please make sure the handler you've specified is " \
                          'registered in the list of known handlers. ' \

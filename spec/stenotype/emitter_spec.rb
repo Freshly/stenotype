@@ -2,7 +2,7 @@
 
 require 'spec_helper'
 
-RSpec.describe Stenotype::Emitter do
+RSpec.describe Stenotype::Emitter, type: :with_frozen_time do
   subject(:dummy_klass) do
     Class.new do
       include Stenotype::Emitter
@@ -53,7 +53,7 @@ RSpec.describe Stenotype::Emitter do
     let(:test_target) { Stenotype::TestAdapter.new(test_buffer) }
 
     before do
-      Stenotype::Configuration.configure do |c|
+      Stenotype.configure do |c|
         c.targets = [test_target]
       end
     end
@@ -104,7 +104,7 @@ RSpec.describe Stenotype::Emitter do
     let(:test_target) { Stenotype::TestAdapter.new(test_buffer) }
 
     before do
-      Stenotype::Configuration.configure do |c|
+      Stenotype.configure do |c|
         c.targets = [test_target]
       end
     end

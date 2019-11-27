@@ -24,7 +24,7 @@ RSpec.describe Stenotype::Dispatcher do
     subject(:dispatcher) { described_class.new }
 
     before do
-      Stenotype::Configuration.configure do |c|
+      Stenotype.configure do |c|
         c.targets = [test_target]
       end
     end

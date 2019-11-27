@@ -30,7 +30,7 @@ RSpec.describe Stenotype::ContextHandlers::Collection do
       it 'raises' do
         expect do
           collection.choose(handler_name: :unknown)
-        end.to raise_error(Stenotype::Errors::UnknownHandler)
+        end.to raise_error(Stenotype::UnknownHandlerError)
       end
     end
   end

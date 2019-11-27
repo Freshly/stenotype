@@ -31,9 +31,8 @@ Gem::Specification.new do |spec|
 
   spec.add_dependency 'activesupport', '>= 5.0.0'
   spec.add_dependency 'google-cloud-pubsub', '~> 1.0.0'
-  spec.add_dependency 'around_the_world', '0.19.0'
-  spec.add_dependency 'collectible', '0.19.0'
-  spec.add_dependency 'spicerack'
+
+  spec.add_runtime_dependency "spicery", ">= 0.19.0", "< 1.0"
 
   spec.add_development_dependency 'bundler', '~> 2.0'
   spec.add_development_dependency 'github-markup', '~> 3.0'
@@ -41,10 +40,12 @@ Gem::Specification.new do |spec|
   spec.add_development_dependency 'redcarpet', '~> 3.5'
   spec.add_development_dependency 'yard', '~> 0.9'
 
+  spec.add_development_dependency "rspice", ">= 0.19.0", "< 1.0"
+  spec.add_development_dependency "spicerack-styleguide", ">= 0.19.0", "< 1.0"
+
   spec.add_development_dependency 'pry', '~> 0.12'
   spec.add_development_dependency 'rails', '~> 5.2.3'
   spec.add_development_dependency 'rspec', '~> 3.0'
-  spec.add_development_dependency 'rubocop', '~> 0.76'
   spec.add_development_dependency 'simplecov', '~> 0.17'
   spec.add_development_dependency 'timecop', '~> 0.9'
 end
