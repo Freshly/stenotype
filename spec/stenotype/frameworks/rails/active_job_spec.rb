@@ -29,7 +29,11 @@ RSpec.describe Stenotype::Frameworks::Rails::ActiveJobExtension do
   let(:test_buffer) { [] }
   let(:test_target) { Stenotype::TestAdapter.new(test_buffer) }
 
-  before { Stenotype.config.targets = [test_target] }
+  before do
+    Stenotype::Configuration.configure do |c|
+      c.targets = [test_target]
+    end
+  end
 
   describe '.trackable_job!' do
     it 'prepends an emit event action before performing the job' do

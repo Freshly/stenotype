@@ -51,7 +51,7 @@ module Stenotype
       #   google_cloud_adapter.publish({ event: :data }, { additional: :data })
       #
       def publish(event_data, **additional_arguments)
-        case config.gc_mode
+        case config.mode
         when :async
           publish_async(event_data, **additional_arguments)
         when :sync
@@ -77,8 +77,8 @@ module Stenotype
       # :nocov:
       def client
         @client ||= Google::Cloud::PubSub.new(
-          project_id: config.gc_project_id,
-          credentials: config.gc_credentials
+          project_id: config.project_id,
+          credentials: config.credentials
         )
       end
 
@@ -86,11 +86,11 @@ module Stenotype
       # every time. And a new async_publisher will be created.
       # :nocov:
       def topic
-        @topic ||= client.topic config.gc_topic
+        @topic ||= client.topic config.topic
       end
 
       def config
-        Stenotype.config
+        Stenotype.config.google_cloud
       end
     end
   end

@@ -39,33 +39,6 @@ module Stenotype
   end
 
   class << self
-    ##
-    # Configures the library. See also {Stenotype::Railtie} for Rails
-    #   specific configuration.
-    # @yield {Stenotype::Configuration}
-    #
-    # @example
-    #
-    #   Stenotype.configure do |config|
-    #     config.targets = [
-    #       Stenotype::Adapters::StdoutAdapter.new,
-    #       Stenotype::Adapters::GoogleCloud.new
-    #     ]
-    #
-    #      config.dispatcher     = Stenotype::Dispatcher.new
-    #      config.gc_project_id  = ENV['GC_PROJECT_ID']
-    #      config.gc_credentials = ENV['GC_CREDENTIALS']
-    #      config.gc_topic       = ENV['GC_TOPIC']
-    #      config.gc_mode        = :async
-    #
-    #      config.enable_action_controller_extension = true
-    #      config.enable_active_job_extension = true
-    #   end
-    #
-    def configure(&block)
-      Stenotype::Configuration.configure(&block)
-    end
-
     #
     # @example
     #   Stenotype.config #=> StenotypeConfiguation
@@ -73,10 +46,13 @@ module Stenotype
     # @return {Stenotype::Configuration}
     #
     def config
-      Stenotype::Configuration
+      Stenotype::Configuration.config
     end
   end
 end
+
+require 'spicerack'
+require 'spicerack/configurable'
 
 require "stenotype/adapters"
 require "stenotype/configuration"
@@ -87,14 +63,16 @@ require "stenotype/event_serializer"
 require "stenotype/version"
 require "stenotype/emitter"
 
-Stenotype.configure do |config|
+Stenotype::Configuration.configure do |config|
   config.uuid_generator = SecureRandom
   config.dispatcher     = Stenotype::Dispatcher.new
 
-  config.gc_project_id  = ENV['GC_PROJECT_ID']
-  config.gc_credentials = ENV['GC_CREDENTIALS']
-  config.gc_topic       = ENV['GC_TOPIC']
-  config.gc_mode        = :async
+  config.google_cloud do |gc|
+    gc.project_id  = ENV['GC_PROJECT_ID']
+    gc.credentials = ENV['GC_CREDENTIALS']
+    gc.topic       = ENV['GC_TOPIC']
+    gc.mode        = :async
+  end
 
   config.targets = [
     Stenotype::Adapters::StdoutAdapter.new,

@@ -31,6 +31,9 @@ Gem::Specification.new do |spec|
 
   spec.add_dependency 'activesupport', '>= 5.0.0'
   spec.add_dependency 'google-cloud-pubsub', '~> 1.0.0'
+  spec.add_dependency 'around_the_world', '0.19.0'
+  spec.add_dependency 'collectible', '0.19.0'
+  spec.add_dependency 'spicerack'
 
   spec.add_development_dependency 'bundler', '~> 2.0'
   spec.add_development_dependency 'github-markup', '~> 3.0'

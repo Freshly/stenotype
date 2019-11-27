@@ -18,18 +18,18 @@
 
 Feedback TODO:
 
- - [x] Move all exceptions into root module Stenotype.
- - [x] Inherit gem specific error from a root error object specific for the gem.
- - [x] Inherit the root error from standard error
- - [x] Utilize concerns and allow gem users to extend the code they need with a concern rather than aggressively extend Object
- - [x] Use Railtie to introduce rails specific logic instead of checking whether Rails is defined in the root module.
- - [?] Use delegation instead of defining tiny methods. Do not forget about Demeter's.
- - [ ] Add more examples to yard documentation, consider collecting README.md from the yard doc.
+ - [x] Move all exceptions into root module Stenotype. **Moved exceptions into root module**
+ - [x] Inherit gem specific error from a root error object specific for the gem. **All gem specific error inherit from Stenotype::Errors**
+ - [x] Inherit the root error from standard error. **Stenotype::Errors inherits from StandardError**
+ - [x] Utilize concerns and allow gem users to extend the code they need with a concern rather than aggressively extend Object. **Added an Stenotype::Emitter module instead of aggressively including it into Object**
+ - [x] Use Railtie to introduce rails specific logic instead of checking whether Rails is defined in the root module. **Added a Railtie, active only in Rails world**
+ - [?] Use delegation instead of defining tiny methods. Do not forget about Demeter's. **Rails `delegate` method is used in Rails specific extensions. Otherwise simple methods are used**
+ - [x] Add more examples to yard documentation, consider collecting README.md from the yard doc. **Covered most of the classes/modules with yard examples**
+ - [x] Enable on-off triggers in the configuration to  enable/disable framework specific features. Like whether  we want to extend ActiveJob or not. **Added two configuration options for currently implemented Rails extensions**
+ - [x] Memoization! **Not actually needed**
  - [ ] Consider potential double wrapping in the meta-programming stuff. Take a look at around-the-world and consider switching to using it.
  - [ ] Utilize input objects for attr_readers (what was the name of the tool?)
  - [ ] Consider configurable for configuration instead of implementing custom configuration object
  - [ ] Consider using collectible gem to handle collection of context handlers
- - [ ] Consider naming (e.g. #to_json => #to_h), try to be more  specific to not pollute the namespace or introduce any ambiguity.
+ - [ ] Consider naming (e.g. #as_json => #to_h), try to be more  specific to not pollute the namespace or introduce any ambiguity.
  - [ ] Remove freshly mentions from the gem.
- - [ ] Enable on-off triggers in the configuration to  enable/disable framework specific features. Like whether  we want to extend ActiveJob or not.
- - [ ] Memoization!

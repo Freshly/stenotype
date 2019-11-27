@@ -19,6 +19,9 @@ end
 SimpleCov.start 'gem'
 
 require 'stenotype'
+require 'spicerack/rspec/configurable/spec_helper'
+require 'spicerack/rspec/custom_matchers'
+
 Dir[File.join(File.expand_path(__dir__), 'support/**/*.rb')].each { |f| require f }
 
 RSpec.configure do |config|
@@ -40,7 +43,7 @@ RSpec.configure do |config|
 
   config.before(:suite) do |_example|
     # Configure a dummy target
-    Stenotype.configure do |c|
+    Stenotype::Configuration.configure do |c|
       c.targets = [Stenotype::TestAdapter.new([])]
       c.uuid_generator = Stenotype::TestUuidGen
     end

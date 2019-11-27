@@ -53,7 +53,9 @@ RSpec.describe Stenotype::Emitter do
     let(:test_target) { Stenotype::TestAdapter.new(test_buffer) }
 
     before do
-      Stenotype.config.targets = [test_target]
+      Stenotype::Configuration.configure do |c|
+        c.targets = [test_target]
+      end
     end
 
     context 'for regular methods' do
@@ -102,7 +104,9 @@ RSpec.describe Stenotype::Emitter do
     let(:test_target) { Stenotype::TestAdapter.new(test_buffer) }
 
     before do
-      Stenotype.config.targets = [test_target]
+      Stenotype::Configuration.configure do |c|
+        c.targets = [test_target]
+      end
     end
 
     context 'of instance' do

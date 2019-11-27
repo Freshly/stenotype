@@ -18,7 +18,11 @@ RSpec.describe Stenotype::Adapters::GoogleCloud do
     subject(:adapter) { described_class.new(client: fake_client) }
 
     context 'for async mode' do
-      before { Stenotype.config.gc_mode = :async }
+      before do
+        Stenotype::Configuration.configure do |c|
+          c.google_cloud.mode = :async
+        end
+      end
 
       context 'when publishing has succeeded' do
         it 'publishes the message asynchronously' do
@@ -42,7 +46,11 @@ RSpec.describe Stenotype::Adapters::GoogleCloud do
     end
 
     context 'for sync mode' do
-      before { Stenotype.config.gc_mode = :sync }
+      before do
+        Stenotype::Configuration.configure do |c|
+          c.google_cloud.mode = :sync
+        end
+      end
 
       it 'publishes the message synchronously' do
         expect(topic_double).to receive(:publish).with(event_data, additional_arguments).once
@@ -52,7 +60,11 @@ RSpec.describe Stenotype::Adapters::GoogleCloud do
     end
 
     context 'for unsupported mode' do
-      before { Stenotype.config.gc_mode = :unsupported }
+      before do
+        Stenotype::Configuration.configure do |c|
+          c.google_cloud.mode = :unsupported
+        end
+      end
 
       it 'raises' do
         expect do

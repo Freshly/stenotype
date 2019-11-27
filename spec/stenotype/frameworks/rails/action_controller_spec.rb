@@ -49,7 +49,11 @@ RSpec.describe Stenotype::Frameworks::Rails::ActionControllerExtension do
     let(:test_buffer) { [] }
     let(:test_target) { Stenotype::TestAdapter.new(test_buffer) }
 
-    before { Stenotype.config.targets = [test_target] }
+    before do
+      Stenotype::Configuration.configure do |c|
+        c.targets = [test_target]
+      end
+    end
   end
 
   describe '.track_view' do
