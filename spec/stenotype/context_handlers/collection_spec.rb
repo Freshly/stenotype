@@ -36,48 +36,24 @@ RSpec.describe Stenotype::ContextHandlers::Collection do
   end
 
   describe '#register' do
-    context 'when handler inherits from correct base class' do
-      it 'adds it to collection' do
-        expect do
-          collection.register(dummy_handler)
-        end.to change {
-          collection
-        }.from([]).to([dummy_handler])
-      end
-    end
-
-    context 'when handler inherits from wrong class' do
-      let(:dummy_handler) { Class.new }
-
-      it 'raises' do
-        expect do
-          collection.register(dummy_handler)
-        end.to raise_error(ArgumentError, /Handler must inherit from/)
-      end
+    it 'adds it to collection' do
+      expect do
+        collection.register(dummy_handler)
+      end.to change {
+        collection.items
+      }.from([]).to([dummy_handler])
     end
   end
 
   describe '#unregister' do
-    context 'when handler inherits from correct class' do
-      before { collection.register(dummy_handler) }
+    before { collection.register(dummy_handler) }
 
-      it 'removes a handler from collection' do
-        expect do
-          collection.unregister(dummy_handler)
-        end.to change {
-          collection
-        }.from([dummy_handler]).to([])
-      end
-    end
-
-    context 'when handler inherits from wrong class' do
-      let(:dummy_handler) { Class.new }
-
-      it 'raises' do
-        expect do
-          collection.unregister(dummy_handler)
-        end.to raise_error(ArgumentError, /Handler must inherit from/)
-      end
+    it 'removes a handler from collection' do
+      expect do
+        collection.unregister(dummy_handler)
+      end.to change {
+        collection.items
+      }.from([dummy_handler]).to([])
     end
   end
 

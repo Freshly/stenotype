@@ -11,7 +11,7 @@ RSpec.describe Stenotype::ContextHandlers do
 
       it 'returns an empty handlers collection' do
         expect(context_handlers.known).to be_empty
-        expect(context_handlers.known).to be_a(Array)
+        expect(context_handlers.known).to be_a(::Collectible::CollectionBase)
       end
 
       after { Stenotype::ContextHandlers.reset_defaults! }
