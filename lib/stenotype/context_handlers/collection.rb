@@ -36,9 +36,7 @@ module Stenotype
       #   collection = Stenotype::ContextHandlers::Collection.new
       #   collection.register(MyCustomHandler) # with handler_name = :custom_handler
       #
-      def register(handler)
-        push(handler)
-      end
+      alias_method :register, :push
 
       #
       # Removes a registered handler.
@@ -51,6 +49,8 @@ module Stenotype
       # @param handler {#as_json} a handler to be removed from the collection of known handlers
       # @return {Stenotype::ContextHandlers::Collection} a collection object
       #
+      # @todo Add delete to the collectible delegation list
+      #   and then use `alias_method :unregister, :delete`
       def unregister(handler)
         items.delete(handler)
         self
@@ -76,9 +76,9 @@ module Stenotype
       def choose(handler_name:)
         handler = find_by(handler_name: handler_name)
         handler || raise(Stenotype::Errors::UnknownHandler,
-                         "Handler '#{handler_name}' is not found. " \
-                         "Please make sure the handler you've specified is " \
-                         'registered in the list of known handlers. ' \
+                         "Handler '#{handler_name}' is not found. "\
+                         "Please make sure the handler you've specified is "\
+                         "registered in the list of known handlers. "\
                          "See #{Stenotype::ContextHandlers} for more information.")
       end
 
@@ -97,9 +97,7 @@ module Stenotype
       # @param handler {#as_json} a handler to be checked for presence in a collection
       # @return [true, false]
       #
-      def registered?(handler)
-        include?(handler)
-      end
+      alias_method :registered?, :include?
     end
   end
 end

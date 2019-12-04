@@ -1,74 +1,68 @@
 # frozen_string_literal: true
 
-require 'spec_helper'
+require "spec_helper"
 
 RSpec.describe Stenotype::ContextHandlers::Collection do
   subject(:collection) { described_class.new }
 
-  let(:dummy_handler) do
+  let(:handler) do
     Class.new(Stenotype::ContextHandlers::Base) do
-      self.handler_name = :dummy_handler
+      self.handler_name = :handler
 
       class << self
         def name
-          'DummyHandler'
+          "DummyHandler"
         end
       end
     end
   end
 
-  describe '#choose' do
-    context 'when a handler is registered' do
-      before { collection.register(dummy_handler) }
+  describe "#choose" do
+    context "when a handler is registered" do
+      before { collection.register(handler) }
 
-      it 'returns it' do
-        expect(collection.choose(handler_name: :dummy_handler).name).to eq('DummyHandler')
+      it "returns it" do
+        expect(collection.choose(handler_name: :handler).name).to eq("DummyHandler")
       end
     end
 
-    context 'when a handler is not registered' do
-      it 'raises' do
-        expect do
-          collection.choose(handler_name: :unknown)
-        end.to raise_error(Stenotype::Errors::UnknownHandler)
+    context "when a handler is not registered" do
+      it "raises" do
+        expect { collection.choose(handler_name: :unknown) }.to raise_error(Stenotype::Errors::UnknownHandler)
       end
     end
   end
 
-  describe '#register' do
-    it 'adds it to collection' do
-      expect do
-        collection.register(dummy_handler)
-      end.to change {
-        collection.items
-      }.from([]).to([dummy_handler])
+  describe "#register" do
+    subject(:register) { collection.register(handler) }
+
+    it "adds it to collection" do
+      expect { register }.to change { collection.items }.to([handler])
     end
   end
 
-  describe '#unregister' do
-    before { collection.register(dummy_handler) }
+  describe "#unregister" do
+    before { collection.register(handler) }
 
-    it 'removes a handler from collection' do
-      expect do
-        collection.unregister(dummy_handler)
-      end.to change {
-        collection.items
-      }.from([dummy_handler]).to([])
+    subject(:unregister) { collection.unregister(handler) }
+
+    it "removes a handler from collection" do
+      expect { unregister }.to change { collection.items }.to([])
     end
   end
 
-  describe 'registered?' do
-    context 'when a handler is present in the collection' do
-      before { collection.register(dummy_handler) }
+  describe "registered?" do
+    context "when a handler is present in the collection" do
+      before { collection.register(handler) }
 
-      it 'returns true' do
-        expect(collection.registered?(dummy_handler)).to eq(true)
-      end
+      subject(:registered?) { collection.registered?(handler) }
+
+      it { is_expected.to eq(true) }
     end
 
-    context 'when a handler is not present in the collection' do
-      it 'returns false' do
-        expect(collection.registered?(dummy_handler)).to eq(false)
+    context "when a handler is not present in the collection" do
+      it "returns false" do
+        expect(collection.registered?(handler)).to eq(false)
       end
     end
   end
