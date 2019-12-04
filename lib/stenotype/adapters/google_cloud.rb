@@ -36,8 +36,6 @@ module Stenotype
     class GoogleCloud < Base
       #
       # @param event_data {Hash} The data to be published to Google Cloud
-      # @raise {Stenotype::GoogleCloudUnsupportedModeError} unless the mode
-      #   in configured to be :sync or :async
       # @raise {Stenotype::MessageNotPublishedError} unless message is published
       #
       # @example With default client
@@ -51,14 +49,10 @@ module Stenotype
       #   google_cloud_adapter.publish({ event: :data }, { additional: :data })
       #
       def publish(event_data, **additional_arguments)
-        case config.mode
-        when :async
+        if config.async
           publish_async(event_data, **additional_arguments)
-        when :sync
-          publish_sync(event_data, **additional_arguments)
         else
-          raise Stenotype::GoogleCloudUnsupportedModeError,
-                'Please use either :sync or :async modes for publishing the events.'
+          publish_sync(event_data, **additional_arguments)
         end
       end
 
@@ -76,10 +70,7 @@ module Stenotype
 
       # :nocov:
       def client
-        @client ||= Google::Cloud::PubSub.new(
-          project_id: config.project_id,
-          credentials: config.credentials
-        )
+        @client ||= Google::Cloud::PubSub.new(project_id: config.project_id, credentials: config.credentials)
       end
 
       # Use memoization, otherwise a new topic will be created

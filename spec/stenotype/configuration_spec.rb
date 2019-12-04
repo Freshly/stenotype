@@ -6,33 +6,20 @@ RSpec.describe Stenotype::Configuration, type: :configuration do
   subject(:configuration) { described_class }
 
   describe '.targets' do
+    subject(:targets) { configuration.targets }
+
     context 'when a target(s) have been specified' do
       let(:test_target) { Stenotype::TestAdapter.new }
-      before do
-        Stenotype.configure do |c|
-          c.targets = [test_target]
-        end
-      end
+      before { Stenotype.configure { |config| config.targets = [test_target] } }
 
-      it 'returns it' do
-        expect(configuration.targets).to match_array([test_target])
-      end
+      it { is_expected.to match_array([test_target]) }
     end
 
     context 'when no targets have been specified' do
-      before do
-        Stenotype.configure do |c|
-          c.targets = []
-        end
-      end
+      before { Stenotype.configure { |config| config.targets = [] } }
 
       it 'raises' do
-        expect do
-          configuration.targets
-        end.to raise_error(
-          Stenotype::NoTargetsSpecifiedError,
-          /Please configure a target\(s\)/
-        )
+        expect { targets }.to raise_error(Stenotype::NoTargetsSpecifiedError)
       end
     end
   end
@@ -47,9 +34,9 @@ RSpec.describe Stenotype::Configuration, type: :configuration do
   end
 
   nested_config_option :google_cloud do
-    it { is_expected.to define_config_option :credentials, default: 'SPECIFY YOUR CREDENTIALS' }
-    it { is_expected.to define_config_option :project_id, default: 'SPECIFY YOUR PROJECT ID' }
-    it { is_expected.to define_config_option :topic, default: 'SPECIFY YOUR TOPIC' }
-    it { is_expected.to define_config_option :mode, default: :async }
+    it { is_expected.to define_config_option :credentials, default: nil }
+    it { is_expected.to define_config_option :project_id, default: nil }
+    it { is_expected.to define_config_option :topic, default: nil }
+    it { is_expected.to define_config_option :async, default: true }
   end
 end

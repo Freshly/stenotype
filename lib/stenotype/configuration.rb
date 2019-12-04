@@ -13,7 +13,7 @@ module Stenotype
   #       gc.credentials = 'abc'
   #       gc.project_id  = 'project'
   #       gc.topic       = '42'
-  #       gc.mode        = :async
+  #       gc.async       = true
   #     end
   #
   #     config.rails do |rc|
@@ -46,8 +46,8 @@ module Stenotype
     # @!attribute [rw] google_cloud.topic
     # @return {String} a name of the topic in GC PubSub
 
-    # @!attribute [rw] google_cloud.mode
-    # @return [:sync, :async] GC publish mode
+    # @!attribute [rw] google_cloud.async
+    # @return [true, false] GC publish mode, either async if true, sync if false
 
 
     # @!attribute [rw] rails
@@ -65,10 +65,10 @@ module Stenotype
       option :uuid_generator, default: SecureRandom
 
       nested :google_cloud do
-        option :credentials, default: 'SPECIFY YOUR CREDENTIALS'
-        option :project_id, default: 'SPECIFY YOUR PROJECT ID'
-        option :topic, default: 'SPECIFY YOUR TOPIC'
-        option :mode, default: :async
+        option :credentials, default: nil
+        option :project_id, default: nil
+        option :topic, default: nil
+        option :async, default: true
       end
 
       nested :rails do
@@ -96,8 +96,8 @@ module Stenotype
     def targets
       return config.targets unless config.targets.empty?
       raise Stenotype::NoTargetsSpecifiedError,
-            'Please configure a target(s) for events to be sent to. ' \
-            'See Stenotype::Configuration for reference.'
+            "Please configure a target(s) for events to be sent to. "\
+            "See #{Stenotype::Configuration} for reference."
     end
   end
 end

@@ -19,9 +19,6 @@ require "stenotype/emitter"
 module Stenotype
   # A wrapper class for Stenotype specific errors
   class Error < StandardError; end
-  # This exception is being raised in case an unsupported mode
-  # for Google Cloud is specified.
-  class GoogleCloudUnsupportedModeError < Error; end
   # This exception is being raised upon unsuccessful publishing of an event.
   class MessageNotPublishedError < Error; end
   # This exception is being raised in case no targets are
@@ -31,12 +28,10 @@ module Stenotype
   # has never been registered in known handlers in {Stenotype::ContextHandlers::Collection}.
   class UnknownHandlerError < Error; end
 
-  include ::Spicerack::Configurable::ConfigDelegation
+  include Spicerack::Configurable::ConfigDelegation
   delegates_to_configuration
 end
 
-Stenotype::ContextHandlers.module_eval do
-  register Stenotype::ContextHandlers::Klass
-end
+Stenotype::ContextHandlers.register(Stenotype::ContextHandlers::Klass)
 
 require "stenotype/railtie" if defined?(Rails)

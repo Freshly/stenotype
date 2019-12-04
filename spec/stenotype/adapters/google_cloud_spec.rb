@@ -4,11 +4,7 @@ require 'spec_helper'
 
 RSpec.describe Stenotype::Adapters::GoogleCloud do
   describe '#publish' do
-    let(:topic_double) do
-      double(:topic,
-             publish: 'sync publish',
-             publish_async: 'async publish')
-    end
+    let(:topic_double) { double(:topic, publish: 'sync publish', publish_async: 'async publish') }
 
     let(:fake_client) { double(:client, topic: topic_double) }
 
@@ -18,11 +14,7 @@ RSpec.describe Stenotype::Adapters::GoogleCloud do
     subject(:adapter) { described_class.new(client: fake_client) }
 
     context 'for async mode' do
-      before do
-        Stenotype.configure do |c|
-          c.google_cloud.mode = :async
-        end
-      end
+      before { Stenotype.configure { |config| config.google_cloud.async = true } }
 
       context 'when publishing has succeeded' do
         it 'publishes the message asynchronously' do
@@ -38,39 +30,20 @@ RSpec.describe Stenotype::Adapters::GoogleCloud do
         before { allow(topic_double).to receive(:publish_async).and_yield(failed_result) }
 
         it 'raises' do
-          expect do
+          expect {
             adapter.publish(event_data, additional_arguments)
-          end.to raise_error(Stenotype::MessageNotPublishedError)
+          }.to raise_error(Stenotype::MessageNotPublishedError)
         end
       end
     end
 
     context 'for sync mode' do
-      before do
-        Stenotype.configure do |c|
-          c.google_cloud.mode = :sync
-        end
-      end
+      before { Stenotype.configure { |config| config.google_cloud.async = false } }
 
       it 'publishes the message synchronously' do
         expect(topic_double).to receive(:publish).with(event_data, additional_arguments).once
 
         adapter.publish(event_data, additional_arguments)
-      end
-    end
-
-    context 'for unsupported mode' do
-      before do
-        Stenotype.configure do |c|
-          c.google_cloud.mode = :unsupported
-        end
-      end
-
-      it 'raises' do
-        expect do
-          described_class.new.publish(event_data, additional_arguments)
-        end.to raise_error(Stenotype::GoogleCloudUnsupportedModeError,
-                           /Please use either :sync/)
       end
     end
   end
