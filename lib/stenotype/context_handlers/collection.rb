@@ -27,13 +27,13 @@ module Stenotype
     #   collection.unregister(SomeRandomClass) #=> ArgumentError
     #   collection.choose(handler_name: :unknown) #=> Stenotype::UnknownHandlerError
     #
-    class Collection < Array
+    class Collection < ::Collectible::CollectionBase
       #
       # Return a handler with given handler_name if found in collection,
       # raises if a handler is not registered
       #
       # @param handler_name {Symbol} a handler to be found in the collection
-      # @raise {Stenotype::UnknownHandlerError} in case a handler is not registered
+      # @raise {Stenotype::Errors::UnknownHandler} in case a handler is not registered
       # @return {#as_json} A handler which respond to #as_json
       #
       # @example When a handler is present in the collection
@@ -46,64 +46,41 @@ module Stenotype
       #   collection.choose(handler_name: :custom_handler) #=> MyCustomHandler
       #
       def choose(handler_name:)
-        handler = detect { |e| e.handler_name == handler_name }
-        handler || raise(Stenotype::UnknownHandlerError,
-                         "Handler '#{handler_name}' is not found. " \
-                         "Please make sure the handler you've specified is " \
-                         'registered in the list of known handlers. ' \
+        handler = find_by(handler_name: handler_name)
+        handler || raise(Stenotype::Errors::UnknownHandler,
+                         "Handler '#{handler_name}' is not found. "\
+                         "Please make sure the handler you've specified is "\
+                         "registered in the list of known handlers. "\
                          "See #{Stenotype::ContextHandlers} for more information.")
       end
 
       #
-      # Registers a new handler. Checks handler type before adding
+      # Registers a new handler.
       #
       # @param handler {#as_json} a new handler to be added to collection
-      # @raise {ArgumentError} in case handler does not inherit from {Stenotype::ContextHandlers::Base}
       # @return {Stenotype::ContextHandlers::Collection} a collection object
       #
-      # @example When a handler inherits from Stenotype::ContextHandlers::Base
+      # @example Registering a new handler
       #   collection = Stenotype::ContextHandlers::Collection.new
       #   collection.register(MyCustomHandler) # with handler_name = :custom_handler
       #
-      # @example When a handler doesn't inherit from Stenotype::ContextHandlers::Base
-      #   collection = Stenotype::ContextHandlers::Collection.new
-      #   collection.register(NotInheritedFromHandlerBase) # => ArgumentError
-      #
-      def register(handler)
-        unless handler < Stenotype::ContextHandlers::Base
-          raise ArgumentError,
-                "Handler must inherit from #{Stenotype::ContextHandlers::Base}, " \
-                "but inherited from #{handler.superclass}"
-        end
-
-        push(handler) unless registered?(handler)
-        self
-      end
+      alias_method :register, :push
 
       #
-      # Removes a registered handler. Checks handler type before removing
+      # Removes a registered handler.
       #
-      # @example When a handler inherits from Stenotype::ContextHandlers::Base
+      # @example Register and unregister a handler
       #   collection = Stenotype::ContextHandlers::Collection.new
       #   collection.register(MyCustomHandler) # with handler_name = :custom_handler
       #   collection.unregister(MyCustomHandler) # removes MyCustomHandler from the list of handlers
       #
-      # @example When a handler doesn't inherit from Stenotype::ContextHandlers::Base
-      #   collection = Stenotype::ContextHandlers::Collection.new
-      #   collection.unregister(MyCustomHandler) # ArgumentError
-      #
       # @param handler {#as_json} a handler to be removed from the collection of known handlers
-      # @raise {ArgumentError} in case handler does not inherit from {Stenotype::ContextHandlers::Base}
       # @return {Stenotype::ContextHandlers::Collection} a collection object
       #
+      # @todo Add delete to the collectible delegation list
+      #   and then use `alias_method :unregister, :delete`
       def unregister(handler)
-        unless handler < Stenotype::ContextHandlers::Base
-          raise ArgumentError,
-                "Handler must inherit from #{Stenotype::ContextHandlers::Base}, " \
-                "but inherited from #{handler.superclass}"
-        end
-
-        delete(handler) if registered?(handler)
+        items.delete(handler)
         self
       end
 
@@ -122,9 +99,7 @@ module Stenotype
       # @param handler {#as_json} a handler to be checked for presence in a collection
       # @return [true, false]
       #
-      def registered?(handler)
-        include?(handler)
-      end
+      alias_method :registered?, :include?
     end
   end
 end

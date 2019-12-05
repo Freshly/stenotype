@@ -9,14 +9,14 @@ require 'rails'
 require 'action_controller'
 require 'active_job'
 
-SimpleCov.profiles.define 'gem' do
-  track_files '{lib}/**/*.rb'
+# SimpleCov.profiles.define 'gem' do
+#   track_files '{lib}/**/*.rb'
 
-  add_filter '/spec'
-  add_filter 'lib/stenotype/version.rb'
-end
+#   add_filter '/spec'
+#   add_filter 'lib/stenotype/version.rb'
+# end
 
-SimpleCov.start 'gem'
+# SimpleCov.start 'gem'
 
 require 'stenotype'
 require "spicerack/spec_helper"
@@ -33,6 +33,8 @@ RSpec.configure do |config|
   config.expect_with :rspec do |c|
     c.syntax = :expect
   end
+
+  config.include(Stenotype::GeneratorHelper, type: :generator)
 
   config.before(:suite) do |_example|
     # Configure a dummy target
