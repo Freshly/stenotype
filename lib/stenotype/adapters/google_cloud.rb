@@ -36,9 +36,7 @@ module Stenotype
     class GoogleCloud < Base
       #
       # @param event_data {Hash} The data to be published to Google Cloud
-      # @raise {Stenotype::Errors::GoogleCloudUnsupportedMode} unless the mode
-      #   in configured to be :sync or :async
-      # @raise {Stenotype::Errors::MessageNotPublished} unless message is published
+      # @raise {Stenotype::MessageNotPublishedError} unless message is published
       #
       # @example With default client
       #   google_cloud_adapter = Stenotype::Adapters::GoogleCloud.new
@@ -51,14 +49,10 @@ module Stenotype
       #   google_cloud_adapter.publish({ event: :data }, { additional: :data })
       #
       def publish(event_data, **additional_arguments)
-        case config.gc_mode
-        when :async
+        if config.async
           publish_async(event_data, **additional_arguments)
-        when :sync
-          publish_sync(event_data, **additional_arguments)
         else
-          raise Stenotype::Errors::GoogleCloudUnsupportedMode,
-                'Please use either :sync or :async modes for publishing the events.'
+          publish_sync(event_data, **additional_arguments)
         end
       end
 
@@ -70,27 +64,24 @@ module Stenotype
 
       def publish_async(event_data, **additional_arguments)
         topic.publish_async(event_data, additional_arguments) do |result|
-          raise Stenotype::Errors::MessageNotPublished unless result.succeeded?
+          raise Stenotype::MessageNotPublishedError unless result.succeeded?
         end
       end
 
       # :nocov:
       def client
-        @client ||= Google::Cloud::PubSub.new(
-          project_id: config.gc_project_id,
-          credentials: config.gc_credentials
-        )
+        @client ||= Google::Cloud::PubSub.new(project_id: config.project_id, credentials: config.credentials)
       end
 
       # Use memoization, otherwise a new topic will be created
       # every time. And a new async_publisher will be created.
       # :nocov:
       def topic
-        @topic ||= client.topic config.gc_topic
+        @topic ||= client.topic config.topic
       end
 
       def config
-        Stenotype.config
+        Stenotype.config.google_cloud
       end
     end
   end

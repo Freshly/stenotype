@@ -19,6 +19,8 @@ require 'active_job'
 # SimpleCov.start 'gem'
 
 require 'stenotype'
+require "spicerack/spec_helper"
+
 Dir[File.join(File.expand_path(__dir__), 'support/**/*.rb')].each { |f| require f }
 
 RSpec.configure do |config|
@@ -34,12 +36,6 @@ RSpec.configure do |config|
 
   config.include(Stenotype::GeneratorHelper, type: :generator)
 
-  config.around(:each) do |example|
-    Timecop.freeze(Time.local(2019))
-    example.run
-    Timecop.return
-  end
-
   config.before(:suite) do |_example|
     # Configure a dummy target
     Stenotype.configure do |c|
@@ -47,6 +43,9 @@ RSpec.configure do |config|
       c.uuid_generator = Stenotype::TestUuidGen
     end
   end
+
+  config.before(:each, type: :with_frozen_time) { Timecop.freeze(Time.now.round) }
+  config.after(:each) { Timecop.return }
 
   module Stenotype
     module ContextHandlers

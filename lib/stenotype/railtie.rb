@@ -7,14 +7,16 @@ module Stenotype
   #   Stenotype extensions for emitting event in various Rails components.
   #
   class Railtie < ::Rails::Railtie
-    Stenotype.configure do |c|
-      c.enable_action_controller_extension = true
-      c.enable_active_job_extension = true
+    Stenotype.configure do |config|
+      config.rails do |rails_config|
+        rails_config.enable_action_controller_ext = true
+        rails_config.enable_active_job_ext = true
+      end
     end
 
     config.stenotype = Stenotype.config
 
-    if config.stenotype.enable_action_controller_extension
+    if config.stenotype.rails.enable_action_controller_ext
       ActiveSupport.on_load(:action_controller) do
         Stenotype::ContextHandlers.register Stenotype::ContextHandlers::Rails::Controller
         include Stenotype::Frameworks::Rails::ActionControllerExtension
@@ -23,7 +25,7 @@ module Stenotype
 
     # @todo: consider using `::ActiveJob::Base.around_perform`
     #        or `::ActiveJob::Base.around_enqueue`
-    if config.stenotype.enable_active_job_extension
+    if config.stenotype.rails.enable_active_job_ext
       ActiveSupport.on_load(:active_job) do
         Stenotype::ContextHandlers.register Stenotype::ContextHandlers::Rails::ActiveJob
         extend Stenotype::Frameworks::Rails::ActiveJobExtension

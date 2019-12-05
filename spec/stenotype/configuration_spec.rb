@@ -2,42 +2,41 @@
 
 require 'spec_helper'
 
-RSpec.describe Stenotype::Configuration do
+RSpec.describe Stenotype::Configuration, type: :configuration do
   subject(:configuration) { described_class }
 
   describe '.targets' do
+    subject(:targets) { configuration.targets }
+
     context 'when a target(s) have been specified' do
       let(:test_target) { Stenotype::TestAdapter.new }
-      before { Stenotype.config.targets = [test_target] }
+      before { Stenotype.configure { |config| config.targets = [test_target] } }
 
-      it 'returns it' do
-        expect(configuration.targets).to match_array([test_target])
-      end
+      it { is_expected.to match_array([test_target]) }
     end
 
     context 'when no targets have been specified' do
-      before { Stenotype.config.targets = [] }
+      before { Stenotype.configure { |config| config.targets = [] } }
 
       it 'raises' do
-        expect do
-          configuration.targets
-        end.to raise_error(
-          Stenotype::Errors::NoTargetsSpecified,
-          /Please configure a target\(s\)/
-        )
+        expect { targets }.to raise_error(Stenotype::NoTargetsSpecifiedError)
       end
     end
   end
 
-  it { should have_attr_accessor(:gc_credentials) }
-  it { should have_attr_accessor(:gc_project_id) }
-  it { should have_attr_accessor(:gc_topic) }
-  it { should have_attr_accessor(:gc_mode) }
-  it { should have_attr_accessor(:dispatcher) }
+  it { is_expected.to define_config_option :targets, default: [] }
+  it { is_expected.to define_config_option :dispatcher, default: Stenotype::Dispatcher }
+  it { is_expected.to define_config_option :uuid_generator, default: SecureRandom }
 
-  describe '.configure' do
-    it 'yields self' do
-      expect { |b| configuration.configure(&b) }.to yield_control
-    end
+  nested_config_option :rails do
+    it { is_expected.to define_config_option(:enable_action_controller_ext, default: true) }
+    it { is_expected.to define_config_option(:enable_active_job_ext, default: true) }
+  end
+
+  nested_config_option :google_cloud do
+    it { is_expected.to define_config_option :credentials, default: nil }
+    it { is_expected.to define_config_option :project_id, default: nil }
+    it { is_expected.to define_config_option :topic, default: nil }
+    it { is_expected.to define_config_option :async, default: true }
   end
 end

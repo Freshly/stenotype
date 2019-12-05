@@ -23,9 +23,37 @@ module Stenotype
     #   collection.unregister(MyCustomHandler)
     #   collection.registered?(MyCustomHandler) #=> false
     #
-    #   collection.choose(handler_name: :unknown) #=> Stenotype::Errors::UnknownHandler
+    #   collection.register(SomeRandomClass) #=> ArgumentError
+    #   collection.unregister(SomeRandomClass) #=> ArgumentError
+    #   collection.choose(handler_name: :unknown) #=> Stenotype::UnknownHandlerError
     #
     class Collection < ::Collectible::CollectionBase
+      #
+      # Return a handler with given handler_name if found in collection,
+      # raises if a handler is not registered
+      #
+      # @param handler_name {Symbol} a handler to be found in the collection
+      # @raise {Stenotype::Errors::UnknownHandler} in case a handler is not registered
+      # @return {#as_json} A handler which respond to #as_json
+      #
+      # @example When a handler is present in the collection
+      #   collection = Stenotype::ContextHandlers::Collection.new
+      #   collection.register(MyCustomHandler) # with handler_name = :custom_handler
+      #   collection.choose(handler_name: :custom_handler) #=> MyCustomHandler
+      #
+      # @example When a handler is not present in the collection
+      #   collection = Stenotype::ContextHandlers::Collection.new
+      #   collection.choose(handler_name: :custom_handler) #=> MyCustomHandler
+      #
+      def choose(handler_name:)
+        handler = find_by(handler_name: handler_name)
+        handler || raise(Stenotype::Errors::UnknownHandler,
+                         "Handler '#{handler_name}' is not found. "\
+                         "Please make sure the handler you've specified is "\
+                         "registered in the list of known handlers. "\
+                         "See #{Stenotype::ContextHandlers} for more information.")
+      end
+
       #
       # Registers a new handler.
       #
@@ -54,32 +82,6 @@ module Stenotype
       def unregister(handler)
         items.delete(handler)
         self
-      end
-
-      #
-      # Return a handler with given handler_name if found in collection,
-      # raises if a handler is not registered
-      #
-      # @param handler_name {Symbol} a handler to be found in the collection
-      # @raise {Stenotype::Errors::UnknownHandler} in case a handler is not registered
-      # @return {#as_json} A handler which respond to #as_json
-      #
-      # @example When a handler is present in the collection
-      #   collection = Stenotype::ContextHandlers::Collection.new
-      #   collection.register(MyCustomHandler) # with handler_name = :custom_handler
-      #   collection.choose(handler_name: :custom_handler) #=> MyCustomHandler
-      #
-      # @example When a handler is not present in the collection
-      #   collection = Stenotype::ContextHandlers::Collection.new
-      #   collection.choose(handler_name: :custom_handler) #=> MyCustomHandler
-      #
-      def choose(handler_name:)
-        handler = find_by(handler_name: handler_name)
-        handler || raise(Stenotype::Errors::UnknownHandler,
-                         "Handler '#{handler_name}' is not found. "\
-                         "Please make sure the handler you've specified is "\
-                         "registered in the list of known handlers. "\
-                         "See #{Stenotype::ContextHandlers} for more information.")
       end
 
       #
