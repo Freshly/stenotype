@@ -28,7 +28,7 @@ RSpec.describe Stenotype::ContextHandlers::Collection do
 
     context "when a handler is not registered" do
       it "raises" do
-        expect { collection.choose(handler_name: :unknown) }.to raise_error(Stenotype::Errors::UnknownHandler)
+        expect { collection.choose(handler_name: :unknown) }.to raise_error(Stenotype::UnknownHandlerError)
       end
     end
   end
