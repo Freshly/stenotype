@@ -1,5 +1,7 @@
 # frozen_string_literal: true
 
+require "spicery"
+
 #
 # A top level namespace for the freshly-events gem
 #

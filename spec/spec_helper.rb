@@ -9,14 +9,14 @@ require 'rails'
 require 'action_controller'
 require 'active_job'
 
-SimpleCov.profiles.define 'gem' do
-  track_files '{lib}/**/*.rb'
+# SimpleCov.profiles.define 'gem' do
+#   track_files '{lib}/**/*.rb'
 
-  add_filter '/spec'
-  add_filter 'lib/stenotype/version.rb'
-end
+#   add_filter '/spec'
+#   add_filter 'lib/stenotype/version.rb'
+# end
 
-SimpleCov.start 'gem'
+# SimpleCov.start 'gem'
 
 require 'stenotype'
 Dir[File.join(File.expand_path(__dir__), 'support/**/*.rb')].each { |f| require f }
