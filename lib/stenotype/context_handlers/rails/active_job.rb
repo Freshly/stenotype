@@ -24,11 +24,9 @@ module Stenotype
             job_id: job_id,
             enqueued_at: Time.now.utc,
             queue_name: queue_name,
-            class: context.class.name
+            class: context.class.name,
           }
         end
-
-        private
 
         delegate :job_id, :queue_name, to: :context
       end

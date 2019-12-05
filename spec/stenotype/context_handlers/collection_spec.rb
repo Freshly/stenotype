@@ -37,7 +37,7 @@ RSpec.describe Stenotype::ContextHandlers::Collection do
     subject(:register) { collection.register(handler) }
 
     it "adds it to collection" do
-      expect { register }.to change { collection.items }.to([handler])
+      expect { register }.to change { collection.items }.to([ handler ])
     end
   end
 
@@ -62,7 +62,7 @@ RSpec.describe Stenotype::ContextHandlers::Collection do
 
     context "when a handler is not present in the collection" do
       it "returns false" do
-        expect(collection.registered?(handler)).to eq(false)
+        expect(collection).not_to be_registered(handler)
       end
     end
   end

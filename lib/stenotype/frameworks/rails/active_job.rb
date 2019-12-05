@@ -29,7 +29,6 @@ module Stenotype
         #     end
         #   end
         #
-        # rubocop:disable Metrics/MethodLength
         #
         def trackable_job!
           proxy = const_get(:JobExt)
@@ -37,8 +36,8 @@ module Stenotype
             define_method(:perform) do |*args, **rest_args, &block|
               Stenotype::Event.emit!(
                 { type: "active_job" },
-                options: {},
-                eval_context: { active_job: self }
+                { options: {},
+                  eval_context: { active_job: self }},
               )
               super(*args, **rest_args, &block)
             end
@@ -48,9 +47,8 @@ module Stenotype
           # super() can be chained down the ancestors
           # without changing existing ActiveJob interface
           #
-          send(:prepend, proxy)
+          public_send(:prepend, proxy)
         end
-        # rubocop:enable Metrics/MethodLength
       end
     end
   end

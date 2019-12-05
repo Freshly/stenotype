@@ -1,5 +1,4 @@
 # frozen_string_literal: true
-require 'securerandom'
 
 module Stenotype
   #
@@ -46,7 +45,7 @@ module Stenotype
         **event_data,
         **event_options,
         **default_options,
-        **eval_context_options
+        **eval_context_options,
       }
     end
 
@@ -65,16 +64,17 @@ module Stenotype
     end
 
     def eval_context_options
-      eval_context.map do |context_name, context|
+      context_attributes = eval_context.map do |context_name, context|
         handler = Stenotype::ContextHandlers.known.choose(handler_name: context_name)
         handler.new(context).as_json
-      end.reduce(:merge!) || {}
+      end
+      context_attributes.reduce(:merge!) || {}
     end
 
     def default_options
       {
         timestamp: Time.now.utc,
-        uuid: uuid_generator.uuid
+        uuid: uuid_generator.uuid,
       }
     end
   end

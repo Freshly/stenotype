@@ -1,6 +1,6 @@
 # frozen_string_literal: true
 
-require 'stenotype/adapters/base'
+require "stenotype/adapters/base"
 
 module Stenotype
   class TestAdapter < Stenotype::Adapters::Base
@@ -16,8 +16,10 @@ module Stenotype
     end
 
     def buffer
-      @buffer || raise(NotImplementedError,
-                       'Please specify a buffer for test adapter')
+      @buffer || raise(
+        NotImplementedError,
+        "Please specify a buffer for test adapter",
+      )
     end
   end
 end

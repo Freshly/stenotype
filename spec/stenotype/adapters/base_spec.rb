@@ -1,33 +1,33 @@
 # frozen_string_literal: true
 
-require 'spec_helper'
+require "spec_helper"
 
 RSpec.describe Stenotype::Adapters::Base do
-  describe '#publish' do
-    let(:dummy_klass) { Class.new(described_class) }
-    subject(:dummy_klass_instance) { dummy_klass.new }
+  describe "#publish" do
+    let(:klass) { Class.new(described_class) }
+    let(:klass_instance) { klass.new }
+    let(:event_data) { object_double(:event_data) }
 
-    context 'when not implemented' do
-      let(:event_data) { double(:event_data) }
+    subject(:publish) { klass_instance.publish(event_data) }
 
-      it 'raises NotImplementedError' do
-        expect do
-          dummy_klass_instance.publish(event_data)
-        end.to raise_error(NotImplementedError, /must implement method #publish/)
+    context "when not implemented" do
+      it "raises NotImplementedError" do
+        expect { publish }.to raise_error(NotImplementedError)
       end
     end
 
-    context 'when a subclass implements method #publish' do
+    context "when a subclass implements method #publish" do
       before do
-        dummy_klass.class_eval do
+        klass.class_eval do
           def publish(*_args)
-            true # do nothing
+            # do nothing
+            true
           end
         end
       end
 
-      it 'does not raise' do
-        expect(dummy_klass_instance.publish).to eq(true)
+      it "does not raise" do
+        expect(publish).to eq(true)
       end
     end
   end

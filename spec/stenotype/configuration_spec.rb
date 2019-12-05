@@ -1,24 +1,25 @@
 # frozen_string_literal: true
 
-require 'spec_helper'
+require "spec_helper"
 
 RSpec.describe Stenotype::Configuration, type: :configuration do
   subject(:configuration) { described_class }
 
-  describe '.targets' do
+  describe ".targets" do
     subject(:targets) { configuration.targets }
 
-    context 'when a target(s) have been specified' do
+    context "when a target(s) have been specified" do
       let(:test_target) { Stenotype::TestAdapter.new }
-      before { Stenotype.configure { |config| config.targets = [test_target] } }
 
-      it { is_expected.to match_array([test_target]) }
+      before { Stenotype.configure { |config| config.targets = [ test_target ] } }
+
+      it { is_expected.to match_array([ test_target ]) }
     end
 
-    context 'when no targets have been specified' do
+    context "when no targets have been specified" do
       before { Stenotype.configure { |config| config.targets = [] } }
 
-      it 'raises' do
+      it "raises" do
         expect { targets }.to raise_error(Stenotype::NoTargetsSpecifiedError)
       end
     end

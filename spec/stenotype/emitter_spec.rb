@@ -1,6 +1,6 @@
 # frozen_string_literal: true
 
-require 'spec_helper'
+require "spec_helper"
 
 RSpec.describe Stenotype::Emitter, type: :with_frozen_time do
   subject(:dummy_klass) do
@@ -22,11 +22,11 @@ RSpec.describe Stenotype::Emitter, type: :with_frozen_time do
         emit_event
       end
 
-      alias :aliased :to_be_aliased
+      alias_method :aliased, :to_be_aliased
 
       class << self
         def name
-          'DummyKlass'
+          "DummyKlass"
         end
 
         def some_class_method
@@ -36,116 +36,100 @@ RSpec.describe Stenotype::Emitter, type: :with_frozen_time do
     end
   end
 
-  context 'class methods' do
-    it 'include emit_event_before' do
+  describe "class methods" do
+    it "include emit_event_before" do
       expect(dummy_klass).to respond_to(:emit_event_before)
     end
   end
 
-  context 'instance methods' do
-    it 'include emit_event' do
+  describe "instance methods" do
+    it "include emit_event" do
       expect(dummy_klass.new).to respond_to(:emit_event)
     end
   end
 
-  describe '#emit_event' do
+  describe "#emit_event" do
     let(:test_buffer) { [] }
     let(:test_target) { Stenotype::TestAdapter.new(test_buffer) }
 
-    before do
-      Stenotype.configure do |c|
-        c.targets = [test_target]
-      end
-    end
+    before { Stenotype.configure { |config| config.targets = [ test_target ] } }
 
-    context 'for regular methods' do
+    context "when called in a regular method" do
       let(:expected_event_data) do
         {
           class: "DummyKlass",
           method: :emit_manually,
           timestamp: Time.now.utc,
           type: "class_instance",
-          uuid: "abcd"
+          uuid: "abcd",
         }
       end
 
-      it 'manually emits an event' do
-        expect do
-          dummy_klass.new.emit_manually
-        end.to change {
-          test_buffer
-        }.from([]).to([expected_event_data])
+      subject(:emit_manually) { dummy_klass.new.emit_manually }
+
+      it "manually emits an event" do
+        expect { emit_manually }.to change { test_buffer }.to([ expected_event_data ])
       end
     end
 
-    context 'for aliased methods' do
+    context "when called in an aliased method" do
       let(:expected_event_data) do
         {
           class: "DummyKlass",
           method: :to_be_aliased,
           timestamp: Time.now.utc,
           type: "class_instance",
-          uuid: "abcd"
+          uuid: "abcd",
         }
       end
 
-      it 'manually emits an event' do
-        expect do
-          dummy_klass.new.aliased
-        end.to change {
-          test_buffer
-        }.from([]).to([expected_event_data])
+      subject(:emit_aliased) { dummy_klass.new.aliased }
+
+      it "manually emits an event" do
+        expect { emit_aliased }.to change { test_buffer }.to([ expected_event_data ])
       end
     end
   end
 
-  context 'method' do
+  describe "method" do
     let(:test_buffer) { [] }
     let(:test_target) { Stenotype::TestAdapter.new(test_buffer) }
 
-    before do
-      Stenotype.configure do |c|
-        c.targets = [test_target]
-      end
-    end
+    before { Stenotype.configure { |config| config.targets = [ test_target ] } }
 
-    context 'of instance' do
+    context "when being an instance method" do
       let(:expected_event_data) do
         {
-          type: 'class_instance',
-          class: 'DummyKlass',
+          type: "class_instance",
+          class: "DummyKlass",
           method: :some_method,
           timestamp: Time.now.utc,
-          uuid: 'abcd'
+          uuid: "abcd",
         }
       end
 
-      it 'is wrapped with an event trigger' do
-        expect do
-          dummy_klass.new.some_method
-        end.to change {
-          test_buffer
-        }.from([]).to([expected_event_data])
+      subject(:trigger_from_method) { dummy_klass.new.some_method }
+
+      it "is wrapped with an event trigger" do
+        expect { trigger_from_method }.to change { test_buffer }.to([ expected_event_data ])
       end
     end
 
-    context 'of class' do
+    context "when being a class method" do
       let(:expected_event_data) do
         {
-          type: 'class',
-          class: 'DummyKlass',
+          type: "class",
+          class: "DummyKlass",
           method: :some_class_method,
           timestamp: Time.now.utc,
-          uuid: 'abcd'
+          uuid: "abcd",
         }
       end
 
-      it 'is wrapped with an event trigger' do
-        expect do
-          dummy_klass.some_class_method
-        end.to change {
-          test_buffer
-        }.from([]).to([expected_event_data])
+      subject(:trigger_from_class_method) { dummy_klass.some_class_method }
+
+      it "is wrapped with an event trigger" do
+        expect { trigger_from_class_method }.to change { test_buffer }.to([ expected_event_data ])
       end
     end
   end

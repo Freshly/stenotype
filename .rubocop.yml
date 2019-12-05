@@ -2,5 +2,6 @@ inherit_gem:
   spicerack-styleguide:
     - rubocop.yml
 
-AllCops:
-  TargetRubyVersion: 2.6
+# Disabled since ApplicationJob is only defined in a real application
+Rails/ApplicationJob:
+  Enabled: false

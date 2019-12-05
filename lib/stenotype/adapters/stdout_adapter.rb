@@ -32,7 +32,7 @@ module Stenotype
       #  adapter.publish({ event: :data }, { additional: :data })
       #
       def publish(event_data, **additional_arguments)
-        client.info(event_data, **additional_arguments)
+        client.info(**event_data, **additional_arguments)
       end
 
       private
