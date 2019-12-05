@@ -32,6 +32,8 @@ RSpec.configure do |config|
     c.syntax = :expect
   end
 
+  config.include(Stenotype::GeneratorHelper, type: :generator)
+
   config.around(:each) do |example|
     Timecop.freeze(Time.local(2019))
     example.run
