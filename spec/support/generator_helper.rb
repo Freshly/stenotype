@@ -20,14 +20,15 @@ module Stenotype
 
     module Macros
       def set_default_destination
-        destination File.expand_path("../../../tmp", __FILE__)
+        destination File.expand_path("../../tmp", __dir__)
       end
 
       def setup_default_destination
         set_default_destination
         self.generator_class = described_class
         before { prepare_destination }
-        after { rm_rf File.expand_path('tmp/config') }
+
+        after { rm_rf File.expand_path("tmp/config") }
       end
     end
 

@@ -10,9 +10,9 @@ module Stenotype
   #     config.uuid_generator = SecureRandom
   #
   #     config.google_cloud do |gc|
-  #       gc.credentials = 'abc'
-  #       gc.project_id  = 'project'
-  #       gc.topic       = '42'
+  #       gc.credentials = "abc"
+  #       gc.project_id  = "project"
+  #       gc.topic       = "42"
   #       gc.async       = true
   #     end
   #
@@ -95,6 +95,7 @@ module Stenotype
     #
     def targets
       return config.targets unless config.targets.empty?
+
       raise Stenotype::NoTargetsSpecifiedError,
             "Please configure a target(s) for events to be sent to. "\
             "See #{Stenotype::Configuration} for reference."

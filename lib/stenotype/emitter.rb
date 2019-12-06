@@ -26,7 +26,7 @@ module Stenotype
       klass.const_set(:InstanceProxy, Module.new)
       klass.const_set(:ClassProxy, Module.new)
 
-      klass.send(:include, instance_mod)
+      klass.public_send(:include, instance_mod)
       klass.extend(class_mod)
 
       super
@@ -94,7 +94,7 @@ module Stenotype
         def emit_event(data = {}, method: caller_locations.first.label, eval_context: nil)
           Stenotype::Event.emit!(
             {
-              type: 'class_instance',
+              type: "class_instance",
               **data,
             },
             options: {
@@ -120,7 +120,7 @@ module Stenotype
             proxy.module_eval do
               define_method(method) do |*args, **rest_args, &block|
                 Stenotype::Event.emit!(
-                  { type: 'class_instance' },
+                  { type: "class_instance" },
                   options: {
                     class: self.class.name,
                     method: __method__
@@ -142,7 +142,7 @@ module Stenotype
             proxy.module_eval do
               define_method(method) do |*args, **rest_args, &block|
                 Stenotype::Event.emit!(
-                  { type: 'class' },
+                  { type: "class" },
                   options: {
                     class: self.name,
                     method: __method__

@@ -1,22 +1,21 @@
 # frozen_string_literal: true
 
-require 'spec_helper'
+require "spec_helper"
 
 RSpec.describe Stenotype::Adapters::StdoutAdapter do
-  describe '#publish' do
-    let(:client_double) { double(:client) }
-
-    subject(:adapter) { described_class.new(client: client_double) }
-
-    before { allow(client_double).to receive(:info).and_return(client_double) }
-
+  describe "#publish" do
+    let(:client_double) { instance_double(Logger) }
     let(:event_data) { { event: :data } }
     let(:additional_arguments) { { additional: :arguments } }
 
-    it 'publishes the message to STDOUT' do
-      expect(client_double).to receive(:info).with(event_data, additional_arguments)
+    subject(:adapter) { described_class.new(client: client_double) }
 
+    before { allow(client_double).to receive(:info).and_return(true) }
+
+    it "publishes the message to STDOUT" do
       adapter.publish(event_data, additional_arguments)
+
+      expect(client_double).to have_received(:info).with(**event_data, **additional_arguments)
     end
   end
 end

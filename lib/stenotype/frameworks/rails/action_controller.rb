@@ -16,11 +16,13 @@ module Stenotype
       module ActionControllerExtension
         extend ActiveSupport::Concern
 
+        private
+
         #
         # Emits and event with given data
         # @param data {Hash} Data to be sent to targets
         #
-        private def _record_freshly_event(data)
+        def _record_freshly_event(data)
           Stenotype::Event.emit!(data, options: {}, eval_context: { controller: self })
         end
 
@@ -70,17 +72,10 @@ module Stenotype
             return if delta.empty?
 
             before_action only: delta do
-              _record_freshly_event(type: 'view')
+              _record_freshly_event(type: "view")
             end
 
             _tracked_actions.merge(delta)
-          end
-
-          #
-          # @return {Set<Symbol>} a set of tracked actions
-          #
-          private def _tracked_actions
-            @_tracked_actions ||= Set.new
           end
 
           #
@@ -106,7 +101,7 @@ module Stenotype
           #   end
           #
           def track_all_views
-            actions = self.action_methods
+            actions = action_methods
 
             # A symmetric difference of two sets.
             # This prevents accidental duplicating of events
@@ -120,6 +115,15 @@ module Stenotype
 
             # merge is a mutating op
             _tracked_actions.merge(delta)
+          end
+
+          private
+
+          #
+          # @return {Set<Symbol>} a set of tracked actions
+          #
+          def _tracked_actions
+            @_tracked_actions ||= Set.new
           end
         end
       end

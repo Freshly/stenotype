@@ -7,7 +7,7 @@ This gem is a tool providing extensions to several rails components in order to 
 Add this line to your application's Gemfile:
 
 ```ruby
-gem 'Stenotype'
+gem "Stenotype"
 ```
 
 And then execute:
@@ -32,9 +32,9 @@ Stenotype.configure do |config|
 
   config.uuid_generator = SecureRandom
   config.dispatcher     = Stenotype::Dispatcher.new
-  config.gc_project_id  = 'google_cloud_project_id'
-  config.gc_credentials = 'path_to_key_json'
-  config.gc_topic       = 'google_cloud_topic'
+  config.gc_project_id  = "google_cloud_project_id"
+  config.gc_credentials = "path_to_key_json"
+  config.gc_topic       = "google_cloud_topic"
   config.gc_mode        = :async # either :sync or :async
 end
 ```
@@ -150,7 +150,7 @@ class BaseClass
   attr_reader :local_state
 
   def initialize
-    @local_state = 'some state'
+    @local_state = "some state"
   end
 end
 

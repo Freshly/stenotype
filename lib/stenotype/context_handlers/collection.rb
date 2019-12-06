@@ -47,22 +47,24 @@ module Stenotype
       #
       def choose(handler_name:)
         handler = find_by(handler_name: handler_name)
-        handler || raise(Stenotype::UnknownHandlerError,
-                         "Handler '#{handler_name}' is not found. "\
-                         "Please make sure the handler you've specified is "\
-                         "registered in the list of known handlers. "\
-                         "See #{Stenotype::ContextHandlers} for more information.")
+        handler || raise(
+          Stenotype::UnknownHandlerError,
+          "Handler '#{handler_name}' is not found. "\
+          "Please make sure the handler you've specified is "\
+          "registered in the list of known handlers. "\
+          "See #{Stenotype::ContextHandlers} for more information.",
+        )
       end
 
       #
-      # Registers a new handler.
-      #
-      # @param handler {#as_json} a new handler to be added to collection
-      # @return {Stenotype::ContextHandlers::Collection} a collection object
-      #
-      # @example Registering a new handler
-      #   collection = Stenotype::ContextHandlers::Collection.new
-      #   collection.register(MyCustomHandler) # with handler_name = :custom_handler
+      # @!method register(handler)
+      #   Registers a new handler.
+      #   @!scope instance
+      #   @param handler {#as_json} a new handler to be added to collection
+      #   @return {Stenotype::ContextHandlers::Collection} a collection object
+      #   @example Registering a new handler
+      #     collection = Stenotype::ContextHandlers::Collection.new
+      #     collection.register(MyCustomHandler) # with handler_name = :custom_handler
       #
       alias_method :register, :push
 
@@ -85,20 +87,21 @@ module Stenotype
       end
 
       #
-      # Checks whether a given handler is registered in collection
+      # @!method registered?(handler)
+      #   Checks whether a given handler is registered in collection
+      #   @!scope instance
+      #   @param handler {#as_json} a handler to be checked for presence in a collection
+      #   @return [true, false]
+      #   @example When a handler is registered
+      #     collection = Stenotype::ContextHandlers::Collection.new
+      #     collection.register(MyCustomHandler) # with handler_name = :custom_handler
+      #     collection.registered?(MyCustomHandler) # true
       #
-      # @example When a handler is registered
-      #   collection = Stenotype::ContextHandlers::Collection.new
-      #   collection.register(MyCustomHandler) # with handler_name = :custom_handler
-      #   collection.registered?(MyCustomHandler) # true
+      #   @example When a handler is not registered
+      #     collection = Stenotype::ContextHandlers::Collection.new
+      #     collection.registered?(UnregisteredHandler) # false
       #
-      # @example When a handler is not registered
-      #   collection = Stenotype::ContextHandlers::Collection.new
-      #   collection.registered?(UnregisteredHandler) # false
-      #
-      # @param handler {#as_json} a handler to be checked for presence in a collection
-      # @return [true, false]
-      #
+
       alias_method :registered?, :include?
     end
   end

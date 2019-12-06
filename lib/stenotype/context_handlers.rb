@@ -1,10 +1,10 @@
 # frozen_string_literal: true
 
-require 'stenotype/context_handlers/base'
-require 'stenotype/context_handlers/rails/controller'
-require 'stenotype/context_handlers/rails/active_job'
-require 'stenotype/context_handlers/klass'
-require 'stenotype/context_handlers/collection'
+require "stenotype/context_handlers/base"
+require "stenotype/context_handlers/rails/controller"
+require "stenotype/context_handlers/rails/active_job"
+require "stenotype/context_handlers/klass"
+require "stenotype/context_handlers/collection"
 
 module Stenotype
   #
@@ -24,9 +24,7 @@ module Stenotype
       #
       # @param handler {#publish} A handler with implemented method [#publish]
       #
-      def register(handler)
-        known.register(handler)
-      end
+      delegate :register, to: :known
     end
   end
 end

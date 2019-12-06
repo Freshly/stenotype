@@ -3,7 +3,7 @@
 module Stenotype
   class TestUuidGen
     def self.uuid
-      'abcd'
+      "abcd"
     end
   end
 end

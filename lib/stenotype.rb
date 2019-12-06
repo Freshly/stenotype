@@ -1,7 +1,7 @@
 # frozen_string_literal: true
 
-require 'securerandom'
-    
+require "securerandom"
+
 require "spicery"
 require "stenotype/version"
 

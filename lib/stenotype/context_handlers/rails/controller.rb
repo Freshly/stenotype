@@ -18,17 +18,15 @@ module Stenotype
             method: method,
             url: url,
             referer: referer,
-            params: params.except('controller', 'action'),
-            ip: remote_ip
+            params: params.except("controller", "action"),
+            ip: remote_ip,
           }
         end
-
-        private
 
         delegate :request, to: :context
         delegate :method, :url, :referer, :remote_ip, :params,
                  :controller_class, to: :request
-
+        private :request, :method, :url, :referer, :remote_ip, :params, :controller_class
       end
     end
   end

@@ -1,6 +1,6 @@
 # frozen_string_literal: true
 
-require 'google/cloud/pubsub'
+require "google/cloud/pubsub"
 
 module Stenotype
   module Adapters

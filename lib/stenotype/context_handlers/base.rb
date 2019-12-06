@@ -30,7 +30,7 @@ module Stenotype
       #
       # @return {#as_json} A context handler implementing [#as_json]
       #
-      def initialize(context, options = {})
+      def initialize(context, options: {})
         @context = context
         @options = options
       end
@@ -55,8 +55,7 @@ module Stenotype
         # @raise {NotImplementedError} in case handler name is not specified.
         #
         def handler_name
-          @handler_name || raise(NotImplementedError,
-                                 "Please, specify the handler_name of #{self}")
+          @handler_name || raise(NotImplementedError, "Please, specify the handler_name of #{self}")
         end
       end
     end

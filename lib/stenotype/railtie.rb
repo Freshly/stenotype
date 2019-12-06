@@ -1,3 +1,5 @@
+# frozen_string_literal: true
+
 require "stenotype/frameworks/rails/action_controller"
 require "stenotype/frameworks/rails/active_job"
 
