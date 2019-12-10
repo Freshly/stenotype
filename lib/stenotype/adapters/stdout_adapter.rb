@@ -31,11 +31,11 @@ module Stenotype
       #  adapter = Stenotype::Adapters::StdoutAdapter.new(client: STDERR)
       #  adapter.publish({ event: :data }, { additional: :data })
       #
-      def publish(event_data, **additional_arguments)
+      def publish(event_data, **additional_attrs)
         client.info("[Stenotype::Event] emitted with the following attributes") do
           {
             **event_data,
-            **additional_arguments
+            **additional_attrs,
           }
         end
       end

@@ -4,6 +4,7 @@
 
 ### 0.1.2: 2019/12/10
 
+* Changes the interface of how event is emitted. Now you must pass `event_name`, `attributes` and optional `eval_context`. Note that `additional_options` are eliminated
 * Makes StdoutAdapter more informative by adding a special line for every entry in the log.
 * Fixes Rails initializer not working after switching to Configurable from Spicerack.
 

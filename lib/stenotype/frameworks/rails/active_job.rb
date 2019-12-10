@@ -35,9 +35,9 @@ module Stenotype
           proxy.module_eval do
             define_method(:perform) do |*args, **rest_args, &block|
               Stenotype::Event.emit!(
+                "active_job_#{self.class.name}",
                 { type: "active_job" },
-                { options: {},
-                  eval_context: { active_job: self }},
+                { eval_context: { active_job: self }},
               )
               super(*args, **rest_args, &block)
             end

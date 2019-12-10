@@ -42,8 +42,8 @@ module Stenotype
     #
     def serialize
       {
-        **event_data,
-        **event_options,
+        name: event_name,
+        **event_attributes,
         **default_options,
         **eval_context_options,
       }
@@ -51,12 +51,12 @@ module Stenotype
 
     private
 
-    def event_data
-      event.data
+    def event_name
+      event.name
     end
 
-    def event_options
-      event.options
+    def event_attributes
+      event.attributes
     end
 
     def eval_context

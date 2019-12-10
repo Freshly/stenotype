@@ -48,22 +48,22 @@ module Stenotype
       #   # publishes to default CustomGCClient
       #   google_cloud_adapter.publish({ event: :data }, { additional: :data })
       #
-      def publish(event_data, **additional_arguments)
+      def publish(event_data, **additional_attrs)
         if config.async
-          publish_async(event_data, **additional_arguments)
+          publish_async(event_data, **additional_attrs)
         else
-          publish_sync(event_data, **additional_arguments)
+          publish_sync(event_data, **additional_attrs)
         end
       end
 
       private
 
-      def publish_sync(event_data, **additional_arguments)
-        topic.publish(event_data, additional_arguments)
+      def publish_sync(event_data, **additional_attrs)
+        topic.publish(event_data, additional_attrs)
       end
 
-      def publish_async(event_data, **additional_arguments)
-        topic.publish_async(event_data, additional_arguments) do |result|
+      def publish_async(event_data, **additional_attrs)
+        topic.publish_async(event_data, additional_attrs) do |result|
           raise Stenotype::MessageNotPublishedError unless result.succeeded?
         end
       end
