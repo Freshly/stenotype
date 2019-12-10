@@ -15,7 +15,7 @@ RSpec.describe Stenotype::Adapters::StdoutAdapter do
     it "publishes the message to STDOUT" do
       adapter.publish(event_data, additional_arguments)
 
-      expect(client_double).to have_received(:info).with(**event_data, **additional_arguments)
+      expect(client_double).to have_received(:info).with("[Stenotype::Event] emitted with the following attributes")
     end
   end
 end

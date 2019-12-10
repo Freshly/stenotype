@@ -20,7 +20,7 @@ RSpec.describe Stenotype::Generators::InitializerGenerator, type: :generator do
     end
 
     it "contains # config.stenotype" do
-      expect(File.read(config_file_path)).to match(%r{# config.stenotype})
+      expect(File.read(config_file_path)).to match(%r{Stenotype.configure do})
     end
   end
 end

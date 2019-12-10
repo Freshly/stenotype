@@ -2,6 +2,11 @@
 
 *Release Date*: 2019/11/21
 
+### 0.1.2: 2019/12/10
+
+* Makes StdoutAdapter more informative by adding a special line for every entry in the log.
+* Fixes Rails initializer not working after switching to Configurable from Spicerack.
+
 ### 0.1.1: 2019/11/25
 
 * Moves all error into top level namespace definition file.
