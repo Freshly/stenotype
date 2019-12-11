@@ -33,11 +33,12 @@ module Stenotype
     end
 
     #
-    # @!method emit_event(data = {}, method: caller_locations.first.label, eval_context: nil)
+    # @!method emit_event(name, attributes = {}, method: caller_locations.first.label, eval_context: nil)
     #   A method injected into target class to manually track events
     #   @!scope instance
-    #   @param data {Hash} Data to be sent to the targets
-    #   @param method {String} An optional method name
+    #   @param name {[String, Symbol]} Event name.
+    #   @param attributes {Hash} Data to be sent to the targets.
+    #   @param method {String} An optional method name.
     #   @param eval_context {Hash} A hash linking object to context handler
     #   @return {Stenotype::Event} An instance of emitted event
     #   @example Usage of emit_event
@@ -91,15 +92,14 @@ module Stenotype
     #
     def self.build_instance_methods(instance_mod)
       instance_mod.module_eval <<-RUBY, __FILE__, __LINE__ + 1
-        def emit_event(data = {}, method: caller_locations.first.label, eval_context: nil)
+        def emit_event(event_name, attributes = {}, method: caller_locations.first.label, eval_context: nil)
           Stenotype::Event.emit!(
+            event_name,
             {
-              type: "class_instance",
-              **data,
-            },
-            options: {
+              type: "instance_method",
               class: self.class.name,
-              method: method.to_sym
+              method: method.to_sym,
+              **attributes,
             },
             eval_context: (eval_context || { klass: self })
           )
@@ -120,12 +120,14 @@ module Stenotype
             proxy.module_eval do
               define_method(method) do |*args, **rest_args, &block|
                 Stenotype::Event.emit!(
-                  { type: "class_instance" },
-                  options: {
+                  # @todo How do we name such events?
+                  "instance_method",
+                  {
+                    type: "instance_method",
                     class: self.class.name,
-                    method: __method__
+                    method: __method__,
                   },
-                  eval_context: { klass: self }
+                  eval_context: { klass: self },
                 )
                 super(*args, **rest_args, &block)
               end
@@ -142,12 +144,14 @@ module Stenotype
             proxy.module_eval do
               define_method(method) do |*args, **rest_args, &block|
                 Stenotype::Event.emit!(
-                  { type: "class" },
-                  options: {
+                  # @todo How do we name such events?
+                  "class_method",
+                  {
+                    type: "class_method",
                     class: self.name,
-                    method: __method__
+                    method: __method__,
                   },
-                  eval_context: { klass: self }
+                  eval_context: { klass: self },
                 )
                 super(*args, **rest_args, &block)
               end

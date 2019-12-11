@@ -37,7 +37,7 @@ module Stenotype
       # @abstract
       # @raise [NotImplementedError] unless implemented in a subclass
       #
-      def publish(_event_data, **_additional_arguments)
+      def publish(_event_data, **_additional_attrs)
         raise NotImplementedError,
               "#{self.class.name} must implement method #publish"
       end

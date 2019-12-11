@@ -32,10 +32,18 @@ Stenotype.configure do |config|
 
   config.uuid_generator = SecureRandom
   config.dispatcher     = Stenotype::Dispatcher.new
-  config.gc_project_id  = "google_cloud_project_id"
-  config.gc_credentials = "path_to_key_json"
-  config.gc_topic       = "google_cloud_topic"
-  config.gc_mode        = :async # either :sync or :async
+
+  config.google_cloud do |gc_config|
+    gc_config.project_id  = "google_cloud_project_id"
+    gc_config.credentials = "path_to_key_json"
+    gc_config.topic       = "google_cloud_topic"
+    gc_config.async       = true # either true or false
+  end
+
+  config.rails do |rails_config|
+    rails_config.enable_action_controller_ext = true
+    rails_config.enable_active_job_ext        = true
+  end
 end
 ```
 
@@ -51,21 +59,29 @@ An object that must implement method `#uuid`. Used when an event is emitted to g
 
 Dispatcher used to dispatch the event. A dispatcher must implement method `#publish(even, serializer: Stenotype::EventSerializer)`. By default `Stenotype::EventSerializer` is used, which is responsible for collecting the data from the event and evaluation context.
 
-#### config.gc_project_id
+#### config.google_cloud.project_id
 
 Google cloud project ID. Please refer to Google Cloud management console to get one.
 
-#### config.gc_credentials
+#### config.google_cloud.credentials
 
 Google cloud credentials. Might be obtained from Google Cloud management console.
 
-#### config.gc_topic
+#### config.google_cloud.topic
 
 Google Cloud topic used for publishing the events.
 
-#### config.gc_mode
+#### config.google_cloud.async
 
-Google Cloud publish mode. Two options are available: `:sync, :async`. When in `sync` mode the event will be published in the same thread (which might influence performance). For `async` mode the event will be put into a pull which is going to be flushed after a threshold is met.
+Google Cloud publish mode. The mode is either sync or async. When in `sync` mode the event will be published in the same thread (which might influence performance). For `async` mode the event will be put into a pull which is going to be flushed after a threshold is met.
+
+#### config.rails.enable_action_controller_ext
+
+Allows to enable/disable Rails ActionController extension
+
+#### config.rails.enable_active_job_ext
+
+Allows to enable/disable Rails ActiveJob extension
 
 #### Configuring context handlers
 
@@ -76,8 +92,8 @@ Each event is emitted in a context which might be an ActionController instance o
 Emitting an event is as simple as:
 ```ruby
 Stenotype::Event.emit!(
-    data,
-    options: additional_options,
+    "Event Name",
+    { attr1: :value1, attr2: :value2 },
     eval_context: { name_of_registered_context_handler: context_object }
 )
 ```
@@ -172,9 +188,9 @@ Stenotype::ContextHandlers.register CustomHandler
 class PlainRubyClass < BaseClass
   def some_method(data)
     event_data = collect_some_data_as_a_hash
-    emit_event(event_data) # method name will be `some_method`, eval_context: { klass: self }
+    emit_event("event_name", event_data) # method name will be `some_method`, eval_context: { klass: self }
     other_event_data = do_something_else
-    emit_event(other_event_data, method: :custom_method_name, eval_context: { overriden_handler: self })
+    emit_event("other_event_name", other_event_data, method: :custom_method_name, eval_context: { overriden_handler: self })
   end
 end
 ```

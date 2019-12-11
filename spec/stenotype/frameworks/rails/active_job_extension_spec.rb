@@ -28,6 +28,7 @@ RSpec.describe Stenotype::Frameworks::Rails::ActiveJobExtension do
   let(:test_target) { Stenotype::TestAdapter.new(test_buffer) }
   let(:expected_result) do
     {
+      name: "active_job_DummyJob",
       type: "active_job",
       timestamp: Time.now.utc,
       enqueued_at: Time.now.utc,

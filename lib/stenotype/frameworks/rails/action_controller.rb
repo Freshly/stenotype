@@ -20,10 +20,11 @@ module Stenotype
 
         #
         # Emits and event with given data
-        # @param data {Hash} Data to be sent to targets
+        # @param name {[String, Symbol]} Event name
+        # @todo What is really the name here?
         #
-        def _record_freshly_event(data)
-          Stenotype::Event.emit!(data, options: {}, eval_context: { controller: self })
+        def _record_freshly_event(name)
+          Stenotype::Event.emit!(name, { type: "controller_action" }, { eval_context: { controller: self }})
         end
 
         #
@@ -72,7 +73,7 @@ module Stenotype
             return if delta.empty?
 
             before_action only: delta do
-              _record_freshly_event(type: "view")
+              _record_freshly_event("view")
             end
 
             _tracked_actions.merge(delta)
@@ -110,7 +111,7 @@ module Stenotype
             return if delta.empty?
 
             before_action only: delta.to_a do
-              _record_freshly_event(type: "view")
+              _record_freshly_event("view")
             end
 
             # merge is a mutating op

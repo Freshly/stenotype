@@ -10,7 +10,7 @@ RSpec.describe Stenotype::Adapters::StdoutAdapter do
 
     subject(:adapter) { described_class.new(client: client_double) }
 
-    before { allow(client_double).to receive(:info).and_return(true) }
+    before { allow(client_double).to receive(:info) { |&block| block.call } }
 
     it "publishes the message to STDOUT" do
       adapter.publish(event_data, additional_arguments)
