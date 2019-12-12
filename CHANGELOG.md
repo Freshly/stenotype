@@ -2,6 +2,9 @@
 
 *Release Date*: 2019/11/21
 
+### 0.1.3: 2019/12/12
+* Adds a new config option `Stenotype.config.enabled`. If the option is set to false then event is not going to be published. The option is `true` by default.
+
 ### 0.1.2: 2019/12/10
 
 * Changes the interface of how event is emitted. Now you must pass `event_name`, `attributes` and optional `eval_context`. Note that `additional_options` are eliminated

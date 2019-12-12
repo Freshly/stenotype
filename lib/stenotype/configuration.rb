@@ -6,6 +6,7 @@ module Stenotype
   #
   # @example Configuring the library
   #   Stenotype.configure do |config|
+  #     config.enabled = true
   #     config.targets = [Target1.new, Target2.new]
   #     config.uuid_generator = SecureRandom
   #
@@ -24,6 +25,9 @@ module Stenotype
   #
   module Configuration
     extend Spicerack::Configurable
+
+    # @!attribute enabled
+    # @return {true, false} a flag indicating whether event emission is enabled
 
     # @!attribute targets
     # @return {Array<#publish>} a list of targets responding to method [#publish]
@@ -60,6 +64,7 @@ module Stenotype
     # @return [true, false] A flag of whether ActiveJob ext is enabled
 
     configuration_options do
+      option :enabled, default: true
       option :targets, default: []
       option :dispatcher, default: Stenotype::Dispatcher
       option :uuid_generator, default: SecureRandom
