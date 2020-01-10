@@ -68,6 +68,7 @@ module Stenotype
       option :targets, default: []
       option :dispatcher, default: Stenotype::Dispatcher
       option :uuid_generator, default: SecureRandom
+      option :logger
 
       nested :google_cloud do
         option :credentials, default: nil
@@ -83,6 +84,26 @@ module Stenotype
     end
 
     module_function
+
+    #
+    # @example With default logger
+    #   Stenotype.configure do |config|
+    #     # config.logger = nil # logger not set manually
+    #   end
+    #   Stenotype.config.logger #=> `Logger.new(STDOUT)` instance
+    #
+    # @example With custom logger
+    #   Stenotype.configure do |config|
+    #     config.logger = custom_logger_instance
+    #   end
+    #   Stenotype.config.logger #=> custom_logger_instance
+    #
+    # @return [{Logger, CustomLogger}] a logger object. Logger.new(STDOUT) by
+    #   default if another is not set during configuration
+    #
+    def logger
+      config.logger || Logger.new(STDOUT)
+    end
 
     #
     # @example When at least one target is present

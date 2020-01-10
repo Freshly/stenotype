@@ -1,6 +1,9 @@
 # Changelog
 
-*Release Date*: 2019/11/21
+*Release Date*: 2020/01/10
+
+### 0.1.3: 2020/01/10
+* Adds a new configuration option `logger` to use during error handling
 
 ### 0.1.3: 2019/12/12
 * Adds a new config option `Stenotype.config.enabled`. If the option is set to false then event is not going to be published. The option is `true` by default.

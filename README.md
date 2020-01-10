@@ -33,6 +33,7 @@ Stenotype.configure do |config|
 
   config.uuid_generator = SecureRandom
   config.dispatcher     = Stenotype::Dispatcher.new
+  config.logger         = Logger.new(STDOUT)
 
   config.google_cloud do |gc_config|
     gc_config.project_id  = "google_cloud_project_id"
@@ -55,6 +56,10 @@ A flag checked upon emission of an event. Will prevent event emission if set to 
 #### config.targets
 
 Contain an array of targets for the events to be published to. Targets must implement method `#publish(event_data, **additional_arguments)`.
+
+#### config.logger
+
+Specifies a logger for messages and exceptions to be output to. If not set defaults to `Logger.new(STDOUT)`, otherwise a manually set logger is used.
 
 #### config.uuid_generator
 
