@@ -3,9 +3,8 @@
 *Release Date*: 2020/01/10
 
 ### 0.1.3: 2020/01/10
+* Adds a new configuration option `graceful_error_handling` to suppress errors raised from the gem's internals yet logging the error to specified `config.logger`
 * Adds a new configuration option `logger` to use during error handling
-
-### 0.1.3: 2019/12/12
 * Adds a new config option `Stenotype.config.enabled`. If the option is set to false then event is not going to be published. The option is `true` by default.
 
 ### 0.1.2: 2019/12/10
