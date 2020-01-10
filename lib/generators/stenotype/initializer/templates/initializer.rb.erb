@@ -18,6 +18,9 @@ Rails.application.configure do
     #   rails_modules.enable_active_job_ext = true
     # end
     #
+    # To enable or disable the library use the following config option:
+    #
+    # config.enabled = true # or false
     #
     # To make publishing possible one must specify a list of targets. You could use
     # StdoutAdapter for debug purposes before switching to a production publisher.
@@ -59,6 +62,14 @@ Rails.application.configure do
     # Which dispatcher to use is controlled by the following config option:
     #
     # config.dispatcher = Stenotype::Dispatcher
+    #
+    # An option to suppress exception within a gem is available:
+    #
+    # config.graceful_error_handling = true
+    #
+    # To log errors a logger config option is available. Logger.new(STDOUT) is used by default.
+    #
+    # config.logger = Logger.new(STDOUT)
     #
     # Add your own context handlers
     #
