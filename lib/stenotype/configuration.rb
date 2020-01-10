@@ -26,6 +26,12 @@ module Stenotype
   module Configuration
     extend Spicerack::Configurable
 
+    # @!attribute graceful_error_handling
+    # @return {true, false} a flag for suppressing error raised withing the gem
+
+    # @!attribute logger
+    # @return {Logger} a logger with default severity methods to output gem level messages
+
     # @!attribute enabled
     # @return {true, false} a flag indicating whether event emission is enabled
 
@@ -64,6 +70,7 @@ module Stenotype
     # @return [true, false] A flag of whether ActiveJob ext is enabled
 
     configuration_options do
+      option :graceful_error_handling, default: true
       option :enabled, default: true
       option :targets, default: []
       option :dispatcher, default: Stenotype::Dispatcher
@@ -102,6 +109,7 @@ module Stenotype
     #   default if another is not set during configuration
     #
     def logger
+      return config.logger if config.logger
       config.logger || Logger.new(STDOUT)
     end
 
@@ -118,6 +126,8 @@ module Stenotype
     #
     # @raise {Stenotype::NoTargetsSpecifiedError} in case no targets are configured
     # @return {Array<#publish>} An array of targets implementing method [#publish]
+    #
+    # @todo THIS NEVER GETS CALLED, needs a fix
     #
     def targets
       return config.targets unless config.targets.empty?

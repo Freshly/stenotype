@@ -59,6 +59,40 @@ RSpec.describe Stenotype::Event do
         expect(test_buffer).to eq([])
       end
     end
+
+    context 'when exception is raised' do
+      subject(:emit_event) { described_class.emit!("some_event", *{ key: :value }) }
+
+      let(:logger_double) { instance_double(Logger, error: true) }
+      before { allow(Stenotype::Event).to receive(:new).and_raise(StandardError.new('boom')) }
+
+      context 'when graceful exception handling is enabled' do
+        before { Stenotype.configure { |config| config.logger = logger_double } }
+
+        it 'handles error' do
+          expect {
+            emit_event
+          }.to_not raise_error
+        end
+      end
+
+      context 'when graceful exception handling is disabled' do
+        before do
+          Stenotype.configure do |config|
+            config.logger = logger_double
+            config.graceful_error_handling = false
+          end
+        end
+
+        after { Stenotype.configure { |config| config.graceful_error_handling = true } }
+
+        it 'raises error' do
+          expect {
+            emit_event
+          }.to raise_error(StandardError)
+        end
+      end
+    end
   end
 
   describe "#emit!" do
@@ -88,6 +122,38 @@ RSpec.describe Stenotype::Event do
         expect(test_buffer).to eq([])
         expect(emit_event).to eq(nil)
         expect(test_buffer).to eq([])
+      end
+    end
+
+    context 'when exception is raised' do
+      let(:logger_double) { instance_double(Logger, error: true) }
+      before { allow(test_dispatcher).to receive(:publish).and_raise(StandardError.new('boom')) }
+
+      context 'when graceful exception handling is enabled' do
+        before { Stenotype.configure { |config| config.logger = logger_double } }
+
+        it 'handles error' do
+          expect {
+            event.emit!
+          }.to_not raise_error
+        end
+      end
+
+      context 'when graceful exception handling is disabled' do
+        before do
+          Stenotype.configure do |config|
+            config.logger = logger_double
+            config.graceful_error_handling = false
+          end
+        end
+
+        after { Stenotype.configure { |config| config.graceful_error_handling = true } }
+
+        it 'raises error' do
+          expect {
+            event.emit!
+          }.to raise_error(StandardError)
+        end
       end
     end
   end
