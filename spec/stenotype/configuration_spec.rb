@@ -25,6 +25,7 @@ RSpec.describe Stenotype::Configuration, type: :configuration do
     end
   end
 
+  it { is_expected.to define_config_option :enabled, default: true }
   it { is_expected.to define_config_option :targets, default: [] }
   it { is_expected.to define_config_option :dispatcher, default: Stenotype::Dispatcher }
   it { is_expected.to define_config_option :uuid_generator, default: SecureRandom }

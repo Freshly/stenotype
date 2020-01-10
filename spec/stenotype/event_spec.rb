@@ -37,14 +37,58 @@ RSpec.describe Stenotype::Event do
       expect(result).to be_a(described_class)
       expect(test_dispatcher).to have_received(:publish)
     end
+
+    context "when the library is disabled" do
+      before do
+        Stenotype.configure do |config|
+          config.targets = [ test_target ]
+          config.enabled = false
+        end
+      end
+
+      after { Stenotype.configure { |config| config.enabled = true } }
+
+      let(:test_buffer) { [] }
+      let(:test_target) { Stenotype::TestAdapter.new(test_buffer) }
+
+      subject(:emit_event) { described_class.emit!("some_event", *{ key: :value }) }
+
+      it "does not emit any events" do
+        expect(test_buffer).to eq([])
+        expect(emit_event).to eq(nil)
+        expect(test_buffer).to eq([])
+      end
+    end
   end
 
   describe "#emit!" do
-    subject(:event) { described_class.new(event: :data) }
+    subject(:event) { described_class.new("some_event", *{ event: :data }) }
 
     it "delegates the event to a dispatcher" do
       event.emit!
       expect(test_dispatcher).to have_received(:publish)
+    end
+
+    context "when the library is disabled" do
+      before do
+        Stenotype.configure do |config|
+          config.targets = [ test_target ]
+          config.enabled = false
+        end
+      end
+
+      after { Stenotype.configure { |config| config.enabled = true } }
+
+      subject(:emit_event) { event.emit! }
+
+      let(:test_buffer) { [] }
+      let(:test_target) { Stenotype::TestAdapter.new(test_buffer) }
+
+      it "does not emit any events" do
+        expect(test_buffer).to eq([])
+        expect(emit_event).to eq(nil)
+        expect(test_buffer).to eq([])
+      end
     end
   end
 end
