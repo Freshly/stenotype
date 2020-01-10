@@ -31,9 +31,10 @@ Stenotype.configure do |config|
     Stenotype::Adapters::GoogleCloud.new
   ]
 
-  config.uuid_generator = SecureRandom
-  config.dispatcher     = Stenotype::Dispatcher.new
-  config.logger         = Logger.new(STDOUT)
+  config.uuid_generator          = SecureRandom
+  config.dispatcher              = Stenotype::Dispatcher.new
+  config.logger                  = Logger.new(STDOUT)
+  config.graceful_error_handling = true
 
   config.google_cloud do |gc_config|
     gc_config.project_id  = "google_cloud_project_id"
@@ -60,6 +61,10 @@ Contain an array of targets for the events to be published to. Targets must impl
 #### config.logger
 
 Specifies a logger for messages and exceptions to be output to. If not set defaults to `Logger.new(STDOUT)`, otherwise a manually set logger is used.
+
+#### config.graceful_error_handling
+
+This flag if set to `true` is going to suppress all `StandardError`'s raised within a gem. Raises the error to the caller if set to `false`
 
 #### config.uuid_generator
 

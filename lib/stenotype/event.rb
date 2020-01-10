@@ -20,9 +20,19 @@ module Stenotype
     def self.emit!(name, attributes = {}, eval_context: {}, dispatcher: Stenotype.config.dispatcher)
       return unless Stenotype.config.enabled
 
-      event = new(name, attributes, eval_context: eval_context, dispatcher: dispatcher)
-      event.emit!
-      event
+      begin
+        event = new(name, attributes, eval_context: eval_context, dispatcher: dispatcher)
+        event.emit!
+        event
+      rescue => error
+        #
+        # @todo This is a temporary solution to enable conditional logger fetching
+        #   needs a fix to use default Spicerack::Configuration functionality
+        #
+        Stenotype::Configuration.logger.error(error)
+
+        raise unless Stenotype.config.graceful_error_handling
+      end
     end
 
     attr_reader :name, :attributes, :eval_context, :dispatcher
@@ -56,7 +66,17 @@ module Stenotype
     def emit!
       return unless Stenotype.config.enabled
 
-      dispatcher.publish(self)
+      begin
+        dispatcher.publish(self)
+      rescue => error
+        #
+        # @todo This is a temporary solution to enable conditional logger fetching
+        #   needs a fix to use default Spicerack::Configuration functionality
+        #
+        Stenotype::Configuration.logger.error(error)
+
+        raise unless Stenotype.config.graceful_error_handling
+      end
     end
   end
 end
