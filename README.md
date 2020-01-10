@@ -25,6 +25,7 @@ Or install it yourself as:
 Configuring the library is as simple as:
 ```ruby
 Stenotype.configure do |config|
+  config.enabled = true
   config.targets = [ # Supported targets
     Stenotype::Adapters::StdoutAdapter.new,
     Stenotype::Adapters::GoogleCloud.new
@@ -47,6 +48,10 @@ Stenotype.configure do |config|
   end
 end
 ```
+
+#### config.enabled
+
+A flag checked upon emission of an event. Will prevent event emission if set to false. An event is emitted if set to true.
 
 #### config.targets
 

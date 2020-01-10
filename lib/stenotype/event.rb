@@ -18,6 +18,8 @@ module Stenotype
     # @return {Stenotype::Event} An instance of {Stenotype::Event}
     #
     def self.emit!(name, attributes = {}, eval_context: {}, dispatcher: Stenotype.config.dispatcher)
+      return unless Stenotype.config.enabled
+
       event = new(name, attributes, eval_context: eval_context, dispatcher: dispatcher)
       event.emit!
       event
@@ -52,6 +54,8 @@ module Stenotype
     #   event.emit! #=> Publishes the event to targets
     #
     def emit!
+      return unless Stenotype.config.enabled
+
       dispatcher.publish(self)
     end
   end
