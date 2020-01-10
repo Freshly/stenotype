@@ -25,9 +25,29 @@ RSpec.describe Stenotype::Configuration, type: :configuration do
     end
   end
 
+  describe '.logger' do
+    subject(:logger) { configuration.logger }
+
+    context 'when logger is not set' do
+      before { Stenotype.configure { |config| config.logger = nil } }
+
+      it { is_expected.to be_instance_of(Logger) }
+    end
+
+    context 'when a custom logger is set' do
+      let(:custom_logger_klass) { Class.new(Logger) }
+      let(:logger_io) { custom_logger_klass.new(STDOUT) }
+
+      before { Stenotype.configure { |config| config.logger = logger_io } }
+
+      it { is_expected.to be_instance_of(custom_logger_klass) }
+    end
+  end
+
   it { is_expected.to define_config_option :targets, default: [] }
   it { is_expected.to define_config_option :dispatcher, default: Stenotype::Dispatcher }
   it { is_expected.to define_config_option :uuid_generator, default: SecureRandom }
+  it { is_expected.to define_config_option :logger }
 
   nested_config_option :rails do
     it { is_expected.to define_config_option(:enable_action_controller_ext, default: true) }

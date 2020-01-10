@@ -11,3 +11,6 @@
 .rspec_status
 /.rakeTasks
 /.idea
+
+# rbenv
+.ruby-version
