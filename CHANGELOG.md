@@ -1,9 +1,15 @@
 # Changelog
 
-*Release Date*: 2020/01/10
+*Release Date*: 2020/01/13
+
+### 0.1.5 2020/01/13
+* In case `graceful_error_handling` is set to off raise a generic `Stenotype::Error` on any exception in order to intercept a single error type in the client code.
+* Adds an `at_exit` hook to flush the async message queue when using the library in async mode.
+
+### 0.1.4 2020/01/10
+* Adds a new configuration option `graceful_error_handling` to suppress errors raised from the gem's internals yet logging the error to specified `config.logger`
 
 ### 0.1.3: 2020/01/10
-* Adds a new configuration option `graceful_error_handling` to suppress errors raised from the gem's internals yet logging the error to specified `config.logger`
 * Adds a new configuration option `logger` to use during error handling
 * Adds a new config option `Stenotype.config.enabled`. If the option is set to false then event is not going to be published. The option is `true` by default.
 
