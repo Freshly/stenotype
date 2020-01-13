@@ -89,7 +89,7 @@ RSpec.describe Stenotype::Event do
         it 'raises error' do
           expect {
             emit_event
-          }.to raise_error(StandardError)
+          }.to raise_error(Stenotype::Error)
         end
       end
     end
@@ -152,7 +152,7 @@ RSpec.describe Stenotype::Event do
         it 'raises error' do
           expect {
             event.emit!
-          }.to raise_error(StandardError)
+          }.to raise_error(Stenotype::Error)
         end
       end
     end
