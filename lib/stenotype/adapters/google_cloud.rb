@@ -56,6 +56,16 @@ module Stenotype
         end
       end
 
+      #
+      # Flushes the topic's async queue
+      #
+      def flush!
+        # a publisher might be uninitialized until the first event is published
+        return unless topic.async_publisher
+
+        topic.async_publisher.stop.wait!
+      end
+
       private
 
       def publish_sync(event_data, **additional_attrs)

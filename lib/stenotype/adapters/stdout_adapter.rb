@@ -40,6 +40,13 @@ module Stenotype
         end
       end
 
+      #
+      # Does nothing
+      #
+      def flush!
+        # noop
+      end
+
       private
 
       def client

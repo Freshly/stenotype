@@ -3,39 +3,43 @@
 require "spec_helper"
 
 RSpec.describe Stenotype::Adapters::GoogleCloud do
+  let(:fake_topic) do
+    Class.new do
+      def publish(event_data, **opts); end
+      def publish_async(event_data, **opts); end
+      def async_publisher; end
+    end
+  end
+
+  let(:fake_client) do
+    Class.new do
+      def topic(name); end
+    end
+  end
+
+  let(:fake_result) do
+    Class.new do
+      def succeeded?; end
+    end
+  end
+
+  let(:topic_double) { instance_double(fake_topic, publish: true, publish_async: true) }
+  let(:fake_client_double) { instance_double(fake_client, topic: topic_double) }
+
+  let(:adapter) { described_class.new(client: fake_client_double) }
+
   describe "#publish" do
-    let(:fake_topic) do
-      Class.new do
-        def publish(event_data, **opts); end
-        def publish_async(event_data, **opts); end
-      end
-    end
-
-    let(:fake_client) do
-      Class.new do
-        def topic(name); end
-      end
-    end
-
-    let(:fake_result) do
-      Class.new do
-        def succeeded?; end
-      end
-    end
-
-    let(:topic_double) { instance_double(fake_topic, publish: true, publish_async: true) }
-    let(:fake_client_double) { instance_double(fake_client, topic: topic_double) }
     let(:event_data) { { event: :data } }
     let(:additional_arguments) { { additional: :arguments } }
 
-    subject(:adapter) { described_class.new(client: fake_client_double) }
+    subject(:publish) { adapter.publish(event_data, additional_arguments) }
 
     context "when in async mode" do
       before { Stenotype.configure { |config| config.google_cloud.async = true } }
 
       context "when publishing has succeeded" do
         it "publishes the message asynchronously" do
-          adapter.publish(event_data, additional_arguments)
+          publish
 
           expect(topic_double).to have_received(:publish_async).with(event_data, additional_arguments).once
         end
@@ -45,8 +49,6 @@ RSpec.describe Stenotype::Adapters::GoogleCloud do
         let(:failed_result) { instance_double(fake_result, succeeded?: false) }
 
         before { allow(topic_double).to receive(:publish_async).and_yield(failed_result) }
-
-        subject(:publish) { adapter.publish(event_data, additional_arguments) }
 
         it "raises" do
           expect { publish }.to raise_error(Stenotype::MessageNotPublishedError)
@@ -58,9 +60,45 @@ RSpec.describe Stenotype::Adapters::GoogleCloud do
       before { Stenotype.configure { |config| config.google_cloud.async = false } }
 
       it "publishes the message synchronously" do
-        adapter.publish(event_data, additional_arguments)
+        publish
 
         expect(topic_double).to have_received(:publish).with(event_data, additional_arguments).once
+      end
+    end
+  end
+
+  describe "#flush!" do
+    let(:fake_publisher) do
+      Class.new do
+        def stop; end
+        def wait!; end
+      end
+    end
+
+    subject(:flush!) { adapter.flush! }
+    let(:fake_publisher_double) { instance_double(fake_publisher, wait!: true) }
+
+    context "when async_publisher is not initialized" do
+      before { allow(topic_double).to receive(:async_publisher).and_return(nil) }
+
+      it 'does nothing' do
+        expect(flush!).to eq(nil)
+        expect(topic_double).to have_received(:async_publisher).once
+      end
+    end
+
+    context "when async_publisher is initialized" do
+      before do
+        allow(fake_publisher_double).to receive(:stop).and_return(fake_publisher_double)
+        allow(topic_double).to receive(:async_publisher).and_return(fake_publisher_double)
+      end
+
+      it 'stops the publisher' do
+        flush!
+
+        expect(topic_double).to have_received(:async_publisher).twice
+        expect(fake_publisher_double).to have_received(:stop).once
+        expect(fake_publisher_double).to have_received(:wait!).once
       end
     end
   end

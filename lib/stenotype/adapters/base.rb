@@ -35,11 +35,24 @@ module Stenotype
       #
       # This method is expected to be implemented by subclasses
       # @abstract
-      # @raise [NotImplementedError] unless implemented in a subclass
+      # @raise {NotImplementedError} unless implemented in a subclass
       #
       def publish(_event_data, **_additional_attrs)
         raise NotImplementedError,
               "#{self.class.name} must implement method #publish"
+      end
+
+      #
+      # This method is expected to be implemented by subclasses. In case async
+      # publisher is used the process might end before the async queue of
+      # messages is processed, so this method is going to be used in a
+      # `at_exit` hook to flush the queue.
+      # @abstract
+      # @raise {NotImplementedError} unless implemented in a subclass
+      #
+      def flush!
+        raise NotImplementedError,
+              "#{self.class.name} must implement method #flush"
       end
     end
   end
