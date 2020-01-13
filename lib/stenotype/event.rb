@@ -31,7 +31,7 @@ module Stenotype
         #
         Stenotype::Configuration.logger.error(error)
 
-        raise unless Stenotype.config.graceful_error_handling
+        raise Stenotype::Error unless Stenotype.config.graceful_error_handling
       end
     end
 
@@ -75,7 +75,7 @@ module Stenotype
         #
         Stenotype::Configuration.logger.error(error)
 
-        raise unless Stenotype.config.graceful_error_handling
+        raise Stenotype::Error unless Stenotype.config.graceful_error_handling
       end
     end
   end
