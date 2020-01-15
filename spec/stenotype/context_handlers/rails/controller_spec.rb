@@ -30,9 +30,9 @@ RSpec.describe Stenotype::ContextHandlers::Rails::Controller do
 
     let(:expected_result) do
       {
-        class: "DummyController",
+        triggered_by_class: "DummyController",
         ip: "0.0.0.0",
-        method: "GET",
+        http_method: "GET",
         params: {},
         referer: nil,
         url: "http://test.host/",

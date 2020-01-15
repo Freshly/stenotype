@@ -115,6 +115,36 @@ Stenotype::Event.emit!(
 
 The event is then going to be passed to a dispatcher responsible for sending the evens to targets. Note that a context handler must be registered before using it. See [Custom context handlers](#custom-context-handlers) for more details.
 
+**Note:**
+The second argument is available in the context handler, in such case you can refer to the keys as regular methods. There are 4 service attributes which are going to be merged into resulting hash by default: `:type, :triggered_by, :triggered_by_method, :triggered_by_class`. For example:
+```ruby
+Stenotype::Event.emit!(
+    "Event Name",
+    { symbol_key: :value1, "string_key" => :value2, type: :custom },
+    eval_context: { name_of_registered_context_handler: context_object }
+)
+
+class MyContextHandler < Stenotype::ContextHandlers::Base
+  self.handler_name = :name_of_registered_context_handler
+
+  def as_json(*_args)
+    {
+      from_context_object: context.method_on_context_object,
+      from_additional_arguments1: symbol_key, # => :value1
+      from_additional_arguments2: string_key, # => :value2
+    }
+  end
+end
+context_handler_object.as_json # =>
+# # Resulting hash:
+# {
+#    from_context_object: 'result of context.method_on_context_object',
+#    from_additional_arguments1: 'value1',
+#    from_additional_arguments2: 'value2',
+#    type: 'custom'
+# }
+```
+
 #### ActionController
 
 Upon loading the library `ActionController` is going to be extended with a class method `track_view(*actions)`, where `actions` is a list of trackable controller actions.

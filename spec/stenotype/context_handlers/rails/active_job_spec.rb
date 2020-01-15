@@ -24,7 +24,7 @@ RSpec.describe Stenotype::ContextHandlers::Rails::ActiveJob do
   describe "#as_json", type: :with_frozen_time do
     it "casts active job data to JSON" do
       expect(context_handler.as_json).to eq(
-        class: :DummyJob,
+        triggered_by_class: :DummyJob,
         job_id: "job id",
         enqueued_at: Time.now.utc,
         queue_name: "default",

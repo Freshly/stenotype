@@ -35,7 +35,7 @@ RSpec.describe Stenotype::Frameworks::Rails::ActiveJobExtension do
       job_id: "uuid",
       queue_name: "default",
       uuid: "abcd",
-      class: "DummyJob",
+      triggered_by_class: "DummyJob"
     }
   end
 

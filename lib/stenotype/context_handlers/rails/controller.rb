@@ -14,8 +14,8 @@ module Stenotype
         #
         def as_json(*_args)
           {
-            class: controller_class.name,
-            method: method,
+            triggered_by_class: controller_class.name,
+            http_method: method,
             url: url,
             referer: referer,
             params: params.except("controller", "action"),
