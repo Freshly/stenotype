@@ -33,4 +33,26 @@ RSpec.describe Stenotype::ContextHandlers::Base do
       end
     end
   end
+
+  describe "#method_missing" do
+    let(:context) { object_double(:context) }
+    let(:options) { { symbol_key: :value, "string_key" => "value" } }
+    subject(:dummy_handler_instance) { dummy_handler_class.new(context, options: options) }
+
+    context "when a key is present in options" do
+      it "fetches the value from options" do
+        expect(dummy_handler_instance.symbol_key).to eq(:value)
+      end
+
+      it "does not depend on whether key is string or symbol" do
+        expect(dummy_handler_instance.string_key).to eq("value")
+      end
+    end
+
+    context "when a key is not present in options" do
+      it "raises" do
+        expect { dummy_handler_instance.missing_key }.to raise_error(NoMethodError)
+      end
+    end
+  end
 end

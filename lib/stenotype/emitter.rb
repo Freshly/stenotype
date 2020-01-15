@@ -96,9 +96,9 @@ module Stenotype
           Stenotype::Event.emit!(
             event_name,
             {
-              type: "instance_method",
-              class: self.class.name,
-              method: method.to_sym,
+              triggered_by: "instance_method",
+              triggered_by_class: self.class.name,
+              triggered_by_method: method.to_sym,
               **attributes,
             },
             eval_context: (eval_context || { klass: self })
@@ -123,9 +123,9 @@ module Stenotype
                   # @todo How do we name such events?
                   "instance_method",
                   {
-                    type: "instance_method",
-                    class: self.class.name,
-                    method: __method__,
+                    triggered_by: "instance_method",
+                    triggered_by_class: self.class.name,
+                    triggered_by_method: __method__,
                   },
                   eval_context: { klass: self },
                 )
@@ -147,9 +147,9 @@ module Stenotype
                   # @todo How do we name such events?
                   "class_method",
                   {
-                    type: "class_method",
-                    class: self.name,
-                    method: __method__,
+                    triggered_by: "class_method",
+                    triggered_by_class: self.name,
+                    triggered_by_method: __method__,
                   },
                   eval_context: { klass: self },
                 )

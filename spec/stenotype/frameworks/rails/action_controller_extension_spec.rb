@@ -99,9 +99,9 @@ RSpec.describe Stenotype::Frameworks::Rails::ActionControllerExtension do
       let(:expected_result) do
         {
           name: "view",
-          class: "DummyController",
+          triggered_by_class: "DummyController",
           ip: "0.0.0.0",
-          method: "GET",
+          http_method: "GET",
           params: {},
           referer: nil,
           timestamp: Time.now.utc,
@@ -131,9 +131,9 @@ RSpec.describe Stenotype::Frameworks::Rails::ActionControllerExtension do
     let(:expected_result) do
       {
         name: "view",
-        class: "DummyController",
+        triggered_by_class: "DummyController",
         ip: "0.0.0.0",
-        method: "GET",
+        http_method: "GET",
         params: {},
         referer: nil,
         timestamp: Time.now.utc,

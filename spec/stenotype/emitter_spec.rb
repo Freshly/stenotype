@@ -58,10 +58,10 @@ RSpec.describe Stenotype::Emitter, type: :with_frozen_time do
       let(:expected_event_data) do
         {
           name: "manual_event",
-          class: "DummyKlass",
-          method: :emit_manually,
+          triggered_by_class: "DummyKlass",
+          triggered_by_method: :emit_manually,
           timestamp: Time.now.utc,
-          type: "instance_method",
+          triggered_by: "instance_method",
           uuid: "abcd",
         }
       end
@@ -77,10 +77,10 @@ RSpec.describe Stenotype::Emitter, type: :with_frozen_time do
       let(:expected_event_data) do
         {
           name: "aliased",
-          class: "DummyKlass",
-          method: :to_be_aliased,
+          triggered_by_class: "DummyKlass",
+          triggered_by_method: :to_be_aliased,
           timestamp: Time.now.utc,
-          type: "instance_method",
+          triggered_by: "instance_method",
           uuid: "abcd",
         }
       end
@@ -103,9 +103,9 @@ RSpec.describe Stenotype::Emitter, type: :with_frozen_time do
       let(:expected_event_data) do
         {
           name: "instance_method",
-          type: "instance_method",
-          class: "DummyKlass",
-          method: :some_method,
+          triggered_by: "instance_method",
+          triggered_by_class: "DummyKlass",
+          triggered_by_method: :some_method,
           timestamp: Time.now.utc,
           uuid: "abcd",
         }
@@ -122,9 +122,9 @@ RSpec.describe Stenotype::Emitter, type: :with_frozen_time do
       let(:expected_event_data) do
         {
           name: "class_method",
-          type: "class_method",
-          class: "DummyKlass",
-          method: :some_class_method,
+          triggered_by: "class_method",
+          triggered_by_class: "DummyKlass",
+          triggered_by_method: :some_class_method,
           timestamp: Time.now.utc,
           uuid: "abcd",
         }

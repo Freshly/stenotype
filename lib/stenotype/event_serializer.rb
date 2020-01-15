@@ -43,7 +43,7 @@ module Stenotype
     def serialize
       {
         name: event_name,
-        **event_attributes,
+        **designating_attributes,
         **default_options,
         **eval_context_options,
       }
@@ -59,6 +59,10 @@ module Stenotype
       event.attributes
     end
 
+    def designating_attributes
+      event_attributes.slice(:type, :triggered_by, :triggered_by_class, :triggered_by_method)
+    end
+
     def eval_context
       event.eval_context
     end
@@ -66,7 +70,7 @@ module Stenotype
     def eval_context_options
       context_attributes = eval_context.map do |context_name, context|
         handler = Stenotype::ContextHandlers.known.choose(handler_name: context_name)
-        handler.new(context).as_json
+        handler.new(context, options: event_attributes).as_json
       end
       context_attributes.reduce(:merge!) || {}
     end

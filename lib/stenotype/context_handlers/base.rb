@@ -43,6 +43,14 @@ module Stenotype
         raise NotImplementedError, "#{self} must implement method ##{__method__}"
       end
 
+      # :nodoc:
+      def method_missing(method_name, *args, &block)
+        return options[method_name] if options.has_key?(method_name)
+        return options[method_name.to_s] if options.has_key?(method_name.to_s)
+        super
+      end
+      # :nodoc:
+
       #
       # @attr_writer {Symbol} handler_name The name under which a handler is going to be registered
       #
