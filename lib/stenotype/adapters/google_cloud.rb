@@ -34,6 +34,12 @@ module Stenotype
     #   end
     #
     class GoogleCloud < Base
+      attr_reader :topic
+
+      def initialize(client: nil, topic: nil)
+        super(client: client)
+        @topic = topic
+      end
       #
       # @param event_data {Hash} The data to be published to Google Cloud
       # @raise {Stenotype::MessageNotPublishedError} unless message is published
