@@ -52,9 +52,9 @@ RSpec.describe Stenotype::Configuration, type: :configuration do
   it { is_expected.to define_config_option :logger }
 
   nested_config_option :rails do
-    it { is_expected.to define_config_option(:enable_action_controller_ext, default: true) }
-    it { is_expected.to define_config_option(:enable_active_job_ext, default: true) }
-    it { is_expected.to define_config_option :explicit_client_initialization, default: true }
+    it { is_expected.to define_config_option :enable_action_controller_ext, default: true }
+    it { is_expected.to define_config_option :enable_active_job_ext, default: true }
+    it { is_expected.to define_config_option :auto_adapter_initialization, default: true }
   end
 
   nested_config_option :google_cloud do

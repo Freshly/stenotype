@@ -57,19 +57,19 @@ RSpec.describe Stenotype::Adapters::Base do
     end
   end
 
-  describe "#setup!" do
-    subject(:setup!) { klass_instance.setup! }
+  describe "#auto_initialize!" do
+    subject(:auto_initialize!) { klass_instance.auto_initialize! }
 
     context "when not implemented" do
       it "does nothing" do
-        expect(setup!).to eq(nil)
+        expect(auto_initialize!).to eq(nil)
       end
     end
 
-    context "when a subclass implements method #setup!" do
+    context "when a subclass implements method #auto_initialize!" do
       before do
         klass.class_eval do
-          def setup!
+          def auto_initialize!
             # do nothing
             true
           end
@@ -77,7 +77,7 @@ RSpec.describe Stenotype::Adapters::Base do
       end
 
       it "setups the adapter" do
-        expect(setup!).to eq(true)
+        expect(auto_initialize!).to eq(true)
       end
     end
   end

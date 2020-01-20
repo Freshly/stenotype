@@ -29,11 +29,11 @@ RSpec.describe Stenotype::Adapters::StdoutAdapter do
     end
   end
 
-  describe "#setup!" do
-    subject(:setup!) { adapter.setup! }
+  describe "#auto_initialize!" do
+    subject(:auto_initialize!) { adapter.auto_initialize! }
 
     it "does nothing" do
-      expect(setup!).to eq(nil)
+      expect(auto_initialize!).to eq(nil)
     end
   end
 end

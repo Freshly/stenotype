@@ -46,7 +46,7 @@ module Stenotype
       # Allows custom setup of the adapter. Noop by default
       # @abstract
       #
-      def setup!
+      def auto_initialize!
         # noop by default
       end
 

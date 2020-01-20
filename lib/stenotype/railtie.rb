@@ -18,7 +18,7 @@ module Stenotype
 
     config.stenotype = Stenotype.config
 
-    config.after_initialize { config.stenotype.targets.each(&:setup!) } if config.stenotype.rails.explicit_client_initialization
+    config.after_initialize { config.stenotype.targets.each(&:auto_initialize!) } if config.stenotype.rails.auto_adapter_initialization
 
     if config.stenotype.rails.enable_action_controller_ext
       ActiveSupport.on_load(:action_controller) do

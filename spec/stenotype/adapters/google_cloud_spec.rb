@@ -102,12 +102,12 @@ RSpec.describe Stenotype::Adapters::GoogleCloud do
     end
   end
 
-  describe "#setup!" do
-    let(:setup!) { adapter.setup! }
+  describe "#auto_initialize!" do
+    let(:auto_initialize!) { adapter.auto_initialize! }
 
     context "when a client is passed" do
       it "sets up client and topic" do
-        expect { setup! }.not_to change { adapter.instance_variable_get(:@client) }
+        expect { auto_initialize! }.not_to change { adapter.instance_variable_get(:@client) }
       end
     end
 
@@ -120,7 +120,7 @@ RSpec.describe Stenotype::Adapters::GoogleCloud do
         expect(adapter.instance_variable_get(:@client)).to eq(nil)
         expect(adapter.instance_variable_get(:@topic)).to eq(nil)
 
-        setup!
+        auto_initialize!
 
         expect(adapter.instance_variable_get(:@client)).to eq(fake_client_double)
         expect(adapter.instance_variable_get(:@topic)).to eq(topic_double)

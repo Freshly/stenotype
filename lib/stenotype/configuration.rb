@@ -35,7 +35,7 @@ module Stenotype
     # @!attribute enabled
     # @return {true, false} a flag indicating whether event emission is enabled
 
-    # @!attribute explicit_client_initialization
+    # @!attribute auto_adapter_initialization
     # @return {true, false} enables/disables lazy initialization of adapters' clients
 
     # @!attribute targets
@@ -89,7 +89,7 @@ module Stenotype
       nested :rails do
         option :enable_action_controller_ext, default: true
         option :enable_active_job_ext, default: true
-        option :explicit_client_initialization, default: true
+        option :auto_adapter_initialization, default: true
       end
     end
 

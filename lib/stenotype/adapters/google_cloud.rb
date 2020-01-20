@@ -68,10 +68,10 @@ module Stenotype
 
       #
       # If not called both client and topic are lazy initialized on first call (if not
-      # passed to #initialize). #setup! is going to explicitly initialize
+      # passed to #initialize). #auto_initialize! is going to explicitly initialize
       # both client and topic.
       #
-      def setup!
+      def auto_initialize!
         client
         topic
       end
