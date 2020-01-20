@@ -31,10 +31,11 @@ Stenotype.configure do |config|
     Stenotype::Adapters::GoogleCloud.new
   ]
 
-  config.uuid_generator          = SecureRandom
-  config.dispatcher              = Stenotype::Dispatcher.new
-  config.logger                  = Logger.new(STDOUT)
-  config.graceful_error_handling = true
+  config.uuid_generator               = SecureRandom
+  config.dispatcher                   = Stenotype::Dispatcher.new
+  config.logger                       = Logger.new(STDOUT)
+  config.graceful_error_handling      = true
+  config.auto_adapter_initialization  = true
 
   config.google_cloud do |gc_config|
     gc_config.project_id  = "google_cloud_project_id"
@@ -97,6 +98,10 @@ Allows to enable/disable Rails ActionController extension
 #### config.rails.enable_active_job_ext
 
 Allows to enable/disable Rails ActiveJob extension
+
+#### config.rails.auto_adapter_initialization
+
+Controls whether the hook `auto_initialize!` is run for each adapter. If set to true `auto_initialize!` is invoked for every adapter. If false `auto_initialize!` is not run. For example for google cloud adapter this will instantiate `client` and `topic` objects before first publish. If set to false `client` and `topic` are lazy initialized.
 
 #### Configuring context handlers
 
@@ -227,6 +232,14 @@ class CustomAdapter < Stenotype::Adapters::Base
 
   def publish(event_data, **additional_arguments)
     # custom publishing logic
+  end
+
+  def flush!
+    # actions to be taken to flush the messages
+  end
+
+  def auto_initialize!
+    # actions to be taken to setup internal adapter state (client, endpoint, whatsoever)
   end
 end
 ```

@@ -23,9 +23,16 @@ RSpec.describe Stenotype::Adapters::GoogleCloud do
     end
   end
 
+  let(:fake_publisher) do
+    Class.new do
+      def stop; end
+      def wait!; end
+    end
+  end
+
+  let(:fake_publisher_double) { instance_double(fake_publisher, wait!: true) }
   let(:topic_double) { instance_double(fake_topic, publish: true, publish_async: true) }
   let(:fake_client_double) { instance_double(fake_client, topic: topic_double) }
-
   let(:adapter) { described_class.new(client: fake_client_double) }
 
   describe "#publish" do
@@ -68,20 +75,12 @@ RSpec.describe Stenotype::Adapters::GoogleCloud do
   end
 
   describe "#flush!" do
-    let(:fake_publisher) do
-      Class.new do
-        def stop; end
-        def wait!; end
-      end
-    end
-
     subject(:flush!) { adapter.flush! }
-    let(:fake_publisher_double) { instance_double(fake_publisher, wait!: true) }
 
     context "when async_publisher is not initialized" do
       before { allow(topic_double).to receive(:async_publisher).and_return(nil) }
 
-      it 'does nothing' do
+      it "does nothing" do
         expect(flush!).to eq(nil)
         expect(topic_double).to have_received(:async_publisher).once
       end
@@ -93,12 +92,38 @@ RSpec.describe Stenotype::Adapters::GoogleCloud do
         allow(topic_double).to receive(:async_publisher).and_return(fake_publisher_double)
       end
 
-      it 'stops the publisher' do
+      it "stops the publisher" do
         flush!
 
         expect(topic_double).to have_received(:async_publisher).twice
         expect(fake_publisher_double).to have_received(:stop).once
         expect(fake_publisher_double).to have_received(:wait!).once
+      end
+    end
+  end
+
+  describe "#auto_initialize!" do
+    let(:auto_initialize!) { adapter.auto_initialize! }
+
+    context "when a client is passed" do
+      it "sets up client and topic" do
+        expect { auto_initialize! }.not_to change { adapter.instance_variable_get(:@client) }
+      end
+    end
+
+    context "when a client is not passed" do
+      let(:adapter) { described_class.new }
+
+      before { allow(Google::Cloud::PubSub).to receive(:new).and_return(fake_client_double) }
+
+      it "setup client and topic" do
+        expect(adapter.instance_variable_get(:@client)).to eq(nil)
+        expect(adapter.instance_variable_get(:@topic)).to eq(nil)
+
+        auto_initialize!
+
+        expect(adapter.instance_variable_get(:@client)).to eq(fake_client_double)
+        expect(adapter.instance_variable_get(:@topic)).to eq(topic_double)
       end
     end
   end

@@ -11,6 +11,7 @@ RSpec.describe Stenotype::Adapters::StdoutAdapter do
 
   describe "#publish" do
     subject(:publish) { adapter.publish(event_data, additional_arguments) }
+
     before { allow(client_double).to receive(:info).and_yield }
 
     it "publishes the message to STDOUT" do
@@ -23,8 +24,16 @@ RSpec.describe Stenotype::Adapters::StdoutAdapter do
   describe "#flush!" do
     subject(:flush!) { adapter.flush! }
 
-    it 'does nothing' do
+    it "does nothing" do
       expect(flush!).to eq(nil)
+    end
+  end
+
+  describe "#auto_initialize!" do
+    subject(:auto_initialize!) { adapter.auto_initialize! }
+
+    it "does nothing" do
+      expect(auto_initialize!).to eq(nil)
     end
   end
 end

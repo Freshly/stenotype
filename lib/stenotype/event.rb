@@ -24,12 +24,12 @@ module Stenotype
         event = new(name, attributes, eval_context: eval_context, dispatcher: dispatcher)
         event.emit!
         event
-      rescue => error
+      rescue StandardError => exception
         #
         # @todo This is a temporary solution to enable conditional logger fetching
         #   needs a fix to use default Spicerack::Configuration functionality
         #
-        Stenotype::Configuration.logger.error(error)
+        Stenotype::Configuration.logger.error(exception)
 
         raise Stenotype::Error unless Stenotype.config.graceful_error_handling
       end
@@ -68,12 +68,12 @@ module Stenotype
 
       begin
         dispatcher.publish(self)
-      rescue => error
+      rescue StandardError => exception
         #
         # @todo This is a temporary solution to enable conditional logger fetching
         #   needs a fix to use default Spicerack::Configuration functionality
         #
-        Stenotype::Configuration.logger.error(error)
+        Stenotype::Configuration.logger.error(exception)
 
         raise Stenotype::Error unless Stenotype.config.graceful_error_handling
       end

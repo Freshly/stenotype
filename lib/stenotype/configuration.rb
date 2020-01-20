@@ -35,6 +35,9 @@ module Stenotype
     # @!attribute enabled
     # @return {true, false} a flag indicating whether event emission is enabled
 
+    # @!attribute auto_adapter_initialization
+    # @return {true, false} enables/disables lazy initialization of adapters' clients
+
     # @!attribute targets
     # @return {Array<#publish>} a list of targets responding to method [#publish]
 
@@ -58,7 +61,6 @@ module Stenotype
 
     # @!attribute [rw] google_cloud.async
     # @return [true, false] GC publish mode, either async if true, sync if false
-
 
     # @!attribute [rw] rails
     # @return [NestedConfiguration] Rails configuration.
@@ -87,6 +89,7 @@ module Stenotype
       nested :rails do
         option :enable_action_controller_ext, default: true
         option :enable_active_job_ext, default: true
+        option :auto_adapter_initialization, default: true
       end
     end
 
@@ -110,6 +113,7 @@ module Stenotype
     #
     def logger
       return config.logger if config.logger
+
       config.logger || Logger.new(STDOUT)
     end
 

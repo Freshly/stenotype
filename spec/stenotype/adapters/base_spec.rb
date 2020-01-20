@@ -56,4 +56,29 @@ RSpec.describe Stenotype::Adapters::Base do
       end
     end
   end
+
+  describe "#auto_initialize!" do
+    subject(:auto_initialize!) { klass_instance.auto_initialize! }
+
+    context "when not implemented" do
+      it "does nothing" do
+        expect(auto_initialize!).to eq(nil)
+      end
+    end
+
+    context "when a subclass implements method #auto_initialize!" do
+      before do
+        klass.class_eval do
+          def auto_initialize!
+            # do nothing
+            true
+          end
+        end
+      end
+
+      it "setups the adapter" do
+        expect(auto_initialize!).to eq(true)
+      end
+    end
+  end
 end

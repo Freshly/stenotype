@@ -34,12 +34,6 @@ module Stenotype
     #   end
     #
     class GoogleCloud < Base
-      attr_reader :topic
-
-      def initialize(client: nil, topic: nil)
-        super(client: client)
-        @topic = topic
-      end
       #
       # @param event_data {Hash} The data to be published to Google Cloud
       # @raise {Stenotype::MessageNotPublishedError} unless message is published
@@ -70,6 +64,16 @@ module Stenotype
         return unless topic.async_publisher
 
         topic.async_publisher.stop.wait!
+      end
+
+      #
+      # If not called both client and topic are lazy initialized on first call (if not
+      # passed to #initialize). #auto_initialize! is going to explicitly initialize
+      # both client and topic.
+      #
+      def auto_initialize!
+        client
+        topic
       end
 
       private
