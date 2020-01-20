@@ -47,6 +47,13 @@ module Stenotype
         # noop
       end
 
+      #
+      # Does nothing
+      #
+      def setup!
+        # noop
+      end
+
       private
 
       def client

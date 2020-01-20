@@ -56,4 +56,29 @@ RSpec.describe Stenotype::Adapters::Base do
       end
     end
   end
+
+  describe "#setup!" do
+    subject(:setup!) { klass_instance.setup! }
+
+    context "when not implemented" do
+      it "does nothing" do
+        expect(setup!).to eq(nil)
+      end
+    end
+
+    context "when a subclass implements method #setup!" do
+      before do
+        klass.class_eval do
+          def setup!
+            # do nothing
+            true
+          end
+        end
+      end
+
+      it "setups the adapter" do
+        expect(setup!).to eq(true)
+      end
+    end
+  end
 end

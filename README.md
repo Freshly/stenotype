@@ -31,10 +31,11 @@ Stenotype.configure do |config|
     Stenotype::Adapters::GoogleCloud.new
   ]
 
-  config.uuid_generator          = SecureRandom
-  config.dispatcher              = Stenotype::Dispatcher.new
-  config.logger                  = Logger.new(STDOUT)
-  config.graceful_error_handling = true
+  config.uuid_generator                 = SecureRandom
+  config.dispatcher                     = Stenotype::Dispatcher.new
+  config.logger                         = Logger.new(STDOUT)
+  config.graceful_error_handling        = true
+  config.explicit_client_initialization = true
 
   config.google_cloud do |gc_config|
     gc_config.project_id  = "google_cloud_project_id"
@@ -65,6 +66,10 @@ Specifies a logger for messages and exceptions to be output to. If not set defau
 #### config.graceful_error_handling
 
 This flag if set to `true` is going to suppress all `StandardError`'s raised within a gem. Raises the error to the caller if set to `false`
+
+#### config.explicit_client_initialization
+
+Allows to enable/disable explicitly setup the adapter. For example client and topic for google cloud.
 
 #### config.uuid_generator
 
@@ -227,6 +232,14 @@ class CustomAdapter < Stenotype::Adapters::Base
 
   def publish(event_data, **additional_arguments)
     # custom publishing logic
+  end
+
+  def flush!
+    # actions to be taken to flush the messages
+  end
+
+  def setup!
+    # actions to be taken to setup internal adapter state (client, endpoint, whatsoever)
   end
 end
 ```

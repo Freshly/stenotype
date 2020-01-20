@@ -2,6 +2,14 @@
 
 *Release Date*: 2020/01/13
 
+### 0.1.7 2020/01/20
+* Adds a config option to allow explicit adapter setup.
+* Adds an `after_initialize` rails hook to setup adapters.
+* Remove topic from the list of Google Cloud adapter arguments.
+
+### 0.1.6 2020/01/17
+* Allow topic to be explicitly set upon Google Cloud adapter initialization
+
 ### 0.1.5 2020/01/13
 * In case `graceful_error_handling` is set to off raise a generic `Stenotype::Error` on any exception in order to intercept a single error type in the client code.
 * Adds an `at_exit` hook to flush the async message queue when using the library in async mode.

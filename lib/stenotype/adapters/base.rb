@@ -43,6 +43,14 @@ module Stenotype
       end
 
       #
+      # Allows custom setup of the adapter. Noop by default
+      # @abstract
+      #
+      def setup!
+        # noop by default
+      end
+
+      #
       # This method is expected to be implemented by subclasses. In case async
       # publisher is used the process might end before the async queue of
       # messages is processed, so this method is going to be used in a
