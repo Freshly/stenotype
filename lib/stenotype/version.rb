@@ -2,6 +2,6 @@
 
 module Stenotype
   # :nodoc:
-  VERSION = "0.1.7"
+  VERSION = "0.1.8"
   # :nodoc:
 end
