@@ -54,7 +54,7 @@ RSpec.describe Stenotype::Configuration, type: :configuration do
   nested_config_option :rails do
     it { is_expected.to define_config_option :enable_action_controller_ext, default: true }
     it { is_expected.to define_config_option :enable_active_job_ext, default: true }
-    it { is_expected.to define_config_option :auto_adapter_initialization, default: true }
+    it { is_expected.to define_config_option :auto_adapter_initialization, default: false }
   end
 
   nested_config_option :google_cloud do

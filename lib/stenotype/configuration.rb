@@ -89,7 +89,7 @@ module Stenotype
       nested :rails do
         option :enable_action_controller_ext, default: true
         option :enable_active_job_ext, default: true
-        option :auto_adapter_initialization, default: true
+        option :auto_adapter_initialization, default: false
       end
     end
 
