@@ -21,7 +21,7 @@ module Stenotype
       event_data = serializer.new(event).serialize
 
       targets.each do |t|
-        t.publish(event_data)
+        t.publish(event_data.to_json)
       end
 
       self

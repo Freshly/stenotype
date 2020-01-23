@@ -36,7 +36,7 @@ RSpec.describe Stenotype::Frameworks::Rails::ActiveJobExtension do
       queue_name: "default",
       uuid: "abcd",
       class: "DummyJob",
-    }
+    }.as_json
   end
 
   subject(:job_instance) { job_klass.new }
@@ -45,7 +45,7 @@ RSpec.describe Stenotype::Frameworks::Rails::ActiveJobExtension do
 
   describe ".trackable_job!", type: :with_frozen_time do
     it "prepends an emit event action before performing the job" do
-      expect { job_instance.perform(arg: :value) }.to change { test_buffer }.to([ expected_result ])
+      expect { job_instance.perform(arg: :value) }.to change { test_buffer.map { |e| JSON.parse(e) } }.to([ expected_result ])
     end
   end
 end

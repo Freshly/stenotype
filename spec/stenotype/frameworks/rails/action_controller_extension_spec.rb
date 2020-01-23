@@ -108,7 +108,7 @@ RSpec.describe Stenotype::Frameworks::Rails::ActionControllerExtension do
           type: "controller_action",
           url: "http://test.host/",
           uuid: "abcd",
-        }
+        }.as_json
       end
 
       before do
@@ -120,7 +120,7 @@ RSpec.describe Stenotype::Frameworks::Rails::ActionControllerExtension do
       subject(:run_callbacks) { dummy_controller_instance.run_callbacks(:process_action) }
 
       it "emits an event" do
-        expect { run_callbacks }.to change { test_buffer }.to([ expected_result ])
+        expect { run_callbacks }.to change { test_buffer.map { |e| JSON.parse(e) } }.to([ expected_result ])
       end
     end
   end
@@ -140,7 +140,7 @@ RSpec.describe Stenotype::Frameworks::Rails::ActionControllerExtension do
         type: "controller_action",
         url: "http://test.host/",
         uuid: "abcd",
-      }
+      }.as_json
     end
 
     before do
@@ -152,7 +152,7 @@ RSpec.describe Stenotype::Frameworks::Rails::ActionControllerExtension do
     subject(:run_callbacks) { dummy_controller_instance.run_callbacks(:process_action) }
 
     it "emits an event" do
-      expect { run_callbacks }.to change { test_buffer }.to([ expected_result ])
+      expect { run_callbacks }.to change { test_buffer.map { |e| JSON.parse(e) } }.to([ expected_result ])
     end
   end
 end
