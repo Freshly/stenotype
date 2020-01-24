@@ -35,7 +35,7 @@ module Stenotype
     #
     class GoogleCloud < Base
       #
-      # @param event_data {Hash} The data to be published to Google Cloud
+      # @param event_data {String} The data to be published to Google Cloud
       # @raise {Stenotype::MessageNotPublishedError} unless message is published
       #
       # @example With default client

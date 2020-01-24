@@ -21,7 +21,7 @@ module Stenotype
     #
     class StdoutAdapter < Base
       #
-      # @param event_data {Hash} The data to be published to STDOUT
+      # @param event_data {Sting} The data to be published to STDOUT
       #
       # @example Publishing to default client (STDOUT)
       #  adapter = Stenotype::Adapters::StdoutAdapter.new
@@ -33,10 +33,7 @@ module Stenotype
       #
       def publish(event_data, **additional_attrs)
         client.info("[Stenotype::Event] emitted with the following attributes") do
-          {
-            **event_data,
-            **additional_attrs,
-          }
+          "MESSAGE BODY: #{event_data}, MESSAGE ATTRIBUTES #{additional_attrs.to_json}"
         end
       end
 

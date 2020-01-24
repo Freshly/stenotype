@@ -31,7 +31,7 @@ RSpec.describe Stenotype::Dispatcher do
     it "dispatches the event to configured targets" do
       dispatcher.publish(event, serializer: dummy_serializer)
 
-      expect(test_target).to have_received(:publish).with(dummy_key: "dummy value")
+      expect(test_target).to have_received(:publish).with({ dummy_key: "dummy value" }.to_json)
     end
   end
 end

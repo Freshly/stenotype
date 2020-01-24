@@ -63,13 +63,13 @@ RSpec.describe Stenotype::Emitter, type: :with_frozen_time do
           timestamp: Time.now.utc,
           type: "instance_method",
           uuid: "abcd",
-        }
+        }.as_json
       end
 
       subject(:emit_manually) { dummy_klass.new.emit_manually }
 
       it "manually emits an event" do
-        expect { emit_manually }.to change { test_buffer }.to([ expected_event_data ])
+        expect { emit_manually }.to change { test_buffer.map { |e| JSON.parse(e) } }.to([ expected_event_data ])
       end
     end
 
@@ -82,13 +82,13 @@ RSpec.describe Stenotype::Emitter, type: :with_frozen_time do
           timestamp: Time.now.utc,
           type: "instance_method",
           uuid: "abcd",
-        }
+        }.as_json
       end
 
       subject(:emit_aliased) { dummy_klass.new.aliased }
 
       it "manually emits an event" do
-        expect { emit_aliased }.to change { test_buffer }.to([ expected_event_data ])
+        expect { emit_aliased }.to change { test_buffer.map { |e| JSON.parse(e) } }.to([ expected_event_data ])
       end
     end
   end
@@ -108,13 +108,13 @@ RSpec.describe Stenotype::Emitter, type: :with_frozen_time do
           method: :some_method,
           timestamp: Time.now.utc,
           uuid: "abcd",
-        }
+        }.as_json
       end
 
       subject(:trigger_from_method) { dummy_klass.new.some_method }
 
       it "is wrapped with an event trigger" do
-        expect { trigger_from_method }.to change { test_buffer }.to([ expected_event_data ])
+        expect { trigger_from_method }.to change { test_buffer.map { |e| JSON.parse(e) } }.to([ expected_event_data ])
       end
     end
 
@@ -127,13 +127,13 @@ RSpec.describe Stenotype::Emitter, type: :with_frozen_time do
           method: :some_class_method,
           timestamp: Time.now.utc,
           uuid: "abcd",
-        }
+        }.as_json
       end
 
       subject(:trigger_from_class_method) { dummy_klass.some_class_method }
 
       it "is wrapped with an event trigger" do
-        expect { trigger_from_class_method }.to change { test_buffer }.to([ expected_event_data ])
+        expect { trigger_from_class_method }.to change { test_buffer.map { |e| JSON.parse(e) } }.to([ expected_event_data ])
       end
     end
   end
