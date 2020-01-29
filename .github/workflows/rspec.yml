@@ -1,0 +1,41 @@
+name: RSpec
+
+on: push
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+    strategy:
+      matrix:
+        ruby:
+        - "2.6.x"
+        rails:
+        - "5.2.0"
+        - "6.0.0"
+
+    steps:
+    - uses: actions/checkout@v1
+    - uses: actions/cache@v1
+      with:
+        path: vendor/bundle
+        key: ${{ runner.os }}-gems-${{ matrix.ruby }}-${{ matrix.rails }}-${{ hashFiles('**/Gemfile.lock') }}
+        restore-keys: |
+          ${{ runner.os }}-gems-${{ matrix.ruby }}-${{ matrix.rails }}
+    - name: Set up Ruby ${{ matrix.ruby }}
+      uses: actions/setup-ruby@v1
+      with:
+        ruby-version: ${{ matrix.ruby }}
+    - name: Apply Rails ${{ matrix.rails }} dependencies
+      run: |
+        echo "gem 'rails', '~> ${{ matrix.rails }}'" >> Gemfile
+    - name: Set up dependencies
+      env:
+          BUNDLE_GEM__FURY__IO: ${{ secrets.GEMFURY_DEPLOY_TOKEN }}
+      run: |
+        gem install bundler
+        bundle config path vendor/bundle
+        bundle update rails --jobs 4 --retry 3
+        bundle install --jobs 4 --retry 3
+    - name: Run RSpec
+      run: |
+        bundle exec rspec
