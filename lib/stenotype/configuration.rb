@@ -1,5 +1,7 @@
 # frozen_string_literal: true
 
+require "directive"
+
 module Stenotype
   #
   # A module containing freshly-event gem configuration
@@ -24,7 +26,7 @@ module Stenotype
   #   end
   #
   module Configuration
-    extend Spicerack::Configurable
+    extend Directive
 
     # @!attribute graceful_error_handling
     # @return {true, false} a flag for suppressing error raised withing the gem

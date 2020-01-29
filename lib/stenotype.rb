@@ -28,7 +28,7 @@ module Stenotype
   # has never been registered in known handlers in {Stenotype::ContextHandlers::Collection}.
   class UnknownHandlerError < Error; end
 
-  include Spicerack::Configurable::ConfigDelegation
+  include Directive::ConfigDelegation
   delegates_to_configuration
 end
 
