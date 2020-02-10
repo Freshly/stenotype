@@ -2,6 +2,15 @@
 
 *Release Date*: 2020/01/13
 
+### 0.1.10
+Switch from Spicerack::Configurable to Spicerack::Directive
+
+### 0.1.9
+* Pass all attributes in the data field instead of attributes field for google cloud. Attributes field did not allow nested objects, which data field allows. See google pub sub documentation for more reference.
+
+### 0.1.8
+* Switch auto target initialization to false
+
 ### 0.1.7 2020/01/20
 * Adds a config option to allow explicit adapter setup.
 * Adds an `after_initialize` rails hook to setup adapters.
