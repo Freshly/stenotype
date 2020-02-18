@@ -11,13 +11,13 @@ RSpec.describe Stenotype::Configuration, type: :configuration do
     context "when a target(s) have been specified" do
       let(:test_target) { Stenotype::TestAdapter.new }
 
-      before { Stenotype.configure { |config| config.targets = [ test_target ] } }
+      before { allow(Stenotype.config).to receive(:targets).and_return([ test_target ]) }
 
       it { is_expected.to match_array([ test_target ]) }
     end
 
     context "when no targets have been specified" do
-      before { Stenotype.configure { |config| config.targets = [] } }
+      before { allow(Stenotype.config).to receive(:targets).and_return([]) }
 
       it "raises" do
         expect { targets }.to raise_error(Stenotype::NoTargetsSpecifiedError)
@@ -29,7 +29,7 @@ RSpec.describe Stenotype::Configuration, type: :configuration do
     subject(:logger) { configuration.logger }
 
     context "when logger is not set" do
-      before { Stenotype.configure { |config| config.logger = nil } }
+      before { allow(Stenotype.config).to receive(:logger).and_return(nil) }
 
       it { is_expected.to be_instance_of(Logger) }
     end
@@ -38,7 +38,7 @@ RSpec.describe Stenotype::Configuration, type: :configuration do
       let(:custom_logger_klass) { Class.new(Logger) }
       let(:logger_io) { custom_logger_klass.new(STDOUT) }
 
-      before { Stenotype.configure { |config| config.logger = logger_io } }
+      before { allow(Stenotype.config).to receive(:logger).and_return(logger_io) }
 
       it { is_expected.to be_instance_of(custom_logger_klass) }
     end

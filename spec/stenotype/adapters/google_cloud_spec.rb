@@ -41,8 +41,10 @@ RSpec.describe Stenotype::Adapters::GoogleCloud do
 
     subject(:publish) { adapter.publish(event_data, additional_arguments) }
 
+    before { allow(Stenotype.config).to receive_message_chain(:google_cloud, :topic).and_return("test") }
+
     context "when in async mode" do
-      before { Stenotype.configure { |config| config.google_cloud.async = true } }
+      before { allow(Stenotype.config).to receive_message_chain(:google_cloud, :async).and_return(true) }
 
       context "when publishing has succeeded" do
         it "publishes the message asynchronously" do
@@ -64,7 +66,7 @@ RSpec.describe Stenotype::Adapters::GoogleCloud do
     end
 
     context "when in sync mode" do
-      before { Stenotype.configure { |config| config.google_cloud.async = false } }
+      before { allow(Stenotype.config).to receive_message_chain(:google_cloud, :async).and_return(false) }
 
       it "publishes the message synchronously" do
         publish

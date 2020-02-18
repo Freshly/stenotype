@@ -47,7 +47,11 @@ module Stenotype
       private
 
       def client
-        @client ||= Logger.new(STDOUT)
+        @client ||= (config.logger || Logger.new(STDOUT))
+      end
+
+      def config
+        Stenotype.config
       end
     end
   end
