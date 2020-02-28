@@ -24,7 +24,7 @@ RSpec.describe Stenotype::Dispatcher do
     subject(:dispatcher) { described_class.new }
 
     before do
-      Stenotype.configure { |config| config.targets = [ test_target ] }
+      allow(Stenotype.config).to receive(:targets).and_return([ test_target ])
       allow(test_target).to receive(:publish)
     end
 

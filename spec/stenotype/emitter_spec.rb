@@ -36,6 +36,11 @@ RSpec.describe Stenotype::Emitter, type: :with_frozen_time do
     end
   end
 
+  let(:test_buffer) { [] }
+  let(:test_target) { Stenotype::TestAdapter.new(test_buffer) }
+
+  before { allow(Stenotype.config).to receive(:targets).and_return([ test_target ]) }
+
   describe "class methods" do
     it "include emit_event_before" do
       expect(dummy_klass).to respond_to(:emit_event_before)
@@ -49,11 +54,6 @@ RSpec.describe Stenotype::Emitter, type: :with_frozen_time do
   end
 
   describe "#emit_event" do
-    let(:test_buffer) { [] }
-    let(:test_target) { Stenotype::TestAdapter.new(test_buffer) }
-
-    before { Stenotype.configure { |config| config.targets = [ test_target ] } }
-
     context "when called in a regular method" do
       let(:expected_event_data) do
         {
@@ -94,11 +94,6 @@ RSpec.describe Stenotype::Emitter, type: :with_frozen_time do
   end
 
   describe "method" do
-    let(:test_buffer) { [] }
-    let(:test_target) { Stenotype::TestAdapter.new(test_buffer) }
-
-    before { Stenotype.configure { |config| config.targets = [ test_target ] } }
-
     context "when being an instance method" do
       let(:expected_event_data) do
         {

@@ -2,6 +2,9 @@
 
 *Release Date*: 2020/01/13
 
+### 0.1.11
+* Removes the annoying warnings in logs
+
 ### 0.1.10
 Switch from Spicerack::Configurable to Spicerack::Directive
 

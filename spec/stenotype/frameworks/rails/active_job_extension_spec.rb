@@ -41,7 +41,7 @@ RSpec.describe Stenotype::Frameworks::Rails::ActiveJobExtension do
 
   subject(:job_instance) { job_klass.new }
 
-  before { Stenotype.configure { |c| c.targets = [ test_target ] } }
+  before { allow(Stenotype.config).to receive(:targets).and_return([ test_target ]) }
 
   describe ".trackable_job!", type: :with_frozen_time do
     it "prepends an emit event action before performing the job" do

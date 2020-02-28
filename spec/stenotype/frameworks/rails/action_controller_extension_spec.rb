@@ -47,7 +47,7 @@ RSpec.describe Stenotype::Frameworks::Rails::ActionControllerExtension do
       allow(dummy_controller_instance).to receive(:request).and_return(dummy_request)
       allow(dummy_request).to receive(:controller_class).and_return(dummy_controller)
 
-      Stenotype.configure { |config| config.targets = [ test_target ] }
+      allow(Stenotype.config).to receive(:targets).and_return([ test_target ])
     end
   end
 

@@ -14,14 +14,9 @@ RSpec.describe Stenotype::Event do
   let!(:test_dispatcher) { test_dispatcher_klass.new }
 
   before do
+    allow(Stenotype.config).to receive(:dispatcher).and_return(test_dispatcher_klass)
     allow(test_dispatcher_klass).to receive(:new).and_return(test_dispatcher)
     allow(test_dispatcher).to receive(:publish)
-
-    Stenotype.configure { |config| config.dispatcher = test_dispatcher_klass }
-  end
-
-  after do
-    Stenotype.configure { |config| config.dispatcher = Stenotype::Dispatcher }
   end
 
   describe ".emit!" do
@@ -40,13 +35,9 @@ RSpec.describe Stenotype::Event do
 
     context "when the library is disabled" do
       before do
-        Stenotype.configure do |config|
-          config.targets = [ test_target ]
-          config.enabled = false
-        end
+        allow(Stenotype.config).to receive(:targets).and_return([ test_target ])
+        allow(Stenotype.config).to receive(:enabled).and_return(false)
       end
-
-      after { Stenotype.configure { |config| config.enabled = true } }
 
       let(:test_buffer) { [] }
       let(:test_target) { Stenotype::TestAdapter.new(test_buffer) }
@@ -68,7 +59,7 @@ RSpec.describe Stenotype::Event do
       before { allow(described_class).to receive(:new).and_raise(StandardError.new("boom")) }
 
       context "when graceful exception handling is enabled" do
-        before { Stenotype.configure { |config| config.logger = logger_double } }
+        before { allow(Stenotype.config).to receive(:logger).and_return(logger_double) }
 
         it "handles error" do
           expect { emit_event }.not_to raise_error
@@ -77,13 +68,9 @@ RSpec.describe Stenotype::Event do
 
       context "when graceful exception handling is disabled" do
         before do
-          Stenotype.configure do |config|
-            config.logger = logger_double
-            config.graceful_error_handling = false
-          end
+          allow(Stenotype.config).to receive(:logger).and_return(logger_double)
+          allow(Stenotype.config).to receive(:graceful_error_handling).and_return(false)
         end
-
-        after { Stenotype.configure { |config| config.graceful_error_handling = true } }
 
         it "raises error" do
           expect { emit_event }.to raise_error(Stenotype::Error)
@@ -102,13 +89,9 @@ RSpec.describe Stenotype::Event do
 
     context "when the library is disabled" do
       before do
-        Stenotype.configure do |config|
-          config.targets = [ test_target ]
-          config.enabled = false
-        end
+        allow(Stenotype.config).to receive(:targets).and_return([ test_target ])
+        allow(Stenotype.config).to receive(:enabled).and_return(false)
       end
-
-      after { Stenotype.configure { |config| config.enabled = true } }
 
       subject(:emit_event) { event.emit! }
 
@@ -128,7 +111,7 @@ RSpec.describe Stenotype::Event do
       before { allow(test_dispatcher).to receive(:publish).and_raise(StandardError.new("boom")) }
 
       context "when graceful exception handling is enabled" do
-        before { Stenotype.configure { |config| config.logger = logger_double } }
+        before { allow(Stenotype.config).to receive(:logger).and_return(logger_double) }
 
         it "handles error" do
           expect { event.emit! }.not_to raise_error
@@ -137,13 +120,9 @@ RSpec.describe Stenotype::Event do
 
       context "when graceful exception handling is disabled" do
         before do
-          Stenotype.configure do |config|
-            config.logger = logger_double
-            config.graceful_error_handling = false
-          end
+          allow(Stenotype.config).to receive(:logger).and_return(logger_double)
+          allow(Stenotype.config).to receive(:graceful_error_handling).and_return(false)
         end
-
-        after { Stenotype.configure { |config| config.graceful_error_handling = true } }
 
         it "raises error" do
           expect { event.emit! }.to raise_error(Stenotype::Error)
