@@ -32,6 +32,4 @@ module Stenotype
   delegates_to_configuration
 end
 
-Stenotype::ContextHandlers.register(Stenotype::ContextHandlers::Klass)
-
 require "stenotype/railtie" if defined?(Rails)
