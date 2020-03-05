@@ -1,6 +1,7 @@
 # Changelog
 
-*Release Date*: 2020/01/13
+### 0.1.13
+* Removes obsolete rails pre-configuration for the sake of default configuration settings
 
 ### 0.1.12
 * Delegates STDOUT adapter to configured logger first. If logger is not set, delegates the output to STDOUT
