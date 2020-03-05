@@ -9,13 +9,6 @@ module Stenotype
   #   Stenotype extensions for emitting event in various Rails components.
   #
   class Railtie < ::Rails::Railtie
-    Stenotype.configure do |config|
-      config.rails do |rails_config|
-        rails_config.enable_action_controller_ext = true
-        rails_config.enable_active_job_ext = true
-      end
-    end
-
     config.stenotype = Stenotype.config
 
     config.after_initialize { config.stenotype.targets.each(&:auto_initialize!) } if config.stenotype.rails.auto_adapter_initialization
