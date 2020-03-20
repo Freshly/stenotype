@@ -1,9 +1,5 @@
 # frozen_string_literal: true
 
-require "stenotype/context_handlers/base"
-require "stenotype/context_handlers/rails/controller"
-require "stenotype/context_handlers/rails/active_job"
-require "stenotype/context_handlers/klass"
 require "stenotype/context_handlers/collection"
 
 module Stenotype
@@ -14,6 +10,7 @@ module Stenotype
   module ContextHandlers
     class << self
       attr_writer :known
+
       #
       # @return {Array<#publish>} A list of handlers implementing [#publish]
       #
@@ -28,3 +25,9 @@ module Stenotype
     end
   end
 end
+
+require "stenotype/context_handlers/base"
+require "stenotype/context_handlers/rails/controller"
+require "stenotype/context_handlers/rails/active_job"
+require "stenotype/context_handlers/klass"
+

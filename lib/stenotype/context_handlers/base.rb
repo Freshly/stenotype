@@ -24,6 +24,10 @@ module Stenotype
     class Base
       attr_reader :context, :options
 
+      def self.inherited(subklass)
+        ContextHandlers.register(subklass)
+      end
+
       #
       # @param context {Object} A context where the event was emitted
       # @param options {Hash} A hash of additional options
@@ -57,6 +61,15 @@ module Stenotype
         def handler_name
           @handler_name || raise(NotImplementedError, "Please, specify the handler_name of #{self}")
         end
+      end
+
+      private
+
+      #
+      # A rails specific workaround to make reloading in dev env happy
+      #
+      def self.before_remove_const
+        Stenotype::ContextHandlers.known.unregister(self)
       end
     end
   end
