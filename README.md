@@ -105,7 +105,7 @@ Controls whether the hook `auto_initialize!` is run for each adapter. If set to 
 
 #### Configuring context handlers
 
-Each event is emitted in a context which might be an ActionController instance or an ActiveJob instance or potentially any other place. Context handlers are implemented as plain ruby classes, so before using them you must register them. By default a plain `Class` handler is registered when not used with any framework. In case Ruby on Rails is used, then there are two additional context handlers for `ActionController` and `ActiveJob` instances.
+Each event is emitted in a context which might be an ActionController instance or an ActiveJob instance or potentially any other place. Context handlers are implemented as plain ruby classes. By default a plain `Class` handler is registered when not used with any framework. In case Ruby on Rails is used, then there are two additional context handlers for `ActionController` and `ActiveJob` instances. Registration of the context handler happens upon inheriting from `Stenotype::ContextHandlers::Base`.
 
 ### Emitting Events
 
@@ -118,7 +118,7 @@ Stenotype::Event.emit!(
 )
 ```
 
-The event is then going to be passed to a dispatcher responsible for sending the evens to targets. Note that a context handler must be registered before using it. See [Custom context handlers](#custom-context-handlers) for more details.
+The event is then going to be passed to a dispatcher responsible for sending the evens to targets. See [Custom context handlers](#custom-context-handlers) for more details.
 
 #### ActionController
 
@@ -201,8 +201,6 @@ class CustomHandler < Stenotype::ContextHandlers::Base
   end
 end
 
-Stenotype::ContextHandlers.register CustomHandler
-
 # Event is being emitted twice. First time with default options.
 # Second time with overriden method name and eval_context.
 class PlainRubyClass < BaseClass
@@ -251,7 +249,7 @@ Stenotype.config.targets.push(CustomAdapter.new)
 
 #### Custom context handlers
 
-A list of context handlers might be extended by defining a class inheriting from `Stenotype::ContextHandlers::Base` and registering a new context handler. Event handler must have a `self.handler_name` in order to use it during context serialization. Also custom handler must implement method `#as_json`:
+A list of context handlers might be extended by defining a class inheriting from `Stenotype::ContextHandlers::Base`. Event handler must have a `self.handler_name` in order to use it during context serialization. Also custom handler must implement method `#as_json`:
 ```ruby
 class CustomHandler < Stenotype::ContextHandlers::Base
   self.handler_name = :custom_handler_name
@@ -275,10 +273,8 @@ class CustomHandler < Stenotype::ContextHandlers::Base
 end
 ```
 
-After defining a new context handler you must register it as follows:
-```ruby
-Stenotype::ContextHandlers.register CustomHandler
-```
+You do not have to manually register the context handler since it happens upon inheriting from `Stenotype::ContextHandlers::Base`
+
 
 ## Development
 
