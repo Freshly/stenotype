@@ -1,5 +1,8 @@
 # Changelog
 
+### 0.1.14
+* Allows autodiscovering of the context handlers and Rails development env autoreload.
+
 ### 0.1.13
 * Removes obsolete rails pre-configuration for the sake of default configuration settings
 
