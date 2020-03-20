@@ -1,5 +1,8 @@
 # Changelog
 
+### 0.1.15
+* Updates readme.
+
 ### 0.1.14
 * Allows autodiscovering of the context handlers and Rails development env autoreload.
 
