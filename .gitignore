@@ -6,6 +6,7 @@
 /pkg/
 /spec/reports/
 /tmp/
+/lib/stenotype/yard_ext/doc
 
 # rspec failure tracking
 .rspec_status

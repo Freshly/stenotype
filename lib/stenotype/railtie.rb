@@ -28,5 +28,9 @@ module Stenotype
         extend Stenotype::Frameworks::Rails::ActiveJobExtension
       end
     end
+
+    rake_tasks do
+      load 'tasks/document_events.rake'
+    end
   end
 end
