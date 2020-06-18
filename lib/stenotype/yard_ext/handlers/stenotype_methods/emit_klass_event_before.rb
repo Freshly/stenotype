@@ -1,31 +1,35 @@
 # frozen_string_literal: true
 
-module Handlers
-  module StenotypeMethods
-    class EmitKlassEventBefore < Base
-      def process(&block)
-        return method_object unless applicable?
+module Stenotype
+  module YardExt
+    module Handlers
+      module StenotypeMethods
+        class EmitKlassEventBefore < Base
+          def process(&block)
+            return method_object unless applicable?
 
-        method_object["event_name"]             = event_name
-        method_object["default_attributes_tag"] = default_attributes_tag
+            method_object["event_name"]             = event_name
+            method_object["default_attributes_tag"] = default_attributes_tag
 
-        yield method_object if block_given?
+            yield method_object if block_given?
 
-        method_object
-      end
+            method_object
+          end
 
-      def applicable?
-        method_name.to_sym == :emit_klass_event_before
-      end
+          def applicable?
+            method_name.to_sym == :emit_klass_event_before
+          end
 
-      private
+          private
 
-      def default_attributes
-        [:type, :class, :method]
-      end
+          def default_attributes
+            [:type, :class, :method]
+          end
 
-      def event_name
-        :class_method
+          def event_name
+            :class_method
+          end
+        end
       end
     end
   end

@@ -6,7 +6,7 @@ def init
 end
 
 def methods_list
-  MethodsEnum.tracked_methods.each do |name|
+  Stenotype::YardExt::Handlers::MethodsEnum.tracked_methods.each do |name|
     items = find_method_by_name(name)
     next unless items # Some of the methods might unused
     yield(items, name) unless items.children.empty?

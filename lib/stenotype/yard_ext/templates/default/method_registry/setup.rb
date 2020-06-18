@@ -4,10 +4,20 @@ def init
   sections :header, :summary, [:item_summary], :registry, [T('emission_details')]
 end
 
-def stenotype_method_invocations
-  object.children
+def group_by_event_name_type
+  object.children.partition do |mo|
+    mo[:dynamic_event_name]
+  end.map do |list|
+    list.sort_by!(&:event_name)
+  end
 end
 
-def summary_list(method_list_container, &block)
-  yield method_list_container.children, method_list_container.name
+def static_events_method_invocations
+  _, static = group_by_event_name_type
+  static
+end
+
+def dynamic_events_method_invocations
+  dynamic, _ = group_by_event_name_type
+  dynamic
 end

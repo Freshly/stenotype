@@ -16,7 +16,7 @@ require_relative 'handlers/stenotype_methods_handler'
 require_relative 'templates/helpers/emit_event_signature_helper'
 
 # Register a new helper to customize emit_event signature
-YARD::Templates::Template.extra_includes.push(EmitEventSignatureHelper)
+YARD::Templates::Template.extra_includes.push(Stenotype::Templates::Helpers::EmitEventSignatureHelper)
 # Register a new tag handler to parse the documentation for a specific context handler in Stenotype world
 YARD::Tags::Library.define_tag("Context Hander Doc", :context_handler_doc, :with_title_and_text)
 # Register custom templates path for rendering registry object

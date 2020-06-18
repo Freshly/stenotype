@@ -56,4 +56,3 @@ def render_html_doc_for(callee)
 
   context || ""
 end
-
