@@ -1,6 +1,7 @@
 # frozen_string_literal: true
 
 require "spec_helper"
+require "directive/spec_helper"
 
 RSpec.describe Stenotype::Configuration, type: :configuration do
   subject(:configuration) { described_class }

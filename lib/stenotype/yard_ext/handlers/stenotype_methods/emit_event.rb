@@ -97,12 +97,6 @@ module Stenotype
                 end
               end
             end
-            # Looks scary but it is basically the code for going down the AST
-            # eval_context_param. # { context_handler: { HANDLER_NAME: object } }
-            # jump(:assoc)[1].    # { HANDLER_NAME: self }
-            # jump(:assoc).       #   HANDLER_NAME: self
-            # first.              #   HANDLER_NAME:
-            # jump(:label).first  #   "HANDLER_NAME"
           end
         end
       end
