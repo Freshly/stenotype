@@ -2,7 +2,7 @@ PATH
   remote: .
   specs:
     stenotype (0.1.15)
-      activesupport (~> 5.0)
+      activesupport (>= 5.0.0)
       google-cloud-pubsub (~> 1.0.0)
       spicery (>= 0.22.0, < 1.0)
       yard (~> 0.9)

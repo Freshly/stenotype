@@ -1,4 +1,5 @@
 require 'yard'
+require 'active_support/core_ext'
 
 module Stenotype
   # Patch the class from YARD to enable custom registries
