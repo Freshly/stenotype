@@ -38,6 +38,5 @@ end
 
 # Register a Ripper callback to delegate AST traversing to a custom traverser
 YARD::Parser::SourceParser.after_parse_file do |parser|
-  puts parser.file
   Stenotype::YardExt::Handlers::AstTraverse.new(parser).run
 end
