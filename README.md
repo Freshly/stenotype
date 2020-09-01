@@ -275,6 +275,48 @@ end
 
 You do not have to manually register the context handler since it happens upon inheriting from `Stenotype::ContextHandlers::Base`
 
+## Testing
+
+Stenotype currently supports RSpec integration. To be able to test even emission you can use a predefined matcher by adding the following to spec helper:
+
+```ruby
+RSpec.configure do |config|
+  config.around(:each, type: :stenotype_event) do |example|
+    require 'stenotype/adapters/test_adapter'
+
+    config.include Stenotype::Test::Matchers
+
+    RSpec::Mocks.with_temporary_scope do
+      allow(Stenotype.config).to receive(:targets).and_return(Array.wrap(Stenotype::Adapters::TestAdapter.new))
+      example.run
+      allow(Stenotype.config).to receive(:targets).and_call_original
+    end
+  end
+end
+```
+
+After adding the configuration you can use the matchers:
+```ruby
+class Example
+  include Stenotype::Emitter
+
+  def trigger
+    emit_event(:user_subscription)
+  end
+end
+
+RSpec.describe Stenotype::Emitter do
+  describe "POST #create" do
+    subject(:post) { Example.new.trigger }
+
+    it "emits a user_subscription event", type: :stenotype_event do
+      expect { post }.to emit_an_event(:user_subscription).
+        with_arguments_including({ uuid: "abcd" }).
+        exactly(1).times
+    end
+  end
+end
+```
 
 ## Development
 
