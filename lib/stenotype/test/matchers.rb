@@ -56,7 +56,7 @@ module Stenotype
         end
 
         def stringify_keys(hash)
-          Hash[hash.map { |key, value| [key.to_s, value] }]
+          hash.transform_keys(&:to_s)
         end
       end
 
