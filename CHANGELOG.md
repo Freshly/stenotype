@@ -1,5 +1,8 @@
 # Changelog
 
+### 0.1.16
+* Add rspec matchers to use in client code.
+
 ### 0.1.15
 * Updates readme.
 
