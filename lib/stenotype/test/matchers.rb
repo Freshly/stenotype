@@ -83,14 +83,7 @@ module Stenotype
         match do |emitting_event_block|
           @emitting_event_block = emitting_event_block
 
-          buffer_before_emit = stenotype_event_buffer.dup
-          @emitting_event_block.call
-          buffer_after_emit = stenotype_event_buffer.dup
-
-          diff = buffer_after_emit - buffer_before_emit
-          @matching_events = diff.select { |event| event["name"] == expected_event_name.to_s }
-
-          partial_matchers << EventEmitted.new(@matching_events, expected_event_name)
+          partial_matchers << EventEmitted.new(matching_events, expected_event_name)
           partial_matchers << EventHasExpectedArguments.new(matching_events, @arguments_should_include) if should_validate_events_count?
           partial_matchers << DiffSizeMatchesExpectation.new(matching_events, @matching_events_count) if should_validate_attributes?
 
