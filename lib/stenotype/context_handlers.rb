@@ -30,4 +30,3 @@ require "stenotype/context_handlers/base"
 require "stenotype/context_handlers/rails/controller"
 require "stenotype/context_handlers/rails/active_job"
 require "stenotype/context_handlers/klass"
-

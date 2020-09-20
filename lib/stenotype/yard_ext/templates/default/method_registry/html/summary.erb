@@ -1,0 +1,17 @@
+<h2>
+  <%= object.name %>
+  <small><a href="#" class="summary_toggle">collapse</a></small>
+</h2>
+<h3>Events with static name</h3>
+<% static_events_method_invocations.each do |meth| %>
+  <ul class="summary">
+    <%= yieldall item: meth %>
+  </ul>
+<% end %>
+
+<h3>Events with dynamic name</h3>
+<% dynamic_events_method_invocations.each do |meth| %>
+  <ul class="summary">
+    <%= yieldall item: meth %>
+  </ul>
+<% end %>

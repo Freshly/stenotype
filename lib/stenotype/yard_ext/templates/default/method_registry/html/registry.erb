@@ -1,0 +1,9 @@
+<div id="<%= object.name %>_method_details" class="method_details_list">
+  <% [static_events_method_invocations, dynamic_events_method_invocations].each do |list| %>
+    <% list.each do |method_invocation| %>
+    <div class="method_details <%= @index == 0 ? 'first' : '' %>">
+      <%= yieldall object: method_invocation %>
+    </div>
+    <% end %>
+  <% end %>
+</div>

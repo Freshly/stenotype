@@ -31,14 +31,13 @@ Gem::Specification.new do |spec|
 
   spec.add_dependency "activesupport", ">= 5.0.0"
   spec.add_dependency "google-cloud-pubsub", "~> 1.0.0"
+  spec.add_dependency "yard", "~> 0.9"
 
   spec.add_runtime_dependency "spicery", ">= 0.22.0", "< 1.0"
 
   spec.add_development_dependency "bundler", "~> 2.0"
   spec.add_development_dependency "github-markup", "~> 3.0"
   spec.add_development_dependency "rake", "~> 10.0"
-  spec.add_development_dependency "redcarpet", "~> 3.5"
-  spec.add_development_dependency "yard", "~> 0.9"
 
   spec.add_development_dependency "rspice", ">= 0.19.0", "< 1.0"
   spec.add_development_dependency "spicerack-styleguide", ">= 0.19.0", "< 1.0"
