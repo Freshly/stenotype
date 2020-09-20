@@ -17,17 +17,11 @@ module Stenotype
 
     # @!visibility private
     def self.included(klass)
-      instance_mod = InstanceMethodsExtension.new
-      class_mod = ClassMethodsExtension.new
-
-      build_instance_methods(instance_mod)
-      build_class_methods(class_mod)
-
       klass.const_set(:InstanceProxy, Module.new)
       klass.const_set(:ClassProxy, Module.new)
 
-      klass.public_send(:include, instance_mod)
-      klass.extend(class_mod)
+      klass.public_send(:include, build_instance_methods)
+      klass.extend(build_class_methods)
 
       super
     end
@@ -90,8 +84,8 @@ module Stenotype
     # Adds an instance method: [#emit_event] to a target class
     #   where {Stenotype::Emitter} in included in
     #
-    def self.build_instance_methods(instance_mod)
-      instance_mod.module_eval <<-RUBY, __FILE__, __LINE__ + 1
+    def self.build_instance_methods
+      InstanceMethodsExtension.new do
         def emit_event(event_name, attributes = {}, method: caller_locations.first.label, eval_context: nil)
           Stenotype::Event.emit!(
             event_name,
@@ -104,15 +98,15 @@ module Stenotype
             eval_context: (eval_context || { klass: self })
           )
         end
-      RUBY
+      end
     end
 
     #
     # Adds class method [#emit_klass_event_before] to every class
     #   inherited from [Object]
     #
-    def self.build_class_methods(class_mod)
-      class_mod.module_eval <<-RUBY, __FILE__, __LINE__ + 1
+    def self.build_class_methods
+      ClassMethodsExtension.new do
         def emit_event_before(*methods)
           proxy = const_get(:InstanceProxy)
 
@@ -160,7 +154,7 @@ module Stenotype
             singleton_class.send(:prepend, proxy)
           end
         end
-      RUBY
+      end
     end
   end
 end
