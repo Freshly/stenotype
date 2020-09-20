@@ -22,7 +22,7 @@ RSpec.describe Stenotype::EventSerializer do
   describe "#serialize", type: :with_frozen_time do
     it "represents an event as a hash" do
       expect(serializer.serialize).to eq(
-        name: event_name,
+        _event_name: event_name,
         **data,
         timestamp: Time.now.utc,
         uuid: "abcd",

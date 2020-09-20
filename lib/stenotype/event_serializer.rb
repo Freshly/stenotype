@@ -42,7 +42,7 @@ module Stenotype
     #
     def serialize
       {
-        name: event_name,
+        _event_name: event_name,
         **event_attributes,
         **default_options,
         **eval_context_options,

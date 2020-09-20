@@ -57,7 +57,7 @@ RSpec.describe Stenotype::Emitter, type: :with_frozen_time do
     context "when called in a regular method" do
       let(:expected_event_data) do
         {
-          name: "manual_event",
+          _event_name: "manual_event",
           class: "DummyKlass",
           method: :emit_manually,
           timestamp: Time.now.utc,
@@ -76,7 +76,7 @@ RSpec.describe Stenotype::Emitter, type: :with_frozen_time do
     context "when called in an aliased method" do
       let(:expected_event_data) do
         {
-          name: "aliased",
+          _event_name: "aliased",
           class: "DummyKlass",
           method: :to_be_aliased,
           timestamp: Time.now.utc,
@@ -97,7 +97,7 @@ RSpec.describe Stenotype::Emitter, type: :with_frozen_time do
     context "when being an instance method" do
       let(:expected_event_data) do
         {
-          name: "instance_method",
+          _event_name: "instance_method",
           type: "instance_method",
           class: "DummyKlass",
           method: :some_method,
@@ -116,7 +116,7 @@ RSpec.describe Stenotype::Emitter, type: :with_frozen_time do
     context "when being a class method" do
       let(:expected_event_data) do
         {
-          name: "class_method",
+          _event_name: "class_method",
           type: "class_method",
           class: "DummyKlass",
           method: :some_class_method,

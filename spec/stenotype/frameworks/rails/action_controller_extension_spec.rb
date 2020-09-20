@@ -98,7 +98,7 @@ RSpec.describe Stenotype::Frameworks::Rails::ActionControllerExtension do
 
       let(:expected_result) do
         {
-          name: "view",
+          _event_name: "view",
           class: "DummyController",
           ip: "0.0.0.0",
           method: "GET",
@@ -130,7 +130,7 @@ RSpec.describe Stenotype::Frameworks::Rails::ActionControllerExtension do
 
     let(:expected_result) do
       {
-        name: "view",
+        _event_name: "view",
         class: "DummyController",
         ip: "0.0.0.0",
         method: "GET",
