@@ -210,7 +210,7 @@ GEM
       thor (>= 0.19.0, < 2.0)
     rainbow (3.0.0)
     rake (10.5.0)
-    redcarpet (3.5.0)
+    redcarpet (3.5.1)
     redis (4.7.1)
     redis_hash (0.29.0)
       activesupport (>= 5.2.1)
