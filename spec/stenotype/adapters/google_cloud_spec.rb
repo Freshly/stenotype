@@ -39,7 +39,7 @@ RSpec.describe Stenotype::Adapters::GoogleCloud do
     let(:event_data) { { event: :data } }
     let(:additional_arguments) { { additional: :arguments } }
 
-    subject(:publish) { adapter.publish(event_data, additional_arguments) }
+    subject(:publish) { adapter.publish(event_data, **additional_arguments) }
 
     before { allow(Stenotype.config).to receive_message_chain(:google_cloud, :topic).and_return("test") }
 

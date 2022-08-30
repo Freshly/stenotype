@@ -10,7 +10,7 @@ RSpec.describe Stenotype::Adapters::StdoutAdapter do
   let(:adapter) { described_class.new(client: client_double) }
 
   describe "#publish" do
-    subject(:publish) { adapter.publish(event_data, additional_arguments) }
+    subject(:publish) { adapter.publish(event_data, **additional_arguments) }
 
     before { allow(client_double).to receive(:info).and_yield }
 

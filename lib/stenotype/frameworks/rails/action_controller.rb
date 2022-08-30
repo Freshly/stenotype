@@ -24,7 +24,7 @@ module Stenotype
         # @todo What is really the name here?
         #
         def _record_freshly_event(name)
-          Stenotype::Event.emit!(name, { type: "controller_action" }, { eval_context: { controller: self }})
+          Stenotype::Event.emit!(name, { type: "controller_action" }, **{ eval_context: { controller: self }})
         end
 
         #

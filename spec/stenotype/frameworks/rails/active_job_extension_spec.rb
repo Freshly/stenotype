@@ -8,7 +8,7 @@ RSpec.describe Stenotype::Frameworks::Rails::ActiveJobExtension do
     Class.new(ActiveJob::Base) do
       trackable_job!
 
-      def perform(*args)
+      def perform(...)
         # do something
       end
 
@@ -45,7 +45,7 @@ RSpec.describe Stenotype::Frameworks::Rails::ActiveJobExtension do
 
   describe ".trackable_job!", type: :with_frozen_time do
     it "prepends an emit event action before performing the job" do
-      expect { job_instance.perform(arg: :value) }.to change { test_buffer.map { |e| JSON.parse(e) } }.to([ expected_result ])
+      expect { job_instance.perform({ arg: :value }) }.to change { test_buffer.map { |e| JSON.parse(e) } }.to([ expected_result ])
     end
   end
 end
