@@ -1,9 +1,9 @@
 PATH
   remote: .
   specs:
-    stenotype (0.1.17)
+    stenotype (0.1.19)
       activesupport (>= 6.1.0)
-      google-cloud-pubsub (~> 2.12.0)
+      google-cloud-pubsub (~> 2.4.0)
       spicery (>= 0.22.0, < 1.0)
 
 GEM
@@ -122,11 +122,10 @@ GEM
     google-cloud-env (1.6.0)
       faraday (>= 0.17.3, < 3.0)
     google-cloud-errors (1.2.0)
-    google-cloud-pubsub (2.12.1)
+    google-cloud-pubsub (2.4.0)
       concurrent-ruby (~> 1.1)
       google-cloud-core (~> 1.5)
-      google-cloud-pubsub-v1 (~> 0.8)
-      retriable (~> 3.1)
+      google-cloud-pubsub-v1 (~> 0.0)
     google-cloud-pubsub-v1 (0.11.0)
       gapic-common (>= 0.10, < 2.a)
       google-cloud-errors (~> 1.0)
@@ -222,7 +221,6 @@ GEM
       redis (>= 3.0)
       tablesalt (= 0.29.1)
     regexp_parser (2.5.0)
-    retriable (3.1.2)
     rexml (3.2.5)
     rspec (3.11.0)
       rspec-core (~> 3.11.0)

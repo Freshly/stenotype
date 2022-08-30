@@ -30,7 +30,7 @@ Gem::Specification.new do |spec|
   spec.require_paths = ["lib"]
 
   spec.add_dependency "activesupport", ">= 6.1.0"
-  spec.add_dependency "google-cloud-pubsub", "~> 2.12.0"
+  spec.add_dependency "google-cloud-pubsub", "~> 2.4.0"
 
   spec.add_runtime_dependency "spicery", ">= 0.22.0", "< 1.0"
 
