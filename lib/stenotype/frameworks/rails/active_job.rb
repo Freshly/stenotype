@@ -37,7 +37,7 @@ module Stenotype
               Stenotype::Event.emit!(
                 "active_job_#{self.class.name}",
                 { type: "active_job" },
-                { eval_context: { active_job: self }},
+                **{ eval_context: { active_job: self }},
               )
               super(*args, **rest_args, &block)
             end

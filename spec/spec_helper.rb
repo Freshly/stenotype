@@ -20,6 +20,7 @@ SimpleCov.start "gem"
 
 require "stenotype"
 require "spicerack/spec_helper"
+require "directive/spec_helper"
 
 Dir[File.join(File.expand_path(__dir__), "support/**/*.rb")].each { |f| require f }
 

@@ -29,22 +29,22 @@ Gem::Specification.new do |spec|
   spec.executables   = spec.files.grep(%r{^exe/}) { |f| File.basename(f) }
   spec.require_paths = ["lib"]
 
-  spec.add_dependency "activesupport", ">= 5.0.0"
-  spec.add_dependency "google-cloud-pubsub", "~> 1.10.0"
+  spec.add_dependency "activesupport", ">= 6.1.0"
+  spec.add_dependency "google-cloud-pubsub", "~> 2.4.0"
 
   spec.add_runtime_dependency "spicery", ">= 0.22.0", "< 1.0"
 
   spec.add_development_dependency "bundler", "~> 2.0"
   spec.add_development_dependency "github-markup", "~> 3.0"
-  spec.add_development_dependency "rake", "~> 10.0"
+  spec.add_development_dependency "rake", "~> 13.0"
   spec.add_development_dependency "redcarpet", "~> 3.5"
   spec.add_development_dependency "yard", "~> 0.9"
 
-  spec.add_development_dependency "rspice", ">= 0.19.0", "< 1.0"
+  spec.add_development_dependency "rspice", ">= 0.27.0", "< 1.0"
   spec.add_development_dependency "spicerack-styleguide", ">= 0.19.0", "< 1.0"
 
   spec.add_development_dependency "pry", "~> 0.12"
-  spec.add_development_dependency "rails", "~> 5.2.3"
+  spec.add_development_dependency "rails", "~> 6.1.6"
   spec.add_development_dependency "rspec", "~> 3.0"
   spec.add_development_dependency "simplecov", "~> 0.17"
   spec.add_development_dependency "timecop", "~> 0.9"

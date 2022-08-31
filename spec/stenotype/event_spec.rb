@@ -21,13 +21,13 @@ RSpec.describe Stenotype::Event do
 
   describe ".emit!" do
     it "delegates emit! to instance of #{described_class}" do
-      described_class.emit!(event: :data)
+      described_class.emit!({ event: :data })
 
       expect(test_dispatcher).to have_received(:publish)
     end
 
     it "returns event" do
-      result = described_class.emit!(event: :data)
+      result = described_class.emit!({ event: :data })
 
       expect(result).to be_a(described_class)
       expect(test_dispatcher).to have_received(:publish)
